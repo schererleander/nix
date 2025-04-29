@@ -17,7 +17,19 @@
     username = "leander";
     desktop = "nixos";
 
-    pkgs = import nixpkgs { inherit system; };
+    overlays = [
+      (final: prev: {
+        discord = prev.callPackage ./modules/home-manager/discord.nix {
+          libgbm = prev.mesa;
+        };
+      })
+    ];
+
+
+    pkgs = import nixpkgs {
+      inherit system;
+      overlays = overlays;
+    };
   in {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
@@ -25,14 +37,16 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/nixos/configuration.nix
-
-          inputs.spicetify-nix.nixosModules.spicetify
-
+          
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs; };
             home-manager.users.${username} = import ./hosts/nixos/home.nix;
+
+            home-manager.sharedModules = [
+              inputs.nixcord.homeModules.nixcord
+            ];
           }
         ];
       };

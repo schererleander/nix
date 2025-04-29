@@ -15,7 +15,7 @@ in {
         declutterNowPlayingBar
       ];
       theme = spicePkgs.themes.sleek;
-      colorScheme = "coral";
+      colorScheme = "Coral";
     };
   };
 }
