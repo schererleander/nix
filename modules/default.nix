@@ -10,5 +10,6 @@
     ./neovim/default.nix
     ./nextcloud.nix
     ./spicetify.nix
+    ./zathura.nix
   ];
 }
