@@ -58,6 +58,9 @@
   audio.enable = true;
   wooting.enable = true;
 
+  programs.zsh.enable = true;
+  users.users.leander.shell = pkgs.zsh;
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "24.11";

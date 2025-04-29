@@ -16,6 +16,7 @@
     obsidian
     fzf
     imv
+    pfetch
 
     #dev
     gcc
@@ -24,6 +25,7 @@
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
+    (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
 
   ];
 
@@ -61,5 +63,6 @@
   sway.enable = true;
   waybar.enable = true;
   spicetify.enable = true;
+  zathura.enable = true;
   home.stateVersion = "24.11";
 }

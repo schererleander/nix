@@ -6,8 +6,6 @@ in {
   options.neovim.enable = lib.mkEnableOption "Enable and setup neovim";
 
   config = lib.mkIf cfg.enable {
-    xdg.configFile."nvim/lua".source = pkgs.lib.mkForce ./lua;
-
     programs.neovim = {
       enable = true;
       vimAlias = true;
@@ -36,17 +34,9 @@ in {
           tree-sitter-markdown_inline
         ]))
       ];
-
-      extraLuaConfig = ''
-        vim.g.mapleader = " "
-        vim.g.maplocalleader = "\\"
-
-        require('options')
-        require('keymaps')
-        require('plugins')
-        require('autocmds')
-      '';
     };
+
+    xdg.configFile."nvim/lua".source = ./lua;
 
     home.sessionVariables = rec {
       EDITOR = "nvim";

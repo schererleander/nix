@@ -7,7 +7,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
-      ibm-plex
+      (nerdfonts.override { fonts = [ "SpaceMono" "IBMPlexMono" "Terminus" ]; })
     ];
 
     programs.foot = {
@@ -15,7 +15,7 @@ in {
       settings = {
         main = {
           pad = "10x10";
-          font = "IBM Plex Mono:size=10";
+          font = "SpaceMono Nerd Font Mono:size=10";
           line-height = 12;
         };
 
