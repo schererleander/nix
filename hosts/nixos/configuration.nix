@@ -4,7 +4,8 @@
 
   imports = [
     ./hardware-configuration.nix
-    ../../modules/nixos
+    ./audio.nix
+    ./wooting.nix
   ];
 
   # Bootloader.

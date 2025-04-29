@@ -3,7 +3,7 @@
 {
   imports = [
     inputs.spicetify-nix.homeManagerModules.spicetify
-    ../../modules/home-manager
+    ../../modules
   ];
 
   home.username = "leander";
@@ -13,6 +13,7 @@
 
   home.packages = with pkgs; [
     firefox
+    obsidian
     fzf
     imv
 
@@ -60,6 +61,5 @@
   sway.enable = true;
   waybar.enable = true;
   spicetify.enable = true;
-  nixcord.enable = true;
   home.stateVersion = "24.11";
 }
