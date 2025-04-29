@@ -1,19 +1,18 @@
 { config, lib, pkgs, inputs, ...}:
 
 {
-
-  _module.args.inputs = inputs;
-
   imports = [
+    inputs.spicetify-nix.homeManagerModules.spicetify
     ../../modules/home-manager
   ];
 
   home.username = "leander";
   home.homeDirectory = "/home/leander";
 
+  programs.home-manager.enable = true;
+
   home.packages = with pkgs; [
     firefox
-    obsidian
     fzf
     imv
 
@@ -60,6 +59,7 @@
 
   sway.enable = true;
   waybar.enable = true;
-
+  spicetify.enable = true;
+  nixcord.enable = true;
   home.stateVersion = "24.11";
 }

@@ -1,9 +1,9 @@
 { config, lib, pkgs, inputs, ... }:
 let
   cfg = config.spicetify;
-  spicePkgs = inputs.spicetify-nix.packages.${pkgs.system}.default;
+  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.system};
 in {
-  options.spicetify.enable = lib.mkEnableOption "Enable and configure Spicetify";
+  options.spicetify.enable = lib.mkEnableOption "Enable Spicetify integration";
   config = lib.mkIf cfg.enable {
     programs.spicetify = {
       enable = true;

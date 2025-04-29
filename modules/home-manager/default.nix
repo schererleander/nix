@@ -9,5 +9,7 @@
     ./waybar.nix
     ./neovim/default.nix
     ./nextcloud.nix
+    ./spicetify.nix
+    ./nixcord.nix
   ];
 }

@@ -10,24 +10,28 @@
     spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
     
     nixcord.url = "github:kaylorben/nixcord";
-    nixcord.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, spicetify-nix, nixcord, ... }: let
+  outputs = { nixpkgs, home-manager, ... } @ inputs: let
     system = "x86_64-linux";
     username = "leander";
+    desktop = "nixos";
 
     pkgs = import nixpkgs { inherit system; };
   in {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         inherit system;
-
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/nixos/configuration.nix
+
+          inputs.spicetify-nix.nixosModules.spicetify
+
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
             home-manager.users.${username} = import ./hosts/nixos/home.nix;
           }
         ];
