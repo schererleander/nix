@@ -3,27 +3,33 @@
 let
   cfg = config.zsh;
 in {
-  options.zsh.enable = lib.mkEnableOption "Enable zsh and configure";
+  options.zsh.enable = lib.mkEnableOption "Configure zsh";
 
   config = lib.mkIf cfg.enable {
     programs.zsh = {
-    enable = true;
-    autosuggestion.enable = true;
-    historySubstringSearch.enable = true;
-    plugins = [
-        {
-          name = "pure";
-          src = "${pkgs.pure-prompt}/share/zsh/site-functions";
-        }
-        {
-          name = "zsh-completions";
-          src = "${pkgs.zsh-completions}/share/zsh/site-functions";
-        }
-        {
-          name = "fast-syntax-highlighting";
-          src = "${pkgs.zsh-fast-syntax-highlighting}/share/zsh/site-functions";
-        }
-      ];
+      enable = true;
+      enableCompletion = true;
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
+
+      initExtra = ''
+        # Directory completion with trailing slash
+        zstyle ':completion:*' list-dirs-first true
+        zstyle ':completion:*' special-dirs true
+        zstyle ':completion:*' squeeze-slashes true
+        zstyle ':completion:*' add-space false
+      '';
+
+      zplug = {
+        enable = true;
+        plugins = [
+          { name = "mafredri/zsh-async"; }
+          { name = "zpm-zsh/colorize"; }
+          { name = "sindresorhus/pure"; tags = [ "as:theme" "use:pure.zsh" ]; }
+          { name = "zdharma-continuum/fast-syntax-highlighting"; }
+          { name = "zsh-users/zsh-autosuggestions"; }
+        ];
+      };
     };
   };
 }
