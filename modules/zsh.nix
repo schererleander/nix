@@ -27,6 +27,7 @@ in {
           { name = "zpm-zsh/colorize"; }
           { name = "sindresorhus/pure"; tags = [ "as:theme" "use:pure.zsh" ]; }
           { name = "zdharma-continuum/fast-syntax-highlighting"; }
+          { name = "agkozak/zsh-z"; }
           { name = "zsh-users/zsh-autosuggestions"; }
         ];
       };
