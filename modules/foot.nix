@@ -20,6 +20,7 @@ in {
         };
 
         colors = {
+	  alpha=0.9;
           background = "000000";
           foreground = "f8f8f6";
 
