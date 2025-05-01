@@ -3,28 +3,45 @@
 let
   cfg = config.vscode;
 in {
-  options.vscode.enable = lib.mkEnableOption "Enable vscode and setup"
+  options.vscode.enable = lib.mkEnableOption "Enable vscode and setup";
   config = lib.mkIf cfg.enable {
     programs.vscode = {
       enable = true;
       enableUpdateCheck = true;
       enableExtensionUpdateCheck = true;
       mutableExtensionsDir = false;
+      userSettings = {
+        # Causes home manger to crash.
+	#"workbench.colorTheme" = "Minimal";
+        #"editor.fontFamily" = "'SpaceMono Nerd Font Mono', 'monospace', monospace";
+        #"editor.tabSize" = 2;
+        #"editor.minimap.enabled" = false;
+        #"terminal.integrated.cursorStyle" = "underline";
+        #"terminal.integrated.cursorStyleInactive" = "underline";
+        #"terminal.integrated.fontFamily" = "BlexMono Nerd Font Mono";
+        #"terminal.integrated.fontSize" = 13;
+        #"codesnap.transparentBackground" = true;
+      };
       extensions = (with pkgs.vscode-extensions; [
-        vscode-extensions.ms-vscode.cmake-tools
-	vscode-extensions.ms-azuretools.vscode-docker
-	vscode-extensions.ms-vscode.git
-	vscode-extensions.ms-vscode.gitlens
+        ms-vscode.cmake-tools
+        ms-azuretools.vscode-docker
+        eamodio.gitlens
+        ms-python.python
+        golang.go
+        rust-lang.rust-analyzer
+        vscjava.vscode-maven
+        sumneko.lua
+        #fwcd.kotlin
+        bradlc.vscode-tailwindcss
+        adpyke.codesnap
       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
           name = "minimalist-dark";
-	  publisher = "nichabosh";
-	  version = "1.0.0";
-	  sha256 = "06vx8jphw9g188n9bq8jargn9hkydw79xahg0dv72qzjvdbyb37g";
-	}
-      ];
+          publisher = "nichabosh";
+          version = "1.0.0";
+          sha256 = "sha256-lw+Scfada6DycLdRT2Cz+Fd12JucglIrw3uRd2ZhabQ=";
+        }
+      ]);
     };
   };
-];
-
-        
+} 
