@@ -64,5 +64,7 @@
   waybar.enable = true;
   spicetify.enable = true;
   zathura.enable = true;
+
+  vscode.enable = true;
   home.stateVersion = "24.11";
 }

@@ -11,5 +11,6 @@
     ./nextcloud.nix
     ./spicetify.nix
     ./zathura.nix
+    ./vscode.nix
   ];
 }
