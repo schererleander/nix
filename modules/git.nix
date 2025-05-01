@@ -10,13 +10,11 @@ in {
       enable = true;
       userName = "schererleander";
       userEmail = "leander@schererleander.de";
-
-      extraConfig = ''
-        [alias]
-          co = checkout
-          br = branch
-          st = status
-      '';
+      extraConfig = {
+        alias.co = "checkout";
+        alias.br = "branch";
+        alias.st = "status";
+      };
     };
   };
 }
