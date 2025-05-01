@@ -15,21 +15,9 @@
   outputs = { nixpkgs, home-manager, ... } @ inputs: let
     system = "x86_64-linux";
     username = "leander";
+    email = "leander@schererleander.de";
     desktop = "nixos";
-
-    overlays = [
-      (final: prev: {
-        discord = prev.callPackage ./modules/home-manager/discord.nix {
-          libgbm = prev.mesa;
-        };
-      })
-    ];
-
-
-    pkgs = import nixpkgs {
-      inherit system;
-      overlays = overlays;
-    };
+    pkgs = import nixpkgs { inherit system; };
   in {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
