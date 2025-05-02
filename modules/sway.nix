@@ -2,6 +2,7 @@
 
 let
   cfg = config.sway;
+  mod = config.wayland.windowManager.sway.config.modifier;
 in {
   options.sway.enable = lib.mkEnableOption "Enable sway and setup";
   config = lib.mkIf cfg.enable {
@@ -9,6 +10,7 @@ in {
       wmenu
       swaybg
       wl-clipboard
+      xdg-utils
       playerctl
     ];
 
@@ -48,6 +50,7 @@ in {
         };
         modifier = "Mod4";
 	keybindings = lib.mkOptionDefault {
+	  "${mod}+q" = "kill";
 	  "XF86AudioPlay" = "exec playerctl play-pause";
           "XF86AudioPrev" = "exec playerctl previous";
           "XF86AudioNext" = "exec playerctl next";
