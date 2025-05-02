@@ -15,13 +15,21 @@
     firefox
     obsidian
     fzf
+    htop
     imv
     pfetch
+    ffmpeg
+    mangal
 
     #dev
     gcc
+    lua-language-server
+    pyright
+    jdk
+    nodejs
 
-    # fomts
+
+    # fonts
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
