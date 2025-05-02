@@ -12,6 +12,7 @@
     ./spicetify.nix
     ./zathura.nix
     ./vscode.nix
+    ./chromium.nix
     ./wezterm.nix
   ];
 }
