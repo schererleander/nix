@@ -20,14 +20,14 @@ in {
         };
         inherit version;
       };
-    createChromiumExtension = createChromiumExtensionFor (lib.versions.major package.version);
+    createChromiumExtension = createChromiumExtensionFor (lib.versions.major pkgs.ungoogled-chromium.version);
   in
   [
     (createChromiumExtension {
       # ublock origin
       id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";
-      sha256 = "sha256-u81DNkZw/LBVyjk5nmrrJEVjdc+GFCay+rQZGpDH3jA=";
-      version = "1.37.2";
+      sha256 = "sha256:1lnk0k8zy0w33cxpv93q1am0d7ds2na64zshvbwdnbjq8x4sw5p6";
+      version = "1.63.2";
     })
    ];
   };
