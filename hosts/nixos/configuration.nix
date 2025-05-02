@@ -32,6 +32,9 @@
     networkmanager.enable = true;
   };
 
+  # Improve startup time
+  systemd.services.NetworkManager-wait-online.enable = false;
+
   # Time
   time.timeZone = "Europe/Berlin";
 
