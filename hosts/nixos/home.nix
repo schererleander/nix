@@ -26,6 +26,7 @@
     lua-language-server
     pyright
     jdk
+    go
     nodejs
 
 

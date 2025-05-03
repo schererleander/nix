@@ -19,10 +19,14 @@
     lua-language-server
     pyright
     jdk
+    go
     nodejs
 
     obsidian
-    
+    iterm2
+    appcleaner
+    rectangle
+    jetbrains.idea-community-bin
   ];
 
   zsh.enable = true;
@@ -30,7 +34,9 @@
   git.enable = true;
   neovim.enable = true;
 
-  chromium.enable = true;
+  # No aarh64-darwin
+  #chromium.enable = true;
+  spicetify.enable = true;
   vscode.enable = true;
 
   home.stateVersion = "24.11";

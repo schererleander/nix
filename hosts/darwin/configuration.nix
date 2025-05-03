@@ -9,6 +9,15 @@
     shell = pkgs.zsh;
   };
 
+  homebrew = {
+    enable = true;
+    taps = [];
+    brews = [];
+    casks = [
+      "nextcloud"
+    ];
+  };
+
   nixpkgs.hostPlatform = "aarch64-darwin";
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = 5;
