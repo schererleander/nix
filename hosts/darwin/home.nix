@@ -18,7 +18,6 @@
     gcc
     lua-language-server
     pyright
-    jdk
     go
     nodejs
 
@@ -27,6 +26,7 @@
     appcleaner
     rectangle
     jetbrains.idea-community-bin
+    (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" "SpaceMono" "IBMPlexMono" ]; })
   ];
 
   zsh.enable = true;
