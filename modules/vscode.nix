@@ -11,16 +11,14 @@ in {
       enableExtensionUpdateCheck = true;
       mutableExtensionsDir = false;
       userSettings = {
-        # Causes home manger to crash.
-	#"workbench.colorTheme" = "Minimal";
-        #"editor.fontFamily" = "'SpaceMono Nerd Font Mono', 'monospace', monospace";
-        #"editor.tabSize" = 2;
-        #"editor.minimap.enabled" = false;
-        #"terminal.integrated.cursorStyle" = "underline";
-        #"terminal.integrated.cursorStyleInactive" = "underline";
-        #"terminal.integrated.fontFamily" = "BlexMono Nerd Font Mono";
-        #"terminal.integrated.fontSize" = 13;
-        #"codesnap.transparentBackground" = true;
+	"workbench.colorTheme" = "Minimal";
+        "editor.fontFamily" = "'SpaceMono Nerd Font Mono', monospace";
+        "editor.tabSize" = 2;
+        "editor.minimap.enabled" = false;
+        "terminal.integrated.cursorStyle" = "underline";
+        "terminal.integrated.cursorStyleInactive" = "underline";
+	"terminal.integrated.fontFamily" = "'BlexMono Nerd Font Mono', monospace";
+        "terminal.integrated.fontSize" = 13;
       };
       extensions = (with pkgs.vscode-extensions; [
         ms-vscode.cmake-tools
