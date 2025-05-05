@@ -12,7 +12,10 @@
   homebrew = {
     enable = true;
     taps = [];
-    brews = [];
+    brews = [
+      "openjdk@17"
+      "openjdk@21"
+    ];
     casks = [
       "nextcloud"
     ];
