@@ -25,14 +25,10 @@
     username = "schererleander";
     email = "leander@schererleander.de";
     desktop = "nixos";
-    pkgs = import nixpkgs {
-      overlays = [ (import ./overlays/minbrowser.nix) ];
-    };
   in {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         system = linux-system;
         specialArgs = { inherit inputs; };
-	pkgs = pkgs;
         modules = [
           ./hosts/nixos/configuration.nix
           
@@ -40,6 +36,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs; };
+	    home-manager.backupFileExtension = "backup";
             home-manager.users.leander = import ./hosts/nixos/home.nix;
 
             home-manager.sharedModules = [
