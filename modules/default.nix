@@ -13,6 +13,7 @@
     ./zathura.nix
     ./vscode.nix
     ./chromium.nix
+    ./nixcord.nix
     ./wezterm.nix
   ];
 }
