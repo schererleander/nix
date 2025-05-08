@@ -15,6 +15,8 @@
     spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
     
     nixcord.url = "github:kaylorben/nixcord";
+
+    mac-app-util.url = "github:hraban/mac-app-util";
   };
 
   outputs = { nixpkgs, nix-darwin, home-manager, ... } @ inputs: let
@@ -52,11 +54,17 @@
         modules = [
           ./hosts/darwin/configuration.nix
 
+          inputs.mac-app-util.darwinModules.default
+
           home-manager.darwinModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs; };
             home-manager.users.${username} = import ./hosts/darwin/home.nix;
+
+            home-manager.sharedModules = [
+              inputs.mac-app-util.homeManagerModules.default
+            ];
           }
         ];
       };

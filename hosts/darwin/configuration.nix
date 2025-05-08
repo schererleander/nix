@@ -6,7 +6,6 @@
   nixpkgs.hostPlatform = "aarch64-darwin";
   nixpkgs.config.allowUnfree = true;
 
-
   users.users.schererleander = {
     home = "/Users/schererleander";
     shell = pkgs.zsh;
