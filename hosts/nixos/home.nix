@@ -14,6 +14,10 @@
   home.packages = with pkgs; [
     firefox
     obsidian
+    jetbrains.idea-community-bin
+    localsend
+
+    #cli
     fzf
     htop
     imv
