@@ -2,12 +2,17 @@
 
 {
   services.nix-daemon.enable = true;
-  programs.zsh.enable = true;
+  nix.settings.experimental-features = "nix-command flakes";
+  nixpkgs.hostPlatform = "aarch64-darwin";
+  nixpkgs.config.allowUnfree = true;
+
 
   users.users.schererleander = {
     home = "/Users/schererleander";
     shell = pkgs.zsh;
   };
+
+  programs.zsh.enable = true;
 
   homebrew = {
     enable = true;
@@ -22,7 +27,5 @@
     ];
   };
 
-  nixpkgs.hostPlatform = "aarch64-darwin";
-  nixpkgs.config.allowUnfree = true;
   system.stateVersion = 5;
 }
