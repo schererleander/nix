@@ -18,6 +18,7 @@
     ];
     casks = [
       "nextcloud"
+      "bambu-studio"
     ];
   };
 

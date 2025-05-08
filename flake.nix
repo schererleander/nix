@@ -23,10 +23,14 @@
     username = "schererleander";
     email = "leander@schererleander.de";
     desktop = "nixos";
+    pkgs = import nixpkgs {
+      overlays = [ (import ./overlays/minbrowser.nix) ];
+    };
   in {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         system = linux-system;
         specialArgs = { inherit inputs; };
+	pkgs = pkgs;
         modules = [
           ./hosts/nixos/configuration.nix
           
