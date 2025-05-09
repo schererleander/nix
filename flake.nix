@@ -60,6 +60,7 @@
             home-manager.users.${username} = import ./hosts/darwin/home.nix;
 
             home-manager.sharedModules = [
+	            inputs.nixcord.homeModules.nixcord
               inputs.mac-app-util.homeManagerModules.default
             ];
           }

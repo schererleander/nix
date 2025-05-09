@@ -18,6 +18,7 @@ in {
         zstyle ':completion:*' special-dirs true
         zstyle ':completion:*' squeeze-slashes true
         zstyle ':completion:*' add-space false
+        eval "$(zoxide init zsh)"
       '';
 
       zplug = {
@@ -27,7 +28,6 @@ in {
           { name = "zpm-zsh/colorize"; }
           { name = "sindresorhus/pure"; tags = [ "as:theme" "use:pure.zsh" ]; }
           { name = "zdharma-continuum/fast-syntax-highlighting"; }
-          { name = "agkozak/zsh-z"; }
           { name = "zsh-users/zsh-autosuggestions"; }
         ];
       };
