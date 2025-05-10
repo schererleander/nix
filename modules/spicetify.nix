@@ -14,6 +14,9 @@ in {
         nyanCatProgressBar
         declutterNowPlayingBar
       ];
+      enabledExtensions = with spicePkgs.extensions; [
+        keyboardShortcut
+      ];
       theme = spicePkgs.themes.sleek;
       colorScheme = "Coral";
     };
