@@ -11,15 +11,16 @@ in {
       enableExtensionUpdateCheck = true;
       mutableExtensionsDir = false;
       userSettings = {
-	"workbench.colorTheme" = "Minimal";
+        "workbench.colorTheme" = "Minimal";
         "editor.fontFamily" = "'SpaceMono Nerd Font Mono', monospace";
         "editor.tabSize" = 2;
         "editor.minimap.enabled" = false;
         "terminal.integrated.cursorStyle" = "underline";
         "terminal.integrated.cursorStyleInactive" = "underline";
-	"terminal.integrated.fontFamily" = "'BlexMono Nerd Font Mono', monospace";
+        "terminal.integrated.fontFamily" = "'BlexMono Nerd Font Mono', monospace";
         "terminal.integrated.fontSize" = 13;
-	"git.autofetch" = true;
+        "git.autofetch" = true;
+        "window.controlsStyle" = "custom";
       };
       extensions = (with pkgs.vscode-extensions; [
         ms-vscode.cmake-tools
@@ -33,6 +34,7 @@ in {
         #fwcd.kotlin
         bradlc.vscode-tailwindcss
         adpyke.codesnap
+        esbenp.prettier-vscode
       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
           name = "minimalist-dark";
@@ -43,4 +45,4 @@ in {
       ]);
     };
   };
-} 
+}

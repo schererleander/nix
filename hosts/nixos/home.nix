@@ -34,7 +34,6 @@
     go
     nodejs
 
-
     # fonts
     noto-fonts
     noto-fonts-cjk-sans
