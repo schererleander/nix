@@ -11,7 +11,7 @@
     home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    nur.url = "github:nix-community/NUR";
+    firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
 
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
@@ -21,7 +21,7 @@
     mac-app-util.url = "github:hraban/mac-app-util";
   };
 
-  outputs = { nixpkgs, nix-darwin, home-manager, ... } @ inputs: let
+  outputs = { nixpkgs, nur, nix-darwin, home-manager, ... } @ inputs: let
     linux-system = "x86_64-linux";
     darwin-system = "aarch64-darwin";
     username = "schererleander";
