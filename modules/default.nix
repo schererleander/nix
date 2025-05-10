@@ -15,5 +15,6 @@
     ./chromium.nix
     ./nixcord.nix
     ./wezterm.nix
+    ./firefox.nix
   ];
 }

@@ -12,7 +12,6 @@
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    firefox
     obsidian
     jetbrains.idea-community-bin
     localsend
@@ -80,6 +79,7 @@
   waybar.enable = true;
   spicetify.enable = true;
   zathura.enable = true;
+  firefox.enable = true;
 
   vscode.enable = true;
   home.stateVersion = "24.11";

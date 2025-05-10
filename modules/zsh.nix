@@ -23,11 +23,11 @@ in {
         zstyle ':completion:*' squeeze-slashes true
         zstyle ':completion:*' add-space false
 
-	# Case-insensitive completion
-	zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+        # Case-insensitive completion
+        zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-        # vim keybdings
-	bindkey -v
+        # vim keybindings
+        bindkey -v
 
         eval "$(zoxide init zsh)"
       '';

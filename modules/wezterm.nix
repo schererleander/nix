@@ -26,7 +26,7 @@ in {
       config.exit_behavior_messaging = 'None'
 
       return config
-    '';
+      '';
     };
   };
 }

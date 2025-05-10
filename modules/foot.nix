@@ -19,16 +19,16 @@ in {
           line-height = 12;
         };
 
-	cursor = {
-	  style = "underline";
-	  unfocused-style = "unchanged";
-	  blink = true;
-	};
+        cursor = {
+          style = "underline";
+          unfocused-style = "unchanged";
+          blink = true;
+        };
 
         colors = {
-	  alpha=0.9;
-	  # Gruvbox Theme
-	  background = "000000";
+          alpha = 0.9;
+          # Gruvbox Theme
+          background = "000000";
           foreground = "ebdbb2";
 
           regular0 = "282828";
@@ -53,4 +53,3 @@ in {
     };
   };
 }
-
