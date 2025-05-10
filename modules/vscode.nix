@@ -19,6 +19,7 @@ in {
         "terminal.integrated.cursorStyleInactive" = "underline";
 	"terminal.integrated.fontFamily" = "'BlexMono Nerd Font Mono', monospace";
         "terminal.integrated.fontSize" = 13;
+	"git.autofetch" = true;
       };
       extensions = (with pkgs.vscode-extensions; [
         ms-vscode.cmake-tools
