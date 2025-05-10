@@ -13,7 +13,6 @@
     htop
     ffmpeg
     pfetch
-    zoxide
     mas
     
     #dev
