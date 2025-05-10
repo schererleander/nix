@@ -14,19 +14,76 @@ in {
           istilldontcareaboutcookies
           sponsorblock
           vimium-c
-          startpage-private-search
           adaptive-tab-bar-colour
         ];
+
+        search.engines = {
+          nix-packages = {
+            name = "Nix Packages";
+            urls = [{
+              template = "https://search.nixos.org/packages";
+              params = [
+                { name = "type"; value = "packages"; }
+                { name = "query"; value = "{searchTerms}"; }
+              ];
+            }];
+
+            icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+            definedAliases = [ "@np" ];
+          };
+
+          nixos-wiki = {
+            name = "NixOS Wiki";
+            urls = [{ template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; }];
+            iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
+            definedAliases = [ "@nw" ];
+          };
+
+          startpage = {
+            name = "Startpage";
+            urls = [{
+              template = "https://www.startpage.com/sp/search?query={searchTerms}";
+            }];
+            icon = "https://www.startpage.com/favicon.ico";
+            definedAliases = [ "@s" ];
+          };
+
+          bing.metaData.hidden = true;
+          google.metaData.alias = "@g";
+        };
+
+        search.default = "startpage";
+
         settings = {
           "extensions.autoDisableScopes" = 0;
         };
+
+        userChrome = ''
+          /* Hide Back, Forward, Reload, Stop, All Tabs, Firefox View buttons */
+          #back-button,
+          #forward-button,
+          #reload-button,
+          #stop-button,
+          #alltabs-button,
+          #firefox-view-button {
+            display: none !important;
+          }
+
+          #tabbrowser-tabs {
+            border-inline: none !important;
+          }
+
+          .titlebar-buttonbox-container {
+            display: none;
+          }
+        '';
       };
 
       policies = {
         DisableTelemetry = true;
         DisableFirefoxStudies = true;
         EnableTrackingProtection = {
-          Value= true;
+          Value = true;
           Locked = true;
           Cryptomining = true;
           Fingerprinting = true;
@@ -35,6 +92,19 @@ in {
         DisplayBookmarksToolbar = "never";
 
         Preferences = {
+          # Set homepage
+          "browser.startup.homepage" = "about:blank";
+
+          # Disable tips
+          "browser.snippets.enabled" = false;
+
+          # Disable onboarding
+          "browser.startup.homepage_override.mstone" = "ignore";
+          "startup.homepage_override_url" = "";
+          "startup.homepage_welcome_url" = "";
+          "startup.homepage_welcome_url.additional" = "";
+          "browser.messaging-system.whatsNewPanel.enabled" = false;
+
           # Remove Firefox View
           "browser.newtabpage.activity-stream.showSponsored" = false;
           "browser.newtabpage.activity-stream.showSearch" = false;
@@ -43,7 +113,7 @@ in {
           "browser.newtabpage.enabled" = false;
           "browser.toolbars.bookmarks.visibility" = "never";
 
-          # privacy settings
+          # Privacy settings
           "privacy.firstparty.isolate" = true;  # Isolate cookies per site
           "privacy.resistFingerprinting" = true;
 
@@ -51,8 +121,7 @@ in {
           "dom.security.https_only_mode" = true;
           "dom.security.https_only_mode_ever_enabled" = true;
 
-          # Privacy settings
-          #"privacy.donottrackheader.enabled" = true;
+          # More Privacy settings
           "privacy.trackingprotection.enabled" = true;
           "privacy.trackingprotection.socialtracking.enabled" = true;
           "privacy.partition.network_state.ocsp_cache" = true;
@@ -85,6 +154,8 @@ in {
           "extensions.pocket.oAuthConsumerKey" = "";
           "extensions.pocket.showHome" = false;
           "extensions.pocket.site" = "";
+
+          "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         };
       };
     };
