@@ -18,6 +18,8 @@
     
     #dev
     gcc
+    maven
+    cmake
     lua-language-server
     pyright
     go
@@ -39,6 +41,7 @@
   # No aarh64-darwin
   #chromium.enable = true;
   spicetify.enable = true;
+  zathura.enable = true;
   vscode.enable = true;
 
   home.stateVersion = "24.11";

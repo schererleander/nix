@@ -27,6 +27,8 @@
 
     #dev
     gcc
+    maven
+    cmake
     lua-language-server
     pyright
     jdk
