@@ -7,7 +7,6 @@
     ./tmux.nix
     ./emacs.nix
     ./waybar.nix
-    ./neovim/default.nix
     ./nextcloud.nix
     ./spicetify.nix
     ./zathura.nix
@@ -16,5 +15,7 @@
     ./nixcord.nix
     ./wezterm.nix
     ./firefox.nix
+    ./nvf.nix
+    ./nixvim.nix
   ];
 }

@@ -69,7 +69,6 @@
 
   foot.enable = true;
   wezterm.enable = true;
-  neovim.enable = true;
   git.enable = true;
   zsh.enable = true;
   tmux.enable = true;
@@ -80,6 +79,7 @@
   zathura.enable = true;
   firefox.enable = true;
 
+  nvf.enable = true;
   vscode.enable = true;
   home.stateVersion = "24.11";
 }

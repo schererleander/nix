@@ -35,7 +35,7 @@
   zsh.enable = true;
   tmux.enable = true;
   git.enable = true;
-  neovim.enable = true;
+  nvf.enable = true;
 
   # No aarh64-darwin
   #chromium.enable = true;

@@ -15,7 +15,10 @@
 
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
-    
+   
+    nvf.url = "github:notashelf/nvf";
+    nixvim.url = "github:nix-community/nixvim";
+
     nixcord.url = "github:kaylorben/nixcord";
 
     mac-app-util.url = "github:hraban/mac-app-util";
@@ -33,6 +36,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/nixos/configuration.nix
+
           
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
@@ -43,7 +47,9 @@
 
             home-manager.sharedModules = [
               inputs.nixcord.homeModules.nixcord
-            ];
+	      inputs.nixvim.homeManagerModules.nixvim
+              inputs.nvf.homeManagerModules.nvf
+	    ];
           }
         ];
       };
@@ -70,4 +76,3 @@
       };
   };
 }
-
