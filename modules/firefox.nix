@@ -14,7 +14,6 @@ in {
           istilldontcareaboutcookies
           sponsorblock
           vimium-c
-          adaptive-tab-bar-colour
         ];
 
         search.engines = {
@@ -69,12 +68,66 @@ in {
             display: none !important;
           }
 
+          .titlebar-buttonbox-container {
+            display: none;
+          }
+
           #tabbrowser-tabs {
             border-inline: none !important;
           }
 
-          .titlebar-buttonbox-container {
-            display: none;
+          /* Transparent background tabs (above url bar) */
+          #navigator-toolbox {
+            -moz-appearance: -moz-vibrant-titlebar !important;
+            background: rgba(0, 0, 0, 0.85) !important;
+          }
+
+          /* Transparent background (behind url bar) */
+          #nav-bar {
+              background: none !important;
+              box-shadow: none !important;
+              border-top: 0px !important;
+          }
+
+          .tab-background[selected="true"] {
+            background-color: #393e43 !important;
+            background-image: none !important;
+          }
+
+          .tab-background {
+            background-color: var(--background) !important;
+            color: var(--foreground) !important;
+            box-shadow: none !important;;
+          }
+ 
+          .tab-background[selected] {
+            background-color: rgba(0, 0, 0, 0.30) !important;
+            color: var(--foreground) !important;
+            box-shadow: none !important;
+          }
+
+          /* Needed for # transparency in general */
+          :root {
+            --tabpanel-background-color: transparent !important; 
+            --chrome-content-separator-color: transparent !important;
+            --toolbar-bgcolor: rgba(0, 0, 0, 0.9) !important;
+            --newtab-background-color: rgba(0, 0, 0, 0.9) !important;
+            --newtab-background-color-secondary: transparent !important;
+            --toolbar-field-background-color: rgba(120, 120, 120, 0.10) !important;
+          }
+        '';
+        userContent = ''
+          @-moz-document url-prefix("about:"), url("about:home") {
+            /* Transparent about:settings about:config about:policies */
+            :root {
+              background: rgba(0, 0, 0, 0.0) !important;
+            }
+          }
+
+          /* Transparent about:home */
+          * {
+              --newtab-background-color: transparent !important;
+              --newtab-background-color-secondary: transparent !important;
           }
         '';
       };
@@ -97,6 +150,10 @@ in {
 
           # Disable tips
           "browser.snippets.enabled" = false;
+
+          # transparency
+          "browser.tabs.allow_transparent_browser" = true;
+          "gfx.webrender.all" = true;
 
           # Disable onboarding
           "browser.startup.homepage_override.mstone" = "ignore";
