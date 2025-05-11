@@ -1,11 +1,8 @@
 { config, lib, pkgs, ... }:
 
-let
-  cfg = config.wooting;
-in {
+{
   options.wooting.enable = lib.mkEnableOption "Enable Wooting udev rules";
-
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf config.wooting.enable {
     services.udev.extraRules = ''
       # Wooting One Legacy
       SUBSYSTEM=="hidraw", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="ff01", TAG+="uaccess"

@@ -44,6 +44,7 @@
           home-manager.users.leander = import ./hosts/nixos/home.nix;
 
           home-manager.sharedModules = [
+            inputs.spicetify-nix.homeManagerModules.spicetify
             inputs.nixcord.homeModules.nixcord
             inputs.nvf.homeManagerModules.nvf
           ];
@@ -65,6 +66,7 @@
           home-manager.users.${username} = import ./hosts/darwin/home.nix;
 
           home-manager.sharedModules = [
+            inputs.spicetify-nix.homeManagerModules.spicetify
             inputs.nixcord.homeModules.nixcord
             inputs.nvf.homeManagerModules.nvf
           ];
