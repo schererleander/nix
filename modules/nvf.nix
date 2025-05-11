@@ -1,11 +1,8 @@
 { config, lib, pkgs, ... }:
 
-let
-  cfg = config.nvf;
-in {
+{
   options.nvf.enable = lib.mkEnableOption "Setup nvf";
-
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf config.nvf.enable {
     programs.nvf = {
       enable = true;
       settings = {
@@ -58,6 +55,8 @@ in {
 
             nix.enable = true;
           };
+
+          formatter.conform-nvim.enable = true;
 
           visuals = {
             nvim-web-devicons.enable = true;

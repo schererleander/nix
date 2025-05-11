@@ -1,11 +1,8 @@
 { config, lib, pkgs, ... }:
 
-let
-  cfg = config.foot;
-in {
+{
   options.foot.enable = lib.mkEnableOption "Enable and configure the Foot terminal emulator";
-
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf config.foot.enable {
     home.packages = with pkgs; [
       (nerdfonts.override { fonts = [ "SpaceMono" "IBMPlexMono" "Terminus" ]; })
     ];

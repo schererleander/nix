@@ -1,10 +1,8 @@
 { config, lib, pkgs, ... }:
 
-let
-  cfg = config.chromium;
-in {
+{
   options.chromium.enable = lib.mkEnableOption "Enable chromium and setup with extension";
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf config.chromium.enable {
     programs.chromium = {
       enable = true;
       package = pkgs.ungoogled-chromium;

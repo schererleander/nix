@@ -1,10 +1,8 @@
 { config, lib, pkgs, inputs, ... }:
 
-let
-  cfg = config.nixcord;
-in {
+{
   options.nixcord.enable = lib.mkEnableOption "Enable nixcord and setup";
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf config.nixcord.enable {
     programs.nixcord = {
       enable = true;  # enable Nixcord. Also installs discord package
       #quickCss = "some CSS";  # quickCSS file

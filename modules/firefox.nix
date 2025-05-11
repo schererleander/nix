@@ -1,11 +1,8 @@
 { config, lib, pkgs, inputs, ... }:
 
-let
-  cfg = config.firefox;
-in {
+{
   options.firefox.enable = lib.mkEnableOption "Setup firefox";
-
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf config.firefox.enable {
     programs.firefox = {
       enable = true;
       profiles.default = {
@@ -79,7 +76,7 @@ in {
           /* Transparent background tabs (above url bar) */
           #navigator-toolbox {
             -moz-appearance: -moz-vibrant-titlebar !important;
-            background: rgba(0, 0, 0, 0.85) !important;
+            background: rgba(0, 0, 0, 0.8) !important;
           }
 
           /* Transparent background (behind url bar) */
@@ -199,6 +196,9 @@ in {
         Preferences = {
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
           "browser.toolbars.bookmarks.visibility" = "never";
+
+          # Hide pip controls
+          "media.videocontrols.picture-in-picture.video-toggle.enabled" = false;
           
           # Set homepage
           "browser.startup.homepage" = "about:blank";

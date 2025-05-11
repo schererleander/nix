@@ -1,11 +1,8 @@
 { config, lib, pkgs, ... }:
 
-let
-  cfg = config.zsh;
-in {
+{
   options.zsh.enable = lib.mkEnableOption "Configure zsh";
-
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf config.zsh.enable {
     home.packages = with pkgs; [
       zoxide
     ];

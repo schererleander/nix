@@ -1,10 +1,8 @@
 { config, lib, pkgs, ... }:
 
-let
-  cfg = config.zathura;
-in {
+{
   options.zathura.enable = lib.mkEnableOption "Enable zathura and setup";
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf config.zathura.enable {
     programs.zathura = {
       enable = true;
       options = {
@@ -18,6 +16,7 @@ in {
         pages-per-row = 1;
         scroll-page-aware = true;
       };
+      
       mappings = {
         i = "recolor";
         j = "navigate previous";

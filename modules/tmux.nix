@@ -1,11 +1,8 @@
 { config, lib, pkgs, ... }:
 
-let
-  cfg = config.tmux;
-in {
+{
   options.tmux.enable = lib.mkEnableOption "Enable and configure Tmux";
-
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf config.tmux.enable {
     programs.tmux = {
       enable = true;
       extraConfig = ''

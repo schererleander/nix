@@ -1,5 +1,5 @@
 {
-  description = "NixOS configuration";
+  description = "Nix configuration";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
@@ -15,9 +15,8 @@
 
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
-   
+  
     nvf.url = "github:notashelf/nvf";
-    nixvim.url = "github:nix-community/nixvim";
 
     nixcord.url = "github:kaylorben/nixcord";
 
@@ -32,47 +31,45 @@
     desktop = "nixos";
   in {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = linux-system;
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/nixos/configuration.nix
+      system = linux-system;
+      specialArgs = { inherit inputs; };
+      modules = [
+        ./hosts/nixos/configuration.nix
 
-          
-          home-manager.nixosModules.home-manager {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
-	    home-manager.backupFileExtension = "backup";
-            home-manager.users.leander = import ./hosts/nixos/home.nix;
+        home-manager.nixosModules.home-manager {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = { inherit inputs; };
+          home-manager.backupFileExtension = "backup";
+          home-manager.users.leander = import ./hosts/nixos/home.nix;
 
-            home-manager.sharedModules = [
-              inputs.nixcord.homeModules.nixcord
-	      inputs.nixvim.homeManagerModules.nixvim
-              inputs.nvf.homeManagerModules.nvf
-	    ];
-          }
-        ];
-      };
+          home-manager.sharedModules = [
+            inputs.nixcord.homeModules.nixcord
+            inputs.nvf.homeManagerModules.nvf
+          ];
+        }
+      ];
+    };
     darwinConfigurations."MacBook-Air" = nix-darwin.lib.darwinSystem {
-        system = darwin-system;
-        specialArgs = { inherit inputs username; };
-        modules = [
-          ./hosts/darwin/configuration.nix
+      system = darwin-system;
+      specialArgs = { inherit inputs username; };
+      modules = [
+        ./hosts/darwin/configuration.nix
 
-          inputs.mac-app-util.darwinModules.default
+        inputs.mac-app-util.darwinModules.default
 
-          home-manager.darwinModules.home-manager {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
-            home-manager.users.${username} = import ./hosts/darwin/home.nix;
+        home-manager.darwinModules.home-manager {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = { inherit inputs; };
+          home-manager.users.${username} = import ./hosts/darwin/home.nix;
 
-            home-manager.sharedModules = [
-	            inputs.nixcord.homeModules.nixcord
-              inputs.mac-app-util.homeManagerModules.default
-            ];
-          }
-        ];
-      };
+          home-manager.sharedModules = [
+            inputs.nixcord.homeModules.nixcord
+            inputs.nvf.homeManagerModules.nvf
+          ];
+        }
+      ];
+    };
   };
 }

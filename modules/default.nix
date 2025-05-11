@@ -16,6 +16,5 @@
     ./wezterm.nix
     ./firefox.nix
     ./nvf.nix
-    ./nixvim.nix
   ];
 }

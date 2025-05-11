@@ -1,15 +1,14 @@
 { config, lib, pkgs, ... }:
 
-let
-  cfg = config.vscode;
-in {
+{
   options.vscode.enable = lib.mkEnableOption "Enable vscode and setup";
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf config.vscode.enable {
     programs.vscode = {
       enable = true;
       enableUpdateCheck = true;
       enableExtensionUpdateCheck = true;
       mutableExtensionsDir = false;
+      
       userSettings = {
         "workbench.colorTheme" = "Minimal";
         "editor.fontFamily" = "'SpaceMono Nerd Font Mono', monospace";
@@ -22,6 +21,7 @@ in {
         "git.autofetch" = true;
         "window.controlsStyle" = "custom";
       };
+
       extensions = (with pkgs.vscode-extensions; [
         ms-vscode.cmake-tools
         ms-azuretools.vscode-docker

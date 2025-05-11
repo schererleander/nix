@@ -1,11 +1,8 @@
 { config, lib, pkgs, ... }:
 
-let
-  cfg = config.waybar;
-in {
+{
   options.waybar.enable = lib.mkEnableOption "Enable and configure Waybar";
-
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf config.waybar.enable {
     programs.waybar = {
       enable = true;
       settings = {
@@ -21,10 +18,12 @@ in {
             "clock"
             "tray"
           ];
+          
           clock = {
             format-alt = "{:%Y-%m-%d}";
             tooltip-format = "{:%Y-%m-%d | %H:%M}";
           };
+
           pulseaudio = {
             format = "{volume}% {icon}";
             format-bluetooth = "{volume}% {icon}";
@@ -34,6 +33,7 @@ in {
           };
         };
       };
+
       style = ''
         * {
           border: none;

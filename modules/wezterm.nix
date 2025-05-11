@@ -1,10 +1,8 @@
 { config, lib, pkgs, ... }:
 
-let
-  cfg = config.wezterm;
-in {
+{
   options.wezterm.enable = lib.mkEnableOption "Enable wezterm and setup";
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf config.wezterm.enable {
     home.packages = with pkgs; [
       (nerdfonts.override { fonts = [ "SpaceMono" "IBMPlexMono" "Terminus" ]; })
     ];

@@ -1,10 +1,10 @@
 { config, lib, pkgs, inputs, ... }:
+
 let
-  cfg = config.spicetify;
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.system};
 in {
   options.spicetify.enable = lib.mkEnableOption "Enable Spicetify integration";
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf config.spicetify.enable {
     programs.spicetify = {
       enable = true;
       enabledSnippets = with spicePkgs.snippets; [
@@ -14,9 +14,11 @@ in {
         nyanCatProgressBar
         declutterNowPlayingBar
       ];
+
       enabledExtensions = with spicePkgs.extensions; [
         keyboardShortcut
       ];
+      
       theme = spicePkgs.themes.sleek;
       colorScheme = "Coral";
     };

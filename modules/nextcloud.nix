@@ -1,10 +1,8 @@
 { config, lib, pkgs, ... }:
 
-let
-  cfg = config.nextcloud;
-in {
+{
   options.nextcloud.enable = lib.mkEnableOption "Enable nextcloud and setup";
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf config.nextcloud.enable {
     home.file.".netrc".text = ''default
       login exmaple
       password test123
