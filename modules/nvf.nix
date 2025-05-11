@@ -16,6 +16,7 @@ in {
           theme.style = "dark";
 
           options = {
+            clipboard = "unnamedplus";
             tabstop = 2;
             shiftwidth = 2;
             expandtab = true;
@@ -75,10 +76,8 @@ in {
 
           autocmds = [
             {
-              enable = true;
               event = ["VimEnter"];
               command = "highlight Statusline guibg=none | highlight StatuslineNC guibg=none";
-              desc = "Transparent statusline";
             }
           ];
 
