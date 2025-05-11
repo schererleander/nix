@@ -129,46 +129,85 @@ in {
               --newtab-background-color: transparent !important;
               --newtab-background-color-secondary: transparent !important;
           }
+
+          /* Transparent elements in about:* */
+          * {
+            --in-content-page-background: transparent !important;
+            --background-color-box: rgba(0, 0, 0, 0.5) !important;
+          }
         '';
       };
 
       policies = {
         DisableTelemetry = true;
         DisableFirefoxStudies = true;
+        PasswordManagerEnabled = false;
+        OfferToSaveLogins = false;
+        DisablePocket = true;
+        DisplayBookmarksToolbar = "never";
+        NoDefaultBookmarks = true;
+
         EnableTrackingProtection = {
           Value = true;
           Locked = true;
           Cryptomining = true;
           Fingerprinting = true;
         };
-        DisablePocket = true;
-        DisplayBookmarksToolbar = "never";
 
+        EncryptedMediaExtensions = {
+          Enabled = true;
+          Locked = true;
+        };
+
+        FirefoxHome = {
+          Search = true;
+          TopSites = true;
+          SponsoredTopSites = false;
+          Highlights = true;
+          Pocket = false;
+          SponsoredPocket = false;
+          Snippets = false;
+          Locked = true;
+        };
+
+        UserMessaging = {
+          ExtensionRecommendations = false;
+          FeatureRecommendations = false;
+          Locked = true;
+          MoreFromMozilla = false;
+          SkipOnboarding = true;
+          UrlbarInterventions = false;
+          WhatsNew = false;
+        };
+
+        "3rdparty".Extensions = {
+          "uBlock0@raymondhill.net".adminSettings = {
+            userSettings = {
+              uiTheme = "dark";
+              uiAccentCustom = true;
+              uiAccentCustom0 = "#2C2C2C";
+              cloudStorageEnabled = false;
+              contextMenuEnabled = false;
+            };
+            # Block annoying login with google banner
+            userFilters = ''
+                ||accounts.google.com/gsi/*
+            '';
+          };
+        };
+        
         Preferences = {
+          "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+          "browser.toolbars.bookmarks.visibility" = "never";
+          
           # Set homepage
           "browser.startup.homepage" = "about:blank";
-
-          # Disable tips
-          "browser.snippets.enabled" = false;
+          "browser.newtab.url" = "about:blank";
+          "browser.newtabpage.enabled" = false;
 
           # transparency
           "browser.tabs.allow_transparent_browser" = true;
           "gfx.webrender.all" = true;
-
-          # Disable onboarding
-          "browser.startup.homepage_override.mstone" = "ignore";
-          "startup.homepage_override_url" = "";
-          "startup.homepage_welcome_url" = "";
-          "startup.homepage_welcome_url.additional" = "";
-          "browser.messaging-system.whatsNewPanel.enabled" = false;
-
-          # Remove Firefox View
-          "browser.newtabpage.activity-stream.showSponsored" = false;
-          "browser.newtabpage.activity-stream.showSearch" = false;
-          "browser.newtabpage.activity-stream.showTopSites" = false;
-          "browser.newtabpage.activity-stream.showHighlights" = false;
-          "browser.newtabpage.enabled" = false;
-          "browser.toolbars.bookmarks.visibility" = "never";
 
           # Privacy settings
           "privacy.firstparty.isolate" = true;  # Isolate cookies per site
@@ -211,8 +250,6 @@ in {
           "extensions.pocket.oAuthConsumerKey" = "";
           "extensions.pocket.showHome" = false;
           "extensions.pocket.site" = "";
-
-          "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         };
       };
     };
