@@ -37,9 +37,7 @@
             };
           };
 
-          autopairs.nvim-autopairs = {
-            enable = true;
-          };
+          autopairs.nvim-autopairs.enable = true;
 
           git.enable = true;
 
@@ -48,12 +46,26 @@
 
             formatOnSave = true;
             lspkind.enable = true;
+            lspSignature.enable = true;
+
           };
 
           languages = {
             enableTreesitter = true;
-
+            
             nix.enable = true;
+            markdown.enable  = true;
+
+            clang.enable = true;
+            css.enable = true;
+            html.enable = true;
+            java.enable = true;
+            ts.enable = true;
+            go.enable = true;
+            lua.enable = true;
+            python.enable = true;
+            typst.enable = true;
+            #tailwind.enable = true;
           };
 
           formatter.conform-nvim.enable = true;
