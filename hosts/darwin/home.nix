@@ -22,6 +22,7 @@
     pyright
     go
     nodejs
+    typst
 
     obsidian
     iterm2

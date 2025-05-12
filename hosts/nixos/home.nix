@@ -14,6 +14,7 @@
     obsidian
     jetbrains.idea-community-bin
     localsend
+    typst
 
     #cli
     fzf
