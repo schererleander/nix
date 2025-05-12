@@ -23,6 +23,7 @@
     go
     nodejs
     typst
+    tailwindcss
 
     obsidian
     iterm2

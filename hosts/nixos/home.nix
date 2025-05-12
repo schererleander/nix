@@ -33,6 +33,7 @@
     jdk
     go
     nodejs
+    tailwindcss
 
     # fonts
     noto-fonts
