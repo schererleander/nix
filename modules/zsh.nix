@@ -14,6 +14,9 @@
       syntaxHighlighting.enable = true;
 
       initExtra = ''
+        # view man pages with nvim
+        export MANPAGER="nvim +Man!"
+
         # Directory completion with trailing slash
         zstyle ':completion:*' list-dirs-first true
         zstyle ':completion:*' special-dirs true
