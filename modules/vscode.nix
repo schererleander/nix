@@ -10,6 +10,7 @@
       mutableExtensionsDir = false;
       
       userSettings = {
+        "extensions.autoCheckUpdates" = false;
         "workbench.colorTheme" = "Minimal";
         "editor.fontFamily" = "'SpaceMono Nerd Font Mono', monospace";
         "editor.tabSize" = 2;
