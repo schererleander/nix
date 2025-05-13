@@ -10,6 +10,7 @@
           ublock-origin
           istilldontcareaboutcookies
           sponsorblock
+          decentraleyes
           vimium-c
         ];
 
@@ -51,7 +52,6 @@
         search.default = "startpage";
 
         settings = {
-          "extensions.autoDisableScopes" = 0;
         };
 
         userChrome = ''
@@ -196,6 +196,15 @@
         Preferences = {
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
           "browser.toolbars.bookmarks.visibility" = "never";
+
+          # Disable annoying translation popup
+          "browser.translations.automaticallyPopup" = false;
+
+          # Enable all extensions automatically
+          "extensions.autoDisableScopes" = 0;
+
+          # Hide ctr-tab tab preview menu
+          "browser.ctrlTab.sortByRecentlyUsed" = false;
 
           # Hide pip controls
           "media.videocontrols.picture-in-picture.video-toggle.enabled" = false;
