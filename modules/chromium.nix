@@ -17,8 +17,7 @@
           inherit version;
         };
         createChromiumExtension = createChromiumExtensionFor (lib.versions.major pkgs.ungoogled-chromium.version);
-      in
-      [
+      in [
         (createChromiumExtension {
           # ublock origin
           id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";
