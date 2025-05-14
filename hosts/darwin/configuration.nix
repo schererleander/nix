@@ -27,6 +27,7 @@
     casks = [
       "nextcloud"
       "bambu-studio"
+      "vlc"
     ];
     masApps = {
       "Goodnotes 6" = 1444383602;
