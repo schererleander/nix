@@ -43,11 +43,9 @@
 
           lsp = {
             enable = true;
-
             formatOnSave = true;
             lspkind.enable = true;
             lspSignature.enable = true;
-
           };
 
           diagnostics = {
@@ -63,6 +61,13 @@
               };
               underline = true;
               virtual_lines = true;
+              virtual_text = {
+                format = lib.generators.mkLuaInline ''
+                  function(diagnostic)
+                    return string.format("%s (%s)", diagnostic.message, diagnostic.source)
+                  end
+                  '';
+              };
             };
             nvim-lint.enable = true;
           };
@@ -106,7 +111,7 @@
           autocmds = [
             {
               event = ["VimEnter"];
-              command = "highlight Statusline guibg=none | highlight StatuslineNC guibg=none";
+              command = "highlight StatusLine guibg=none | highlight StatusLineNC guibg=none";
             }
           ];
 
