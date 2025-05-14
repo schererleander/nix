@@ -13,7 +13,7 @@
     ffmpeg
     pfetch
     mas
-    
+
     #dev
     gcc
     maven
