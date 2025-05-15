@@ -8,6 +8,7 @@
       userName = "schererleander";
       userEmail = "leander@schererleander.de";
       extraConfig = {
+        pull.rebase = true;
         alias.co = "checkout";
         alias.br = "branch";
         alias.st = "status";
