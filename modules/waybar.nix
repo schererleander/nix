@@ -3,21 +3,46 @@
 {
   options.waybar.enable = lib.mkEnableOption "Enable and configure Waybar";
   config = lib.mkIf config.waybar.enable {
+
     programs.waybar = {
       enable = true;
       settings = {
         mainBar = {
-          height = 20;
+          height = 15;
           layer = "top";
           position = "bottom";
-          tray = { spacing = 10; };
-          modules-center = [ "sway/window" ];
-          modules-left = [ "sway/workspaces" "sway/mode" ];
+          modules-center = [ ];
+          modules-left = [ "sway/workspaces" ];
           modules-right = [
-            "pulseaudio"
-            "clock"
             "tray"
+            "privacy"
+            "battery"
+            "pulseaudio"
+            "network"
+            "bluetooth"
+            "clock"
           ];
+
+          tray = { spacing = 10; };
+
+          privacy = { icon-size = 16; };
+
+          network = {
+            format-disconnect = "";
+            format-ethernet = "";
+            format-wifi = "{icon} {signalStrength}";
+            format-icon = [ "󰤟" "󰤢" "󰤥" "󰤨" ];
+            tooltip-format-wifi = "{essid}";
+            tooltip-format-ethernet = "{ifname}";
+          };
+
+          bluetooth = {
+            format = " {status}";
+            format-disabled = "";
+            format-no-controller = "";
+            format-connected = " {device_alias}";
+            tooltip = false;
+          };
           
           clock = {
             format-alt = "{:%Y-%m-%d}";
@@ -25,7 +50,7 @@
           };
 
           pulseaudio = {
-            format = "{volume}% {icon}";
+            format = "{icon} {volume}%";
             format-bluetooth = "{volume}% {icon}";
             format-icons = {
               default = [ "" "" "" ];
@@ -43,7 +68,7 @@
         }
 
         window#waybar {
-          background: #000000;
+          background: rgba(0, 0, 0, 0.9);
         }
 
         #workspaces button {
@@ -51,7 +76,7 @@
           padding-right: 5px;
         }
 
-        #clock, #pulseaudio, #tray {
+        #clock, #pulseaudio, #tray, #network, battery, bluetooth {
           padding-left: 5px;
           padding-right: 5px;
         }
