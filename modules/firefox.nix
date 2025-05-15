@@ -197,6 +197,9 @@
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
           "browser.toolbars.bookmarks.visibility" = "never";
 
+          # Disable fullscreen notification
+          "full-screen-api.warning.timeout" = "0";
+
           # Disable annoying translation popup
           "browser.translations.automaticallyPopup" = false;
 
