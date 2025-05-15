@@ -76,6 +76,10 @@
           padding-right: 5px;
         }
 
+        #workspaces button.focused {
+          font-weight: bold;
+        }
+
         #clock, #pulseaudio, #tray, #network, battery, bluetooth {
           padding-left: 5px;
           padding-right: 5px;
