@@ -19,7 +19,9 @@
 
   homebrew = {
     enable = true;
-    taps = [];
+    taps = [
+      "vladdoster/formulae"
+    ];
     brews = [
       "openjdk@17"
       "openjdk@21"
@@ -28,6 +30,7 @@
       "nextcloud"
       "bambu-studio"
       "vlc"
+      "vladdoster/formulae/vimari"
     ];
     masApps = {
       "Goodnotes 6" = 1444383602;

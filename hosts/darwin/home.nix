@@ -12,6 +12,7 @@
     htop
     ffmpeg
     pfetch
+    wget
     mas
 
     #dev
