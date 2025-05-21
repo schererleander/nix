@@ -31,7 +31,9 @@
     appcleaner
     rectangle
     jetbrains.idea-community-bin
-    (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" "SpaceMono" "IBMPlexMono" ]; })
+
+    nerd-fonts.symbols-only
+    nerd-fonts.space-mono
   ];
 
   zsh.enable = true;
@@ -44,6 +46,7 @@
   spicetify.enable = true;
   zathura.enable = true;
   vscode.enable = true;
+  aerospace.enable = true;
 
   home.stateVersion = "24.11";
 }

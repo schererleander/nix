@@ -39,8 +39,7 @@
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
-    (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
-
+    nerd-fonts.symbols-only
   ];
 
   gtk = {

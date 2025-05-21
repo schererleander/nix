@@ -1,8 +1,8 @@
 { config, pkgs, lib, ...}:
 
 {
-  config.aerospace.enable = lib.mkEnableOption "Enalbe aerospace and setup";
-  config.enable = lib.mkIf config.aerospace.enable {
+  options.aerospace.enable = lib.mkEnableOption "Enalbe aerospace and setup";
+  config = lib.mkIf config.aerospace.enable {
     programs.aerospace = {
       enable = true;
       userSettings = {

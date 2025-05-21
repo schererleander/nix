@@ -4,7 +4,7 @@
   options.foot.enable = lib.mkEnableOption "Enable and configure the Foot terminal emulator";
   config = lib.mkIf config.foot.enable {
     home.packages = with pkgs; [
-      (nerdfonts.override { fonts = [ "SpaceMono" "IBMPlexMono" "Terminus" ]; })
+      nerd-fonts.space-mono
     ];
 
     programs.foot = {

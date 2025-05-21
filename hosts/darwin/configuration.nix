@@ -1,7 +1,6 @@
 { config, pkgs, lib, ...}:
 
 {
-  services.nix-daemon.enable = true;
   nix.settings.experimental-features = "nix-command flakes";
   nixpkgs.hostPlatform = "aarch64-darwin";
   nixpkgs.config.allowUnfree = true;
@@ -10,7 +9,8 @@
     home = "/Users/schererleander";
     shell = pkgs.zsh;
   };
-
+  
+  system.primaryUser = "schererleander";
   system.defaults = {
     dock.autohide = true;
   };

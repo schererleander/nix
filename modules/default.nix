@@ -16,5 +16,6 @@
     ./wezterm.nix
     ./firefox.nix
     ./nvf.nix
+    ./aerospace.nix
   ];
 }

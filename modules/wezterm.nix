@@ -3,10 +3,6 @@
 {
   options.wezterm.enable = lib.mkEnableOption "Enable wezterm and setup";
   config = lib.mkIf config.wezterm.enable {
-    home.packages = with pkgs; [
-      (nerdfonts.override { fonts = [ "SpaceMono" "IBMPlexMono" "Terminus" ]; })
-    ];
-
     programs.wezterm = {
       enable = true;
       enableZshIntegration = true;
