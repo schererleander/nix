@@ -6,13 +6,31 @@
     programs.firefox = {
       enable = true;
       profiles.default = {
-        extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
-          ublock-origin
-          istilldontcareaboutcookies
-          sponsorblock
-          decentraleyes
-          vimium-c
-        ];
+        extensions = {
+          packages = with inputs.firefox-addons.packages.${pkgs.system}; [
+            ublock-origin
+            istilldontcareaboutcookies
+            sponsorblock
+            decentraleyes
+            vimium-c
+          ];
+
+          force = true;
+
+          settings."uBlock0@raymondhill.net".settings = {
+            UserMessaging = {
+              uiTheme = "dark";
+              uiAccentCustom = true;
+              uiAccentCustom0 = "#2C2C2C";
+              cloudStorageEnabled = false;
+              contextMenuEnabled = false;
+            };
+            # Block annoying login with google banner
+            userFilters = ''
+              ||accounts.google.com/gsi/*
+            '';
+          };
+        };
 
         search.engines = {
           nix-packages = {
@@ -177,22 +195,6 @@
           WhatsNew = false;
         };
 
-        "3rdparty".Extensions = {
-          "uBlock0@raymondhill.net".adminSettings = {
-            userSettings = {
-              uiTheme = "dark";
-              uiAccentCustom = true;
-              uiAccentCustom0 = "#2C2C2C";
-              cloudStorageEnabled = false;
-              contextMenuEnabled = false;
-            };
-            # Block annoying login with google banner
-            userFilters = ''
-                ||accounts.google.com/gsi/*
-            '';
-          };
-        };
-        
         Preferences = {
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
           "browser.toolbars.bookmarks.visibility" = "never";

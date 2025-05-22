@@ -13,7 +13,7 @@
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
 
-      initExtra = ''
+      initContent = ''
         # view man pages with nvim
         export MANPAGER="nvim +Man!"
 

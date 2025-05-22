@@ -1,14 +1,13 @@
-{ config, pkgs, ...}:
+{ config, pkgs, ... }:
 
 {
-
   imports = [
     ./hardware-configuration.nix
     ./audio.nix
     ./wooting.nix
   ];
 
-  # Bootloader.
+  # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -66,5 +65,5 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
 }
