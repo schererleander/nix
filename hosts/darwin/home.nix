@@ -41,8 +41,6 @@
   git.enable = true;
   nvf.enable = true;
 
-  # No aarh64-darwin
-  #chromium.enable = true;
   spicetify.enable = true;
   zathura.enable = true;
   vscode.enable = true;
