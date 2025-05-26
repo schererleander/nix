@@ -5,14 +5,19 @@
   nixpkgs.hostPlatform = "aarch64-darwin";
   nixpkgs.config.allowUnfree = true;
 
-  users.users.schererleander = {
-    home = "/Users/schererleander";
-    shell = pkgs.zsh;
-  };
-  
+  users.users.schererleander.home = "/Users/schererleander";
+
   system.primaryUser = "schererleander";
   system.defaults = {
     dock.autohide = true;
+    WindowManager.EnableStandardClickToShowDesktop = false;
+    finder = {
+      ShowPathbar = true;
+      ShowStatusBar = true;
+      _FXShowPosixPathInTitle = true;
+      _FXSortFoldersFirst = true;
+    };
+    loginwindow.GuestEnabled = false;
   };
 
   programs.zsh.enable = true;
