@@ -26,10 +26,6 @@
       root = "/var/www/site/";
       forceSSL = true;
       serverAliases = [ "www.schererleander.de" ];
-      extraConfig = ''
-        index index.html;
-        add_header X-Frame-Options "SAMEORIGIN";
-      '';
     };
   };
 
