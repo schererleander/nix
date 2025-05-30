@@ -63,6 +63,7 @@
     configureRedis = true;
     maxUploadSize = "16G";
     config.dbtype = "mysql";
+    config.adminpassFile = "/etc/nextcloud-admin-pass";
   };
 
   networking.firewall.allowedTCPPorts = [ 80 443 8693 ];
