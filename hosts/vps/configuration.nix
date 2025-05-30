@@ -45,6 +45,9 @@
     enable = true;
     virtualHosts."schererleander.de" = {
       root = "/var/www/site";
+      sslCertificate    = "/etc/ssl/certs/schererleander.de.crt";
+      sslCertificateKey = "/etc/ssl/private/schererleander.de.key";
+      forceSSL = true;
     };
   };
 
