@@ -18,7 +18,7 @@
 
   services.openssh = {
     enable = true;
-    ports = [ 88693 ];
+    ports = [ 8693 ];
     settings = {
       PasswordAuthentication = false;
       X11Forwarding = false;
@@ -33,7 +33,7 @@
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 88693 ];
+  networking.firewall.allowedTCPPorts = [ 8693 ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
