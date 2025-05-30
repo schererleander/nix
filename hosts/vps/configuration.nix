@@ -7,7 +7,7 @@
 
   boot.tmp.cleanOnBoot = true;
   zramSwap.enable = true;
-  networking.hostName = "my-vps";
+  networking.hostName = "vps";
   networking.domain = "";
 
   users.users.administrator = {
@@ -22,6 +22,8 @@
 
   environment.systemPackages = with pkgs; [
     git
+    gnutar
+    gzip
   ];
 
   services.openssh = {
