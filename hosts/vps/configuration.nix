@@ -8,7 +8,7 @@
   boot.tmp.cleanOnBoot = true;
   zramSwap.enable = true;
   networking.hostName = "vps";
-  networking.domain = "";
+  networking.domain = "schererleander.de";
 
   security.sudo = {
     enable = true;
@@ -29,6 +29,7 @@
     git
     gnutar
     gzip
+    neovim
   ];
 
   services.openssh = {
@@ -37,20 +38,17 @@
     settings = {
       PasswordAuthentication = false;
       X11Forwarding = false;
-      PermitRootLogin = "yes";
+      PermitRootLogin = "no";
     };
   };
 
   services.nginx = {
     enable = true;
-
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
-
     sslCiphers = "AES256+EECDH:AES256+EDH:!aNULL";
-
     appendHttpConfig = ''
       map $scheme $hsts_header {
           https   "max-age=31536000; includeSubdomains; preload";
@@ -83,7 +81,6 @@
     config.dbtype = "mysql";
     config.adminuser = "schererleander";
     config.adminpassFile = "/etc/nextcloud-admin-pass";
-
     settings = {
       maintenance_window_start = 2; # 02:00
       default_phone_region = "de";
