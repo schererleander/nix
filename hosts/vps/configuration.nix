@@ -48,7 +48,7 @@
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 8693 ];
+  networking.firewall.allowedTCPPorts = [ 80 443 8693 ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
