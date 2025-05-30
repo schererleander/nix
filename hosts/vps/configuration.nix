@@ -63,6 +63,7 @@
     configureRedis = true;
     maxUploadSize = "16G";
     config.dbtype = "mysql";
+    config.adminuser = "schererleander";
     config.adminpassFile = "/etc/nextcloud-admin-pass";
   };
 
