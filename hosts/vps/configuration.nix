@@ -10,6 +10,11 @@
   networking.hostName = "vps";
   networking.domain = "";
 
+  security.sudo = {
+    enable = true;
+    wheelNeedsPassword = false;
+  };
+
   users.users.administrator = {
     isNormalUser = true;
     password = "admin";
