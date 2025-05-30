@@ -15,6 +15,8 @@
     wheelNeedsPassword = false;
   };
 
+  users.users.root.hashedPassword = "!";
+  users.mutableUsers = false;
   users.users.administrator = {
     isNormalUser = true;
     hashedPassword = "$6$KBblJguEyfEmuWnU$Xf0QqPVacA2qvnzZRpnSE2cmh0kNnMgtVhCrMEDI76buNzuzkuDY6EnO7jPjQlEnoczx6ZPAl2pK.SxezbVa..";
@@ -30,6 +32,7 @@
     gnutar
     gzip
     neovim
+    htop
   ];
 
   services.openssh = {
