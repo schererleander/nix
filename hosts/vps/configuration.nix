@@ -62,6 +62,7 @@
     database.createLocally = true;
     configureRedis = true;
     maxUploadSize = "16G";
+    config.dbtype = "mysql";
   };
 
   networking.firewall.allowedTCPPorts = [ 80 443 8693 ];
