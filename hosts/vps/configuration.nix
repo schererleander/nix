@@ -56,10 +56,10 @@
           https   "max-age=31536000; includeSubdomains; preload";
       }
       add_header Strict-Transport-Security $hsts_header;
-      add_header Content-Security-Policy "script-src 'self'; object-src 'none'; base-uri 'none';" always;
-      add_header 'Referrer-Policy' 'same-origin' always;
+      #add_header Content-Security-Policy "script-src 'self'; object-src 'none'; base-uri 'none';" always;
+      add_header 'Referrer-Policy' 'same-origin';
       add_header X-Frame-Options DENY;
-      add_header X-Content-Type-Options nosniff always;
+      add_header X-Content-Type-Options nosniff;
     '';
 
     virtualHosts."schererleander.de" = {
