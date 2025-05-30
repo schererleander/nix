@@ -42,13 +42,17 @@
     };
   };
 
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "leander@schererleander.de";
+  };
+
   services.nginx = {
     enable = true;
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
-    sslCiphers = "AES256+EECDH:AES256+EDH:!aNULL";
     appendHttpConfig = ''
       map $scheme $hsts_header {
           https   "max-age=31536000; includeSubdomains; preload";
@@ -62,25 +66,29 @@
 
     virtualHosts."schererleander.de" = {
       root = "/var/www/site";
-      sslCertificate    = "/etc/ssl/certs/schererleander.fullchain.pem";
-      sslCertificateKey = "/etc/ssl/private/schererleander.key";
       forceSSL = true;
+      enableACME = true;
     };
     virtualHosts."cloud.schererleander.de" = {
       sslCertificate    = "/etc/ssl/certs/schererleander.fullchain.pem";
       sslCertificateKey = "/etc/ssl/private/schererleander.key";
       forceSSL = true;
+      enableACME = true;
     };
   };
 
   services.nextcloud = {
     enable = true;
     hostName = "cloud.schererleander.de";
+    https = true;
     database.createLocally = true;
     maxUploadSize = "16G";
-    config.dbtype = "mysql";
-    config.adminuser = "schererleander";
-    config.adminpassFile = "/etc/nextcloud-admin-pass";
+    config = {
+      dbtype = "mysql";
+      adminuser = "schererleander";
+      adminpassFile = "/etc/nextcloud-admin-pass";
+      overwriteProtocol = "https";
+    };
     settings = {
       maintenance_window_start = 2; # 02:00
       default_phone_region = "de";
