@@ -24,8 +24,6 @@
     enable = true;
     virtualHosts = {
       root = "/var/www/site/";
-      forceSSL = true;
-      serverAliases = [ "www.schererleander.de" ];
     };
   };
 
