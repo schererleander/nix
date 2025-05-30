@@ -64,13 +64,13 @@
 
     virtualHosts."schererleander.de" = {
       root = "/var/www/site";
-      sslCertificate    = "/etc/ssl/certs/schererleander.de.crt";
-      sslCertificateKey = "/etc/ssl/private/schererleander.de.key";
+      sslCertificate    = "/etc/ssl/certs/schererleander.fullchain.pem";
+      sslCertificateKey = "/etc/ssl/private/schererleander.key";
       forceSSL = true;
     };
     virtualHosts."cloud.schererleander.de" = {
-      sslCertificate    = "/etc/ssl/certs/schererleander.de.crt";
-      sslCertificateKey = "/etc/ssl/private/schererleander.de.key";
+      sslCertificate    = "/etc/ssl/certs/schererleander.fullchain.pem";
+      sslCertificateKey = "/etc/ssl/private/schererleander.key";
       forceSSL = true;
     };
   };
