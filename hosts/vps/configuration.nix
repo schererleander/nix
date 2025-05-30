@@ -18,7 +18,22 @@
 
   services.openssh = {
     enable = true;
+    ports = [ 88693 ];
+    settings = {
+      PasswordAuthentication = false;
+      X11Forwarding = false;
+      PermitRootLogin = "yes";
+    };
   };
+
+  services.nginx = {
+    enable = true;
+    virtualHosts."schererleander.de" = {
+      root = "/var/www/site";
+    };
+  };
+
+  networking.firewall.allowedTCPPorts = [ 88693 ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;

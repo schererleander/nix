@@ -26,8 +26,6 @@
     linux-system = "x86_64-linux";
     darwin-system = "aarch64-darwin";
     username = "schererleander";
-    email = "leander@schererleander.de";
-    desktop = "nixos";
   in {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = linux-system;
