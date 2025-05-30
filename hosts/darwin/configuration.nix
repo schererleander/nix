@@ -9,13 +9,22 @@
 
   system.primaryUser = "schererleander";
   system.defaults = {
-    dock.autohide = true;
+    dock = {
+      autohide = true;
+      largesize = 48;
+      show-recents = false;
+    };
     WindowManager.EnableStandardClickToShowDesktop = false;
     finder = {
-      ShowPathbar = true;
-      ShowStatusBar = true;
+      #ShowPathbar = true;
+      #ShowStatusBar = true;
       _FXShowPosixPathInTitle = true;
       _FXSortFoldersFirst = true;
+    };
+    controlcenter = {
+      Display = false;
+      FocusModes = false;
+      Sound = false;
     };
     loginwindow.GuestEnabled = false;
   };
@@ -36,6 +45,7 @@
       "bambu-studio"
       "vlc"
       "vladdoster/formulae/vimari"
+      "arduino-ide"
     ];
     masApps = {
       "Goodnotes 6" = 1444383602;

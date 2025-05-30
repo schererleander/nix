@@ -22,7 +22,6 @@
 
   services.nginx = {
     enable = true;
-    addSSL = true;
     virtualHosts = {
       root = "/var/www/site/";
       forceSSL = true;
