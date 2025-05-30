@@ -1,4 +1,4 @@
-{ ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [
@@ -15,6 +15,10 @@
     password = "admin";
     extraGroups = [ "wheel" ];
   };
+
+  environment.systemPackages = with pkgs; [
+    git
+  ];
 
   services.openssh = {
     enable = true;

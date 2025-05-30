@@ -53,20 +53,6 @@
       specialArgs = { inherit inputs; };
       modules = [
         ./hosts/vps/configuration.nix
-
-        home-manager.nixosModules.home-manager {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = { inherit inputs; };
-          home-manager.backupFileExtension = "backup";
-          home-manager.users.administrator = import ./hosts/vps/home.nix;
-
-          home-manager.sharedModules = [
-            inputs.spicetify-nix.homeManagerModules.spicetify
-            inputs.nixcord.homeModules.nixcord
-            inputs.nvf.homeManagerModules.nvf
-          ];
-        }
       ];
     };
     darwinConfigurations."MacBook-Air" = nix-darwin.lib.darwinSystem {
