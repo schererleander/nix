@@ -38,7 +38,7 @@ in {
         output = {
           DP-1 = {
             resolution = "1920x1080@240Hz";
-            bg = "/etc/nixos/jaison-lin-2WHTac8jVA8-unsplash.jpg fill";
+            bg = "/etc/nixos/images/pond.jpg fill";
           };
         };
 
