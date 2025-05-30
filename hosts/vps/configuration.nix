@@ -49,6 +49,19 @@
       sslCertificateKey = "/etc/ssl/private/schererleander.de.key";
       forceSSL = true;
     };
+    virtualHosts."cloud.schererleander.de" = {
+      sslCertificate    = "/etc/ssl/certs/schererleander.de.crt";
+      sslCertificateKey = "/etc/ssl/private/schererleander.de.key";
+      forceSSL = true;
+    };
+  };
+
+  services.nextcloud = {
+    enable = true;
+    hostName = "cloud.schererleander.de";
+    database.createLocally = true;
+    configureRedis = true;
+    maxUploadSize = "16G";
   };
 
   networking.firewall.allowedTCPPorts = [ 80 443 8693 ];
