@@ -54,7 +54,7 @@
       system = linux-system;
       specialArgs = { inherit inputs; };
       modules = [
-        .hosts/vps/configuration
+        ./hosts/vps/configuration.nix
 
         home-manager.nixosModules.home-manager {
           home-manager.useGlobalPkgs = true;
