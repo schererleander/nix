@@ -50,6 +50,18 @@
         }
       ];
     };
+    nixosConfigurations.vps = nixpkgs.lib.nixosSystem {
+      system = linux-system;
+      specialArgs = { inherit inputs; };
+      modules = [
+        .hosts/vps/configuration
+
+        home-manager.nixosModules.home-manager {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+        }
+      ];
+    };
     darwinConfigurations."MacBook-Air" = nix-darwin.lib.darwinSystem {
       system = darwin-system;
       specialArgs = { inherit inputs username; };

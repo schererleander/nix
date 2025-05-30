@@ -1,6 +1,15 @@
 { ... }:
 
 {
+  imports = [
+    ./hardware-configuration.nix
+  ];
+
+  boot.tmp.cleanOnBoot = true;
+  zramSwap.enable = true;
+  networking.hostName = "my-vps";
+  networking.domain = "";
+
   users.users.administrator = {
     isNormalUser = true;
     password = "admin";
@@ -9,12 +18,6 @@
 
   services.openssh = {
     enable = true;
-    ports = [ 345687 ];
-    settings = {
-      PasswordAuthentication = false;
-      X11Forwarding = false;
-      PermitRootLogin = "yes";
-    };
   };
 
   services.nginx = {
