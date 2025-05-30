@@ -5,7 +5,7 @@
     ../../modules
   ];
 
-  home.username = "administratro";
+  home.username = "administrator";
   home.homeDirectory = "/home/administrator";
 
   programs.home-manager.enable = true;
