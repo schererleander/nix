@@ -43,6 +43,7 @@
   # User
   users.users.leander = {
     isNormalUser = true;
+    hashedPassword = "$6$N1g.gaLo3WGYJA1v$qsd5UCptO/QrtGnMsSaLNVAv2cwKscuwluwl5YslnbdH6gLZ27C10G72py.mO79anKbvL/B0c.RaA6gXyYCk6/";
     extraGroups = [ "networkmanager" "wheel" "video" "input" ];
   };
 
