@@ -72,6 +72,11 @@
       root = "/var/www/site";
       forceSSL = true;
       enableACME = true;
+      locations = {
+        "/" = {
+          tryFiles = "$uri $uri/ /index.html";
+        };
+      };
     };
     virtualHosts."cloud.schererleander.de" = {
       sslCertificate    = "/etc/ssl/certs/schererleander.fullchain.pem";
