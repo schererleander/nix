@@ -31,6 +31,7 @@
     git
     gnutar
     gzip
+    zoxide
     neovim
     htop
   ];
@@ -82,6 +83,7 @@
 
   services.nextcloud = {
     enable = true;
+    package = pkgs.nextcloud31;
     hostName = "cloud.schererleander.de";
     https = true;
     database.createLocally = true;
