@@ -39,6 +39,7 @@
     brews = [
       "openjdk@17"
       "openjdk@21"
+      "plantuml"
     ];
     casks = [
       "nextcloud"
@@ -46,6 +47,7 @@
       "vlc"
       "vladdoster/formulae/vimari"
       "arduino-ide"
+      "docker"
     ];
     masApps = {
       "Goodnotes 6" = 1444383602;
