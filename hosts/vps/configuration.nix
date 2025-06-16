@@ -35,6 +35,8 @@
     neovim
     htop
   ];
+  
+  system.autoUpgrade.enable = true;
 
   services.openssh = {
     enable = true;
