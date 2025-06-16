@@ -97,11 +97,11 @@
       dbtype = "mysql";
       adminuser = "schererleander";
       adminpassFile = "/etc/nextcloud-admin-pass";
-      overwriteProtocol = "https";
     };
     settings = {
       maintenance_window_start = 2; # 02:00
       default_phone_region = "de";
+      overwriteProtocol = "https";
     };
   };
 
