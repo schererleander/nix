@@ -13,12 +13,14 @@
     ffmpeg
     pfetch
     wget
+    imagemagick
     mas
 
     #dev
     gcc
     maven
     cmake
+    gnupg
     lua-language-server
     pyright
     go
