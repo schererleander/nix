@@ -36,7 +36,15 @@
     htop
   ];
   
-  system.autoUpgrade.enable = true;
+  system.autoUpgrade = {
+    enable = true;
+    allowReboot = true;
+
+    rebootWindow = {
+      lower = "02:00";
+      upper = "05:00";
+    };
+  };
 
   services.openssh = {
     enable = true;
