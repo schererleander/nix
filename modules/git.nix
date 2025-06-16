@@ -8,6 +8,8 @@
       userName = "schererleander";
       userEmail = "leander@schererleander.de";
       extraConfig = {
+        user.signingkey = "506793F115464BB4";
+        commit.gpgsign  = "true";
         pull.rebase = true;
         alias.co = "checkout";
         alias.br = "branch";
