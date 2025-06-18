@@ -29,6 +29,26 @@
         # vim keybindings
         bindkey -v
 
+        # imagemagick wrapper function to remove background
+        remove_bg() {
+          if [[ $# -lt 2 ]]; then
+            echo 'Usage: remove_bg <input_file> <fuzz_percentage> [transparent_color] [output_file]'
+            return 1
+          fi
+
+          local input_file=$1
+          local fuzz=$2
+          local transparent_color=$3
+          local output_file=$4
+
+          magick "$input_file" \
+            -fuzz "$fuzz" -transparent "$transparent_color" \
+            -blur 0x1 \
+            "$output_file"
+
+          echo "Saved transparent image to: $output_file"
+        }
+
         eval "$(zoxide init zsh)"
       '';
 
