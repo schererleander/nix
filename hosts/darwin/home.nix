@@ -21,6 +21,7 @@
     maven
     cmake
     gnupg
+    pinentry-curses
     lua-language-server
     pyright
     go

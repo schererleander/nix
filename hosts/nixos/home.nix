@@ -20,6 +20,10 @@
     fzf
     htop
     imv
+    zip
+    gnupg
+    pinentry-curses
+    unzip
     pfetch
     ffmpeg
     mangal
@@ -78,6 +82,7 @@
   spicetify.enable = true;
   zathura.enable = true;
   firefox.enable = true;
+  gpg.enable = true;
 
   nvf.enable = true;
   vscode.enable = true;
