@@ -8,6 +8,7 @@ in {
     home.packages = with pkgs; [
       wmenu
       swaybg
+      sway-contrib.grimshot
       wl-clipboard
       xdg-utils
       playerctl
