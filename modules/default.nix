@@ -17,5 +17,7 @@
     ./firefox.nix
     ./nvf.nix
     ./aerospace.nix
+    ./dunst.nix
+    ./gpg.nix
   ];
 }
