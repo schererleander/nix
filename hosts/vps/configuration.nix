@@ -34,6 +34,7 @@
     zoxide
     neovim
     htop
+    nodejs
   ];
   
   system.autoUpgrade = {
