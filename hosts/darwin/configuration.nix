@@ -37,9 +37,11 @@
       "vladdoster/formulae"
     ];
     brews = [
+      "keychain"
       "openjdk@17"
       "openjdk@21"
       "plantuml"
+      "pinentry-mac"
     ];
     casks = [
       "nextcloud"
@@ -48,6 +50,7 @@
       "vladdoster/formulae/vimari"
       "arduino-ide"
       "docker"
+      "anki"
     ];
     masApps = {
       "Goodnotes 6" = 1444383602;
