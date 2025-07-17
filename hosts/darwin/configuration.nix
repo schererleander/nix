@@ -42,6 +42,7 @@
       "openjdk@21"
       "plantuml"
       "pinentry-mac"
+      "minio-mc"
     ];
     casks = [
       "nextcloud"
@@ -49,8 +50,10 @@
       "vlc"
       "vladdoster/formulae/vimari"
       "arduino-ide"
-      "docker"
+      "docker-desktop"
       "anki"
+      "mongodb-compass"
+      "viscosity"
     ];
     masApps = {
       "Goodnotes 6" = 1444383602;
