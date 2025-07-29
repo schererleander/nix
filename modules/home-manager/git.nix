@@ -1,7 +1,11 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  ...
+}:
 
 {
-  options.git.enable = lib.mkEnableOption "Enable and configure Git";
+  options.git.enable = lib.mkEnableOption "Enable git";
   config = lib.mkIf config.git.enable {
     programs.git = {
       enable = true;
@@ -9,7 +13,7 @@
       userEmail = "leander@schererleander.de";
       extraConfig = {
         user.signingkey = "506793F115464BB4";
-        commit.gpgsign  = "true";
+        commit.gpgsign = "true";
         pull.rebase = true;
         alias.co = "checkout";
         alias.br = "branch";
