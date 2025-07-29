@@ -30,6 +30,8 @@ rec {
       hostDir = ../hosts/${host};
       hostCfg = hostDir + /configuration.nix;
       hostHome = hostDir + /home.nix;
+
+      hmEnabled = builtins.pathExists hostHome;
       modules =
         [ hostCfg ]
         ++ lib.optionals darwinHost [ inputs.mac-app-util.darwinModules.default ]
@@ -41,7 +43,8 @@ rec {
             ];
             nixpkgs.overlays = overlays;
           }
-
+        ]
+        ++ lib.optionals hmEnabled [
           hmModule
           {
             home-manager.useGlobalPkgs = true;
