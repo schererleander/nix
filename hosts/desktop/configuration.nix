@@ -1,10 +1,12 @@
-{ config, pkgs, ... }:
+{
+  pkgs,
+  ...
+}:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -63,7 +65,11 @@
   users.users.schererleander = {
     isNormalUser = true;
     description = "schererleander";
-    extraGroups = [ "networkmanager" "wheel" "video" "input" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "video"
+      "input"
     ];
   };
 
@@ -81,8 +87,8 @@
   services.openssh.enable = true;
 
   programs.gnupg.agent = {
-     enable = true;
-     enableSSHSupport = true;
+    enable = true;
+    enableSSHSupport = true;
   };
 
   system.stateVersion = "25.05";

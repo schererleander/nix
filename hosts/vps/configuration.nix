@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -35,7 +35,7 @@
     neovim
     htop
   ];
-  
+
   system.autoUpgrade = {
     enable = true;
     allowReboot = true;
@@ -89,7 +89,7 @@
       };
     };
     virtualHosts."cloud.schererleander.de" = {
-      sslCertificate    = "/etc/ssl/certs/schererleander.fullchain.pem";
+      sslCertificate = "/etc/ssl/certs/schererleander.fullchain.pem";
       sslCertificateKey = "/etc/ssl/private/schererleander.key";
       forceSSL = true;
       enableACME = true;
@@ -115,9 +115,16 @@
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 80 443 8693 ];
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+    8693
+  ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "25.05";
 }
