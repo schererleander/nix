@@ -1,10 +1,8 @@
-{ config, pkgs, lib, ...}:
+{
+  ...
+}:
 
 {
-  nix.settings.experimental-features = "nix-command flakes";
-  nixpkgs.hostPlatform = "aarch64-darwin";
-  nixpkgs.config.allowUnfree = true;
-
   users.users.schererleander.home = "/Users/schererleander";
 
   system.primaryUser = "schererleander";
@@ -39,6 +37,9 @@
       "bambu-studio"
       "arduino-ide"
       "anki"
+      "iterm2"
+      "rectangle"
+      "spotify"
     ];
     onActivation.cleanup = "zap";
     onActivation.autoUpdate = true;

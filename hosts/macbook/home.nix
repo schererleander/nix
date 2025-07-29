@@ -1,4 +1,7 @@
-{ config, lib, pkgs, inputs, ...}:
+{
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -7,7 +10,7 @@
 
   home.username = "schererleander";
   home.homeDirectory = "/Users/schererleander";
-  
+
   home.packages = with pkgs; [
     htop
     ffmpeg
@@ -18,8 +21,7 @@
     maven
     cmake
     gnupg
-
-    neovim
+    lua
 
     nerd-fonts.symbols-only
   ];
@@ -27,6 +29,7 @@
   zsh.enable = true;
   tmux.enable = true;
   git.enable = true;
+  neovim.enable = true;
 
   home.stateVersion = "25.05";
 }
