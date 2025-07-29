@@ -1,4 +1,8 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  ...
+}:
 
 {
   options.nixcord.enable = lib.mkEnableOption "Enable nixcord and setup";

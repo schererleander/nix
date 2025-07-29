@@ -1,8 +1,15 @@
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 let
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.system};
-in {
+in
+{
   options.spicetify.enable = lib.mkEnableOption "Enable Spicetify integration";
   config = lib.mkIf config.spicetify.enable {
     programs.spicetify = {
@@ -18,7 +25,7 @@ in {
       enabledExtensions = with spicePkgs.extensions; [
         keyboardShortcut
       ];
-      
+
       theme = spicePkgs.themes.sleek;
       colorScheme = "Coral";
     };

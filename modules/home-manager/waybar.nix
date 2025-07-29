@@ -1,4 +1,8 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  ...
+}:
 
 {
   options.waybar.enable = lib.mkEnableOption "Enable and configure Waybar";
@@ -23,15 +27,24 @@
             "clock"
           ];
 
-          tray = { spacing = 10; };
+          tray = {
+            spacing = 10;
+          };
 
-          privacy = { icon-size = 16; };
+          privacy = {
+            icon-size = 16;
+          };
 
           network = {
             format-disconnect = "";
             format-ethernet = "";
             format-wifi = "{icon} {signalStrength}";
-            format-icon = [ "󰤟" "󰤢" "󰤥" "󰤨" ];
+            format-icon = [
+              "󰤟"
+              "󰤢"
+              "󰤥"
+              "󰤨"
+            ];
             tooltip-format-wifi = "{essid}";
             tooltip-format-ethernet = "{ifname}";
           };
@@ -43,7 +56,7 @@
             format-connected = " {device_alias}";
             tooltip = false;
           };
-          
+
           clock = {
             format-alt = "{:%Y-%m-%d}";
             tooltip-format = "{:%Y-%m-%d | %H:%M}";
@@ -53,7 +66,11 @@
             format = "{icon} {volume}%";
             format-bluetooth = "{volume}% {icon}";
             format-icons = {
-              default = [ "" "" "" ];
+              default = [
+                ""
+                ""
+                ""
+              ];
             };
           };
         };

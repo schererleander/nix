@@ -1,4 +1,10 @@
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   options.firefox.enable = lib.mkEnableOption "Setup firefox";
@@ -35,13 +41,21 @@
         search.engines = {
           nix-packages = {
             name = "Nix Packages";
-            urls = [{
-              template = "https://search.nixos.org/packages";
-              params = [
-                { name = "type"; value = "packages"; }
-                { name = "query"; value = "{searchTerms}"; }
-              ];
-            }];
+            urls = [
+              {
+                template = "https://search.nixos.org/packages";
+                params = [
+                  {
+                    name = "type";
+                    value = "packages";
+                  }
+                  {
+                    name = "query";
+                    value = "{searchTerms}";
+                  }
+                ];
+              }
+            ];
 
             icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
             definedAliases = [ "@np" ];
@@ -49,16 +63,18 @@
 
           nixos-wiki = {
             name = "NixOS Wiki";
-            urls = [{ template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; }];
+            urls = [ { template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; } ];
             iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
             definedAliases = [ "@nw" ];
           };
 
           startpage = {
             name = "Startpage";
-            urls = [{
-              template = "https://www.startpage.com/sp/search?query={searchTerms}";
-            }];
+            urls = [
+              {
+                template = "https://www.startpage.com/sp/search?query={searchTerms}";
+              }
+            ];
             icon = "https://www.startpage.com/favicon.ico";
             definedAliases = [ "@s" ];
           };
@@ -114,14 +130,14 @@
             color: var(--foreground) !important;
             box-shadow: none !important;;
           }
- 
+
           .tab-background[selected] {
             background-color: rgba(0, 0, 0, 0.30) !important;
             color: var(--foreground) !important;
             box-shadow: none !important;
           }
 
-          /* Needed for # transparency in general */
+          /* Needed for transparency in general */
           :root {
             --tabpanel-background-color: transparent !important; 
             --chrome-content-separator-color: transparent !important;
@@ -213,7 +229,7 @@
 
           # Hide pip controls
           "media.videocontrols.picture-in-picture.video-toggle.enabled" = false;
-          
+
           # Set homepage
           "browser.startup.homepage" = "about:blank";
           "browser.newtab.url" = "about:blank";
@@ -222,48 +238,6 @@
           # transparency
           "browser.tabs.allow_transparent_browser" = true;
           "gfx.webrender.all" = true;
-
-          # Privacy settings
-          "privacy.firstparty.isolate" = true;  # Isolate cookies per site
-          "privacy.resistFingerprinting" = true;
-
-          # Enable HTTPS-Only Mode
-          "dom.security.https_only_mode" = true;
-          "dom.security.https_only_mode_ever_enabled" = true;
-
-          # More Privacy settings
-          "privacy.trackingprotection.enabled" = true;
-          "privacy.trackingprotection.socialtracking.enabled" = true;
-          "privacy.partition.network_state.ocsp_cache" = true;
-
-          # Disable all sorts of telemetry
-          "browser.newtabpage.activity-stream.feeds.telemetry" = false;
-          "browser.newtabpage.activity-stream.telemetry" = false;
-          "browser.ping-centre.telemetry" = false;
-          "toolkit.telemetry.archive.enabled" = false;
-          "toolkit.telemetry.bhrPing.enabled" = false;
-          "toolkit.telemetry.enabled" = false;
-          "toolkit.telemetry.firstShutdownPing.enabled" = false;
-          "toolkit.telemetry.hybridContent.enabled" = false;
-          "toolkit.telemetry.newProfilePing.enabled" = false;
-          "toolkit.telemetry.reportingpolicy.firstRun" = false;
-          "toolkit.telemetry.shutdownPingSender.enabled" = false;
-          "toolkit.telemetry.unified" = false;
-          "toolkit.telemetry.updatePing.enabled" = false;
-
-          # Disable Firefox 'experiments'
-          "experiments.activeExperiment" = false;
-          "experiments.enabled" = false;
-          "experiments.supported" = false;
-          "network.allow-experiments" = false;
-
-          # Disable Pocket Integration
-          "browser.newtabpage.activity-stream.section.highlights.includePocket" = false;
-          "extensions.pocket.enabled" = false;
-          "extensions.pocket.api" = "";
-          "extensions.pocket.oAuthConsumerKey" = "";
-          "extensions.pocket.showHome" = false;
-          "extensions.pocket.site" = "";
         };
       };
     };

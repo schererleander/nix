@@ -19,8 +19,10 @@ map({ 'n', 'v', 'x' }, '<leader>y', '"+y', { desc = 'Yank to system clipboard' }
 map({ 'n', 'v', 'x' }, '<leader>d', '"+d', { desc = 'Delete to system clipboard' })
 
 vim.pack.add({
-	{ src = "https://github.com/nyoom-engineering/oxocarbon.nvim" },
+	{ src = "https://github.com/ellisonleao/gruvbox.nvim" },
+--	{ src = "https://github.com/nyoom-engineering/oxocarbon.nvim" },
 	{ src = "https://github.com/echasnovski/mini.pick" },
+	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 })
@@ -30,6 +32,13 @@ require("nvim-treesitter.configs").setup({
 	highlight = { enable = true },
 })
 
+vim.diagnostic.config({
+  virtual_text = {
+    source = "if_many",
+  },
+  underline = true,
+  severity_sort = true,
+})
 
 vim.api.nvim_create_autocmd('LspAttach', {
 	callback = function(ev)
@@ -41,6 +50,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 vim.o.completeopt = "menu,menuone,noselect"
 
+require("gitsigns").setup()
 
 require("lspconfig").nixd.setup({
 	settings = {
@@ -68,8 +78,18 @@ vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
 
 require("mini.pick").setup()
 
-vim.cmd("colorscheme oxocarbon")
-vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
-vim.cmd(":hi StatusLine guibg=NONE")
+vim.cmd("colorscheme gruvbox")
+
+local hl = vim.api.nvim_set_hl
+hl(0, 'Normal',      { bg = 'none' })
+hl(0, 'NormalFloat', { bg = 'none' })
+hl(0, 'NormalNC',    { bg = 'none' })
+hl(0, 'StatusLine',  { bg = 'none' })
+hl(0, 'SignColumn',  { bg = 'none' })
+
+-- LSP diagnostics
+hl(0, "DiagnosticError",      { bg = "none" })
+hl(0, "DiagnosticSignError",  { bg = "none" })
+hl(0, "DiagnosticSignHint",   { bg = "none" })
+hl(0, "DiagnosticSignInfo",   { bg = "none" })
+hl(0, "DiagnosticSignWarn",   { bg = "none" })

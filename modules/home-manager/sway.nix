@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   mod = config.wayland.windowManager.sway.config.modifier;
-in {
+in
+{
   options.sway.enable = lib.mkEnableOption "Enable sway and setup";
   config = lib.mkIf config.sway.enable {
     home.packages = with pkgs; [
@@ -67,10 +73,12 @@ in {
         menu = "${pkgs.wmenu}/bin/wmenu-run -b -N 000000";
         terminal = "${pkgs.foot}/bin/foot";
         defaultWorkspace = "workspace number 1";
-        
-        bars = [{
-          "command" = "${pkgs.waybar}/bin/waybar";
-        }];
+
+        bars = [
+          {
+            "command" = "${pkgs.waybar}/bin/waybar";
+          }
+        ];
       };
       checkConfig = false;
       wrapperFeatures.base = true;

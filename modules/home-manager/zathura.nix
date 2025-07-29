@@ -1,4 +1,8 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  ...
+}:
 
 {
   options.zathura.enable = lib.mkEnableOption "Enable zathura and setup";
@@ -16,7 +20,7 @@
         pages-per-row = 1;
         scroll-page-aware = true;
       };
-      
+
       mappings = {
         i = "recolor";
         j = "navigate previous";
