@@ -1,18 +1,31 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   options.neovim.enable = lib.mkEnableOption "Setup neovim";
   config = lib.mkIf config.neovim.enable {
-    programs.nixvim = {
+    programs.neovim = {
       enable = true;
-      colorschemes.oxocarbon.enable = true;
-      plugins = {
-        treesitter.enable = true;
-	lsp = {
-	  enable = true;
-	  servers.lua_ls.enable = true;
-	};
-      };
+      package = pkgs.neovim;
+      extraConfig = ''
+        luafile ${./init.lua}
+      '';
     };
+    home.packages = with pkgs; [
+      # language servers
+      lua-language-server
+      nixd
+      pyright
+      java-language-server
+      typescript-language-server
+
+      # formatter
+      nixfmt-rfc-style
+      luaformatter
+    ];
   };
 }

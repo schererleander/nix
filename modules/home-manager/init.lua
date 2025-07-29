@@ -3,25 +3,33 @@ vim.o.relativenumber = true
 vim.o.signcolumn = "yes"
 vim.o.termguicolors = true
 vim.o.wrap = false
-vim.o.tabstop = 4
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
 vim.o.swapfile = false
 vim.g.mapleader = " "
 vim.o.winborder = "rounded"
 vim.o.clipboard = "unnamedplus"
 
-vim.keymap.set('n', '<leader>o', ':update<CR> :source<CR>')
-vim.keymap.set('n', '<leader>w', ':write<CR>')
-vim.keymap.set('n', '<leader>q', ':quit<CR>')
+local map = vim.keymap.set
+map('n', '<leader>o', '<CMD>update<BAR>source %<CR>', { desc = 'Save & reload init.lua' })
+map('n', '<leader>w', '<CMD>write<CR>')
+map('n', '<leader>q', '<CMD>quit<CR>')
 
-vim.keymap.set({ 'n', 'v', 'x' }, '<leader>y', '"+y<CR>')
-vim.keymap.set({ 'n', 'v', 'x' }, '<leader>d', '"+d<CR>')
+map({ 'n', 'v', 'x' }, '<leader>y', '"+y', { desc = 'Yank to system clipboard' })
+map({ 'n', 'v', 'x' }, '<leader>d', '"+d', { desc = 'Delete to system clipboard' })
 
 vim.pack.add({
-	{ src = "https://github.com/vague2k/vague.nvim" },
+	{ src = "https://github.com/nyoom-engineering/oxocarbon.nvim" },
 	{ src = "https://github.com/echasnovski/mini.pick" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 })
+
+require("nvim-treesitter.configs").setup({
+	ensure_installed = { "lua", "nix" },
+	highlight = { enable = true },
+})
+
 
 vim.api.nvim_create_autocmd('LspAttach', {
 	callback = function(ev)
@@ -31,21 +39,37 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		end
 	end,
 })
-vim.o.completeopt = "menu,menuone,noselct"
+vim.o.completeopt = "menu,menuone,noselect"
 
-require "mini.pick".setup()
-require "nvim-treesitter.configs".setup({
-	ensure_installed = { "lua" "nix" },
-	highlight = { enable = true }
+
+require("lspconfig").nixd.setup({
+	settings = {
+		nixd = {
+			formatting = {
+				command = { "nixfmt" },
+			},
+		},
+	},
 })
-require "oil".setup()
 
-vim.keymap.set('n', '<leader>f', ":Pick files<CR>")
-vim.keymap.set('n', '<leader>h', ":Pick help<CR>")
-vim.keymap.set('n', '<leader>e', ":Oil<CR>")
+require("lspconfig").lua_ls.setup({
+	settings = {
+		lua_ls = {
+			formatting = {
+				command = { "luaformatter" },
+			},
+		},
+	},
+})
+
+vim.lsp.enable({ "lua_ls", "pyright" })
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
-vim.lsp.enable({ "lua_ls", "nixd" })
 
-require "vague".setup({ transparent = true })
-vim.cmd("colorscheme vague")
-vim.cmd(":hi statusline guibg=NONE")
+
+require("mini.pick").setup()
+
+vim.cmd("colorscheme oxocarbon")
+vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+vim.cmd(":hi StatusLine guibg=NONE")
