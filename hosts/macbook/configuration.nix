@@ -29,39 +29,17 @@
     loginwindow.GuestEnabled = false;
   };
 
-  programs.zsh.enable = true;
-
   homebrew = {
     enable = true;
-    taps = [
-      "vladdoster/formulae"
-    ];
     brews = [
-      "keychain"
-      "openjdk@17"
       "openjdk@21"
-      "plantuml"
-      "pinentry-mac"
-      "minio-mc"
     ];
     casks = [
       "nextcloud"
       "bambu-studio"
-      "vlc"
-      "vladdoster/formulae/vimari"
       "arduino-ide"
-      "docker-desktop"
       "anki"
-      "mongodb-compass"
-      "viscosity"
     ];
-    masApps = {
-      "Goodnotes 6" = 1444383602;
-      "WhatsApp Messenger " = 310633997;
-      "Adguard for Safari" = 1440147259;
-      "WireGuard" = 1451685025;
-      "Infuse" = 1136220934;
-    };
     onActivation.cleanup = "zap";
     onActivation.autoUpdate = true;
     onActivation.upgrade = true;
