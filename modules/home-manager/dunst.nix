@@ -1,7 +1,11 @@
-{ config, pkgs, lib, ...}:
+{
+  config,
+  lib,
+  ...
+}:
 
 {
-  options.dunst.enable = lib.mkEnableOption "Setup dunst notification";
+  options.dunst.enable = lib.mkEnableOption "Enable dunst notification";
   config = lib.mkIf config.dunst.enable {
     services.dunst = {
       enable = true;

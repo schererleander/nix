@@ -1,7 +1,12 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  options.foot.enable = lib.mkEnableOption "Enable and configure the Foot terminal emulator";
+  options.foot.enable = lib.mkEnableOption "Enable foot terminal";
   config = lib.mkIf config.foot.enable {
     home.packages = with pkgs; [
       nerd-fonts.space-mono

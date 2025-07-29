@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ...}:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   options.gpg.enable = lib.mkEnableOption "Setup gpg and agent";
