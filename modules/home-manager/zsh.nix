@@ -3,10 +3,6 @@
 {
   options.zsh.enable = lib.mkEnableOption "Configure zsh";
   config = lib.mkIf config.zsh.enable {
-    home.packages = with pkgs; [
-      zoxide
-    ];
-
     programs.zsh = {
       enable = true;
       enableCompletion = true;
