@@ -41,7 +41,7 @@
           overlays = overlays;
           sharedModules = [
             inputs.nixcord.homeModules.nixcord
-            inputs.spicetify-nix.homeManagerModules.spicetify 
+            inputs.spicetify-nix.homeManagerModules.spicetify
           ];
         };
         vps = lib.mkSystem {
@@ -57,6 +57,7 @@
         overlays = overlays;
         sharedModules = [
           inputs.nixcord.homeModules.nixcord
+          inputs.spicetify-nix.homeManagerModules.spicetify
         ];
       };
     };
