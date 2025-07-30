@@ -1,6 +1,4 @@
-{
-  ...
-}:
+{ ... }:
 
 {
   users.users.schererleander.home = "/Users/schererleander";

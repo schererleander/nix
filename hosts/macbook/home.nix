@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -26,7 +23,7 @@
     nerd-fonts.symbols-only
   ];
 
-	dev.enable = true;
+  dev.enable = true;
 
   home.stateVersion = "25.05";
 }

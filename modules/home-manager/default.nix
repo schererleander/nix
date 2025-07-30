@@ -11,7 +11,7 @@
     ./gpg.nix
     ./nixcord.nix
     ./foot.nix
-		./dev.nix
+    ./dev.nix
     ./sway.nix
     ./waybar.nix
     ./firefox.nix

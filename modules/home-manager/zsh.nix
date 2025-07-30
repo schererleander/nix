@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 
 {
   options.zsh.enable = lib.mkEnableOption "Configure zsh";
