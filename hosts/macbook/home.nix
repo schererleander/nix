@@ -26,10 +26,7 @@
     nerd-fonts.symbols-only
   ];
 
-  zsh.enable = true;
-  tmux.enable = true;
-  git.enable = true;
-  neovim.enable = true;
+	dev.enable = true;
 
   home.stateVersion = "25.05";
 }
