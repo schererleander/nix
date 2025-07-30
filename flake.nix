@@ -12,7 +12,9 @@
 
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
-    nixcord.url = "github:schererleander/nixcord";
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+
+    nixcord.url = "github:kaylorben/nixcord";
 
     firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
 
@@ -20,7 +22,7 @@
   };
 
   outputs =
-    { self, nixpkgs, ... }@inputs:
+    { ... }@inputs:
     let
       linux-system = "x86_64-linux";
       darwin-system = "aarch64-darwin";
@@ -34,9 +36,13 @@
       nixosConfigurations = {
         desktop = lib.mkSystem {
           host = "desktop";
-          username = username;
+          username = "leander";
           system = linux-system;
           overlays = overlays;
+          sharedModules = [
+            inputs.nixcord.homeModules.nixcord
+            inputs.spicetify-nix.homeManagerModules.spicetify 
+          ];
         };
         vps = lib.mkSystem {
           host = "vps";
