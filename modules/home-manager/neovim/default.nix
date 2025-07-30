@@ -16,12 +16,20 @@
       '';
     };
     home.packages = with pkgs; [
+			ripgrep
+
+			# github pilot
+			nodejs
+
       # language servers
       lua-language-server
       nixd
       pyright
+			gopls
       java-language-server
       typescript-language-server
+			rust-analyzer
+			tailwindcss-language-server
 
       # formatter
       nixfmt-rfc-style
