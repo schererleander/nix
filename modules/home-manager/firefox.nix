@@ -172,7 +172,7 @@
       policies = {
         DisableTelemetry = true;
         DisableFirefoxStudies = true;
-        PasswordManagerEnabled = false;
+        #PasswordManagerEnabled = false;
         OfferToSaveLogins = false;
         DisablePocket = true;
         DisplayBookmarksToolbar = "never";
