@@ -13,7 +13,7 @@ in
       overlays ? [ ],
       sharedModules ? [ ],
       extraModules ? [ ],
-      extraArguments ? { },
+			extraSpecialArgs ? { },
     }:
     let
       darwinHost = isDarwin system;
@@ -51,7 +51,7 @@ in
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "backup";
-          home-manager.extraSpecialArgs = { inherit inputs pkgs; };
+          home-manager.extraSpecialArgs = { inherit inputs pkgs system username; } // extraSpecialArgs;
           home-manager.users.${username} = import hostHome;
           home-manager.sharedModules = sharedModules;
         }
@@ -60,10 +60,7 @@ in
     in
     builder {
       system = system;
-      specialArgs = {
-        inherit inputs pkgs;
-      }
-      // extraArguments;
+      specialArgs = ({ inherit inputs pkgs system username; } // extraSpecialArgs);
       modules = modules;
     };
 }

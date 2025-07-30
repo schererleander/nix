@@ -1,9 +1,9 @@
-{ ... }:
+{ username, ... }:
 
 {
-  users.users.schererleander.home = "/Users/schererleander";
+  users.users.${username}.home = "/Users/${username}";
 
-  system.primaryUser = "schererleander";
+  system.primaryUser = username;
   system.defaults = {
     dock = {
       autohide = true;

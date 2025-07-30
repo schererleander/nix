@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 
 {
 
@@ -43,7 +43,7 @@
   console.keyMap = "de";
 
   # User
-  users.users.leander = {
+  users.users.${username} = {
     isNormalUser = true;
     extraGroups = [
       "networkmanager"
@@ -62,8 +62,8 @@
 
   programs.dconf.enable = true;
 
-  users.users.leander.shell = pkgs.zsh;
-  users.users.leander.ignoreShellProgramCheck = true;
+  users.users.${username}.shell = pkgs.zsh;
+  users.users.${username}.ignoreShellProgramCheck = true;
 
   nix.settings.experimental-features = [
     "nix-command"

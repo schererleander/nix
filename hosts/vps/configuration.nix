@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 
 {
   imports = [
@@ -17,7 +17,7 @@
 
   users.users.root.hashedPassword = "!";
   users.mutableUsers = false;
-  users.users.administrator = {
+  users.users.${username} = {
     isNormalUser = true;
     hashedPassword = "$6$KBblJguEyfEmuWnU$Xf0QqPVacA2qvnzZRpnSE2cmh0kNnMgtVhCrMEDI76buNzuzkuDY6EnO7jPjQlEnoczx6ZPAl2pK.SxezbVa..";
     extraGroups = [ "wheel" ];

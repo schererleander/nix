@@ -1,12 +1,12 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 
 {
   imports = [
     ../../modules/home-manager
   ];
 
-  home.username = "schererleander";
-  home.homeDirectory = "/Users/schererleander";
+  home.username = username;
+  home.homeDirectory = "/Users/${username}";
 
   home.packages = with pkgs; [
     htop
