@@ -4,7 +4,7 @@ let
   lib = inputs.nixpkgs.lib;
   isDarwin = s: lib.strings.hasSuffix "-darwin" s;
 in
-rec {
+{
   mkSystem =
     {
       host,
@@ -32,35 +32,38 @@ rec {
       hostHome = hostDir + /home.nix;
 
       hmEnabled = builtins.pathExists hostHome;
-      modules =
-        [ hostCfg ]
-        ++ lib.optionals darwinHost [ inputs.mac-app-util.darwinModules.default ]
-        ++ [
-          {
-            nix.settings.experimental-features = [
-              "nix-command"
-              "flakes"
-            ];
-            nixpkgs.overlays = overlays;
-          }
-        ]
-        ++ lib.optionals hmEnabled [
-          hmModule
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs pkgs; };
-            home-manager.users.${username} = import hostHome;
-            home-manager.sharedModules = sharedModules;
-          }
-        ]
-        ++ extraModules;
+      modules = [
+        hostCfg
+      ]
+      ++ lib.optionals darwinHost [ inputs.mac-app-util.darwinModules.default ]
+      ++ [
+        {
+          nix.settings.experimental-features = [
+            "nix-command"
+            "flakes"
+          ];
+          nixpkgs.overlays = overlays;
+        }
+      ]
+      ++ lib.optionals hmEnabled [
+        hmModule
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.backupFileExtension = "backup";
+          home-manager.extraSpecialArgs = { inherit inputs pkgs; };
+          home-manager.users.${username} = import hostHome;
+          home-manager.sharedModules = sharedModules;
+        }
+      ]
+      ++ extraModules;
     in
     builder {
       system = system;
       specialArgs = {
         inherit inputs pkgs;
-      } // extraArguments;
+      }
+      // extraArguments;
       modules = modules;
     };
 }
