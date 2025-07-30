@@ -19,6 +19,7 @@ local map = vim.keymap.set
 map('n', '<leader>o', '<CMD>update<BAR>source %<CR>', { desc = 'Save & reload init.lua' })
 map('n', '<leader>w', '<CMD>write<CR>')
 map('n', '<leader>q', '<CMD>quit<CR>')
+map('n', '<leader>lf', vim.lsp.buf.format)
 
 vim.pack.add({
 	{ src = "https://github.com/ellisonleao/gruvbox.nvim" },
@@ -47,10 +48,10 @@ require("nvim-treesitter.configs").setup({
 })
 
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
+map('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
+map('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
+map('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
+map('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
 
 
 local cmp = require("cmp")
@@ -147,7 +148,7 @@ require("lspconfig").ts_ls.setup({
 	capabilities = capabilities,
 })
 
-require("lspconfig").tailwind.setup({
+require("lspconfig").tailwindcss.setup({
 	capabilities = capabilities,
 })
 
@@ -174,8 +175,6 @@ vim.diagnostic.config({
 	severity_sort = true,
 })
 
-vim.lsp.enable({ "lua_ls", "pyright" })
-vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
 
 require("mini.starter").setup({
 	header = table.concat({
