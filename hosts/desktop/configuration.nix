@@ -51,6 +51,8 @@
       "video"
       "input"
     ];
+    shell = pkgs.zsh;
+    ignoreShellProgramCheck = true;
   };
 
   services = {
@@ -61,9 +63,6 @@
   security.polkit.enable = true;
 
   programs.dconf.enable = true;
-
-  users.users.${username}.shell = pkgs.zsh;
-  users.users.${username}.ignoreShellProgramCheck = true;
 
   nix.settings.experimental-features = [
     "nix-command"
