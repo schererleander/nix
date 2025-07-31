@@ -7,25 +7,45 @@
 {
   options.waybar.enable = lib.mkEnableOption "Enable and configure Waybar";
   config = lib.mkIf config.waybar.enable {
-
     programs.waybar = {
       enable = true;
       settings = {
         mainBar = {
-          height = 15;
+          height = 32;
           layer = "top";
           position = "bottom";
           modules-center = [ ];
           modules-left = [ "sway/workspaces" ];
           modules-right = [
-            "tray"
-            "privacy"
+            "group/expand"
             "battery"
             "pulseaudio"
             "network"
             "bluetooth"
             "clock"
           ];
+
+          "group/expand" = {
+            orientation = "horizontal";
+            drawer = {
+              transition-duration = 600;
+              transition-to-left = true;
+              click-to-reveal = true;
+            };
+            modules = [
+              "custom/expand"
+              "tray"
+              "privacy"
+              "cpu"
+              "memory"
+              "temperature"
+            ];
+          };
+
+          "custom/expand" = {
+            format = "";
+            tooltip = false;
+          };
 
           tray = {
             spacing = 10;
@@ -35,17 +55,32 @@
             icon-size = 16;
           };
 
+          cpu = {
+            format = "󰻠";
+            tooltip = true;
+          };
+
+          memory = {
+            format = "";
+          };
+
+          temperature = {
+            critical-threshold = 80;
+            format = "";
+          };
+
           network = {
-            format-disconnect = "";
-            format-ethernet = "";
-            format-wifi = "{icon} {signalStrength}";
-            format-icon = [
+            format-disconnect = "󰌙";
+            format-ethernet = "󰌘";
+            format-wifi = "{icon}";
+            format-icons = [
               "󰤟"
               "󰤢"
               "󰤥"
               "󰤨"
             ];
-            tooltip-format-wifi = "{essid}";
+
+            tooltip-format-wifi = "{essid} | {signalStrength}%";
             tooltip-format-ethernet = "{ifname}";
           };
 
@@ -63,8 +98,7 @@
           };
 
           pulseaudio = {
-            format = "{icon} {volume}%";
-            format-bluetooth = "{volume}% {icon}";
+            format = "{icon}";
             format-icons = {
               default = [
                 ""
@@ -72,6 +106,7 @@
                 ""
               ];
             };
+						tooltip-format = "{desc} | {volume}%";
           };
         };
       };
@@ -97,9 +132,9 @@
           font-weight: bold;
         }
 
-        #clock, #pulseaudio, #tray, #network, battery, bluetooth {
-          padding-left: 5px;
-          padding-right: 5px;
+        #clock, #pulseaudio, #tray, #network, #battery, #bluetooth, #cpu, #memory, #temperature, #custom-expand, #group-expand {
+          padding-left: 10px;
+          padding-right: 10px;
         }
       '';
     };
