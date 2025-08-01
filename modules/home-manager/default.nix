@@ -3,6 +3,7 @@
 {
   imports = [
     ./git.nix
+    ./gh.nix
     ./zsh.nix
     ./tmux.nix
     ./neovim/default.nix
