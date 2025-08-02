@@ -27,6 +27,7 @@ vim.pack.add({
 	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
 	{ src = "https://github.com/windwp/nvim-autopairs" },
 	{ src = "https://github.com/zbirenbaum/copilot.lua" },
+	{ src = "https://github.com/zbirenbaum/copilot-cmp" },
 	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
 	{ src = "https://github.com/j-hui/fidget.nvim" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
@@ -86,6 +87,7 @@ cmp.setup({
 		end, { 'i', 's' }),
 	}),
 	sources = cmp.config.sources({
+		{ name = 'copilot' },
 		{ name = 'nvim_lsp' },
 		{ name = 'luasnip' },
 	}, {
@@ -194,7 +196,11 @@ require("mini.starter").setup({
 require("gitsigns").setup()
 require("nvim-autopairs").setup()
 require("fidget").setup()
-require("copilot").setup()
+require("copilot").setup({
+  suggestion = { enabled = false },
+  panel = { enabled = false },
+})
+require("copilot_cmp").setup()
 
 vim.cmd("colorscheme gruvbox")
 
