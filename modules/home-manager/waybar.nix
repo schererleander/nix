@@ -14,7 +14,7 @@
           height = 32;
           layer = "top";
           position = "bottom";
-          modules-center = [ ];
+          modules-center = [ "mpris" ];
           modules-left = [ "sway/workspaces" ];
           modules-right = [
             "group/expand"
@@ -45,6 +45,11 @@
           "custom/expand" = {
             format = "";
             tooltip = false;
+          };
+
+          mpris = {
+            format = "{title}";
+            tooltip-format = "{artist} - {album}";
           };
 
           tray = {
@@ -106,7 +111,7 @@
                 ""
               ];
             };
-						tooltip-format = "{desc} | {volume}%";
+            tooltip-format = "{desc} | {volume}%";
           };
         };
       };
