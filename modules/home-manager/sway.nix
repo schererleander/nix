@@ -20,19 +20,6 @@ in
       playerctl
     ];
 
-    xdg = {
-      portal = {
-        enable = true;
-        extraPortals = with pkgs; [
-          xdg-desktop-portal-wlr
-          xdg-desktop-portal-gtk
-        ];
-        config = {
-          common.default = "*";
-        };
-      };
-    };
-
     wayland.windowManager.sway = {
       enable = true;
       config = {
@@ -86,7 +73,7 @@ in
     };
 
     home.sessionVariables = {
-      XDG_CURRENT_DESKTOP = "wayland";
+      XDG_CURRENT_DESKTOP = "sway";
     };
   };
 }
