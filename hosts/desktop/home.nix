@@ -12,9 +12,12 @@
 
   home.packages = with pkgs; [
     obsidian
-		firefox
+    firefox
     imv
-		mpv
+    mpv
+
+    xdg-utils
+    pulsemixer
 
     # fonts
     noto-fonts
@@ -47,14 +50,18 @@
     size = 24;
   };
 
-	dev.enable = true;
+  programs.zsh.shellAliases = {
+    open = "xdg-open";
+  };
+
+  dev.enable = true;
 
   sway.enable = true;
   waybar.enable = true;
   foot.enable = true;
-	spicetify.enable = true;
+  spicetify.enable = true;
   zathura.enable = true;
-	nixcord.enable = true;
+  nixcord.enable = true;
 
   home.stateVersion = "25.05";
 }
