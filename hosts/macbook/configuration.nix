@@ -31,6 +31,7 @@
       "openjdk@21"
     ];
     casks = [
+      "obsidian"
       "nextcloud"
       "bambu-studio"
       "arduino-ide"
