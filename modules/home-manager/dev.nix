@@ -11,7 +11,7 @@
   config = lib.mkIf config.dev.enable {
     zsh.enable = true;
     git.enable = true;
-		gh.enable = true;
+    gh.enable = true;
     neovim.enable = true;
     tmux.enable = true;
     gpg.enable = true;
@@ -22,7 +22,8 @@
       fzf
       ffmpeg
       imagemagick
-			gh
+      gh
+      ripgrep
 
       gcc
       maven
