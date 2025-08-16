@@ -13,7 +13,7 @@ in
       overlays ? [ ],
       sharedModules ? [ ],
       extraModules ? [ ],
-			extraSpecialArgs ? { },
+      extraSpecialArgs ? { },
     }:
     let
       darwinHost = isDarwin system;
@@ -23,35 +23,41 @@ in
           inputs.home-manager.darwinModules.home-manager
         else
           inputs.home-manager.nixosModules.home-manager;
-      pkgs = import inputs.nixpkgs {
-        inherit system overlays;
-        config.allowUnfree = true;
-      };
       hostDir = ../hosts/${host};
       hostCfg = hostDir + /configuration.nix;
       hostHome = hostDir + /home.nix;
 
       hmEnabled = builtins.pathExists hostHome;
+
+      nixpkgsModule = {
+        nix.settings.experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
+        nixpkgs.overlays = overlays;
+        nixpkgs.config.allowUnfree = true;
+      };
+
       modules = [
         hostCfg
+        nixpkgsModule
       ]
       ++ lib.optionals darwinHost [ inputs.mac-app-util.darwinModules.default ]
-      ++ [
-        {
-          nix.settings.experimental-features = [
-            "nix-command"
-            "flakes"
-          ];
-          nixpkgs.overlays = overlays;
-        }
-      ]
       ++ lib.optionals hmEnabled [
         hmModule
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "backup";
-          home-manager.extraSpecialArgs = { inherit inputs pkgs system username; } // extraSpecialArgs;
+          home-manager.extraSpecialArgs = {
+            inherit
+              inputs
+              system
+              host
+              username
+              ;
+          }
+          // extraSpecialArgs;
           home-manager.users.${username} = import hostHome;
           home-manager.sharedModules = sharedModules;
         }
@@ -60,7 +66,17 @@ in
     in
     builder {
       system = system;
-      specialArgs = ({ inherit inputs pkgs system username; } // extraSpecialArgs);
+      specialArgs = (
+        {
+          inherit
+            inputs
+            system
+            host
+            username
+            ;
+        }
+        // extraSpecialArgs
+      );
       modules = modules;
     };
 }
