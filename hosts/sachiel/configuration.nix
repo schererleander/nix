@@ -1,4 +1,9 @@
-{ pkgs, username, ... }:
+{
+  pkgs,
+  host,
+  username,
+  ...
+}:
 
 {
   imports = [
@@ -7,8 +12,11 @@
 
   boot.tmp.cleanOnBoot = true;
   zramSwap.enable = true;
-  networking.hostName = "vps";
-  networking.domain = "schererleander.de";
+
+  networking = {
+    hostName = host;
+    domain = "schererleander.de";
+  };
 
   security.sudo = {
     enable = true;

@@ -1,7 +1,9 @@
-{ username, ... }:
+{ host, username, ... }:
 
 {
   users.users.${username}.home = "/Users/${username}";
+
+  networking.hostName = host;
 
   system.primaryUser = username;
   system.defaults = {

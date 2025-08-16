@@ -1,4 +1,4 @@
-{ pkgs, username, ... }:
+{ pkgs, host, username, ... }:
 
 {
 
@@ -29,7 +29,7 @@
 
   # Network
   networking = {
-    hostName = "nixos";
+    hostName = host;
     networkmanager.enable = true;
   };
 

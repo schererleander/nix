@@ -34,8 +34,8 @@
     in
     {
       nixosConfigurations = {
-        desktop = lib.mkSystem {
-          host = "desktop";
+        adam = lib.mkSystem {
+          host = "adam";
           username = "leander";
           system = linux-system;
           overlays = overlays;
@@ -44,14 +44,14 @@
             inputs.spicetify-nix.homeManagerModules.spicetify
           ];
         };
-        vps = lib.mkSystem {
-          host = "vps";
+        sachiel = lib.mkSystem {
+          host = "sachiel";
           username = "administrator";
           system = linux-system;
         };
       };
-      darwinConfigurations.macbook = lib.mkSystem {
-        host = "macbook";
+      darwinConfigurations.lilith = lib.mkSystem {
+        host = "lilith";
         username = username;
         system = darwin-system;
         overlays = overlays;
