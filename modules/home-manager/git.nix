@@ -11,13 +11,23 @@
       enable = true;
       userName = "schererleander";
       userEmail = "leander@schererleander.de";
+      aliases = {
+        st = "status";
+        co = "checkout";
+        br = "branch";
+      };
+      signing = {
+        key = "506793F115464BB4";
+        signByDefault = true;
+      };
+      ignores = [
+        "*~"
+        ".DS_Store"
+      ];
+      diff-highlight.enable = true;
       extraConfig = {
-        user.signingkey = "506793F115464BB4";
-        commit.gpgsign = "true";
         pull.rebase = true;
-        alias.co = "checkout";
-        alias.br = "branch";
-        alias.st = "status";
+        url."git@github.com:".insteadOf = "https://github.com";
       };
     };
   };
