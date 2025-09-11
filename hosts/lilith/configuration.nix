@@ -31,6 +31,7 @@
     enable = true;
     brews = [
       "openjdk@21"
+      "openjdk@11"
     ];
     casks = [
       "obsidian"
