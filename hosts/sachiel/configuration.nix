@@ -46,6 +46,7 @@
 
   system.autoUpgrade = {
     enable = true;
+    flake = "path:/home/${username}/nix#${host}";
     allowReboot = true;
 
     rebootWindow = {
