@@ -35,6 +35,8 @@
       tailwindcss
 
       nerd-fonts.symbols-only
+
+      jetbrains.idea-community
     ];
   };
 }
