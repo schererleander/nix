@@ -1,12 +1,12 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 
 {
   imports = [
     ../../modules/home-manager
   ];
 
-  home.username = "leander";
-  home.homeDirectory = "/home/leander";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
 
   programs.home-manager.enable = true;
 
