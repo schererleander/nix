@@ -36,7 +36,7 @@
       nixosConfigurations = {
         adam = lib.mkSystem {
           host = "adam";
-          username = "leander";
+          username = "schererleander";
           system = linux-system;
           overlays = overlays;
           sharedModules = [
