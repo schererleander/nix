@@ -8,6 +8,8 @@
     ./wooting.nix
   ];
 
+  boot.initrd.luks.devices."luks-0689cc49-e7d8-4eaa-ac8e-d4fd711217ac".device = "/dev/disk/by-uuid/0689cc49-e7d8-4eaa-ac8e-d4fd711217ac";
+  
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
