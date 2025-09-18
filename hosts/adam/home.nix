@@ -57,6 +57,7 @@
   dev.enable = true;
 
   sway.enable = true;
+  dunst.enable = true;
   waybar.enable = true;
   foot.enable = true;
   spicetify.enable = true;
