@@ -17,5 +17,7 @@
     ./waybar.nix
     ./firefox.nix
     ./spicetify.nix
+		./hyprlock.nix
+		./swayidle.nix
   ];
 }
