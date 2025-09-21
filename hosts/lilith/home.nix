@@ -20,6 +20,8 @@
     gnupg
     lua
 
+    zathura
+
     nerd-fonts.symbols-only
   ];
 
