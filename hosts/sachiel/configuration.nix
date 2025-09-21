@@ -55,6 +55,21 @@
     };
   };
 
+  services.fail2ban = {
+    enable = true;
+    jails = {
+      sshd = ''
+        enabled = true
+        port = 8693
+        filter = sshd
+        backend = systemd
+        maxretry = 4
+        findtime = 10m
+        bantime = 1h
+      '';
+    };
+  };
+
   services.openssh = {
     enable = true;
     ports = [ 8693 ];
@@ -98,8 +113,6 @@
       };
     };
     virtualHosts."cloud.schererleander.de" = {
-      sslCertificate = "/etc/ssl/certs/schererleander.fullchain.pem";
-      sslCertificateKey = "/etc/ssl/private/schererleander.key";
       forceSSL = true;
       enableACME = true;
     };
@@ -121,14 +134,21 @@
       maintenance_window_start = 2; # 02:00
       default_phone_region = "de";
       overwriteProtocol = "https";
+      trusted_domains = [ "cloud.schererleander.de" ];
+      logtimezone = "Europe/Berlin";
     };
   };
 
-  networking.firewall.allowedTCPPorts = [
-    80
-    443
-    8693
-  ];
+  security.auditd.enable = true;
+
+  networking.firewall = {
+		allowPing = false;
+    allowedTCPPorts = [
+      80
+      443
+      8693
+    ];
+  };
 
   nix.settings.experimental-features = [
     "nix-command"
