@@ -1,6 +1,7 @@
 {
   pkgs,
   host,
+  lib,
   username,
   ...
 }:
@@ -57,16 +58,18 @@
 
   services.fail2ban = {
     enable = true;
+		bantime = "1h";
     jails = {
-      sshd = ''
-        enabled = true
-        port = 8693
-        filter = sshd
-        backend = systemd
-        maxretry = 4
-        findtime = 10m
-        bantime = 1h
-      '';
+      sshd = {
+        enabled = true;
+        settings = {
+          port = 8693;
+          backend = "systemd";
+          maxretry = 4;
+          findtime = "10m";
+          bantime = "1h";
+        };
+      };
     };
   };
 
@@ -142,7 +145,7 @@
   security.auditd.enable = true;
 
   networking.firewall = {
-		allowPing = false;
+    allowPing = false;
     allowedTCPPorts = [
       80
       443
