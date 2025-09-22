@@ -22,6 +22,7 @@ in
 
     wayland.windowManager.sway = {
       enable = true;
+      systemd.enable = true;
       config = {
         input = {
           "*" = {
