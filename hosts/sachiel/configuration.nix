@@ -43,6 +43,7 @@
     zoxide
     neovim
     htop
+    lynis
   ];
 
   system.autoUpgrade = {
@@ -78,6 +79,7 @@
     ports = [ 8693 ];
     settings = {
       PasswordAuthentication = false;
+      AllowUsers = [ username ];
       X11Forwarding = false;
       PermitRootLogin = "no";
     };
@@ -143,6 +145,10 @@
   };
 
   security.auditd.enable = true;
+  security.audit = {
+    enable = true;
+    rules = [ "-a exit,always -F arch=b64 -S execve" ];
+  };
 
   networking.firewall = {
     allowPing = false;
