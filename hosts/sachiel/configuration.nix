@@ -59,7 +59,7 @@
 
   services.fail2ban = {
     enable = true;
-		bantime = "1h";
+    bantime = "1h";
     jails = {
       sshd = {
         enabled = true;
@@ -114,6 +114,7 @@
       locations = {
         "/" = {
           tryFiles = "$uri $uri/ /index.html";
+          default = true;
         };
       };
     };
@@ -121,15 +122,6 @@
       forceSSL = true;
       enableACME = true;
     };
-		virtualHosts."*.schererleander.de" = {
-			forceSSL = true;
-			enableACME = true;
-			locations = {
-			  "/" = {
-					return = "200";
-			  };
-			};
-		};
   };
 
   services.nextcloud = {
