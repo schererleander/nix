@@ -109,13 +109,13 @@
 
     virtualHosts."schererleander.de" = {
       root = "/var/www/site";
+      default = true;
       forceSSL = true;
       enableACME = true;
       locations = {
         "/" = {
           tryFiles = "$uri $uri/ /index.html";
         };
-        default = true;
       };
     };
     virtualHosts."cloud.schererleander.de" = {
