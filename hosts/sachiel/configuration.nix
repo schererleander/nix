@@ -114,8 +114,8 @@
       locations = {
         "/" = {
           tryFiles = "$uri $uri/ /index.html";
-          default = true;
         };
+        default = true;
       };
     };
     virtualHosts."cloud.schererleander.de" = {
