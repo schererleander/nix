@@ -121,6 +121,15 @@
       forceSSL = true;
       enableACME = true;
     };
+		virtualHosts."*.schererleander.de" = {
+			forceSSL = true;
+			enableACME = true;
+			locations = {
+			  "/" = {
+					return = "200";
+			  };
+			};
+		};
   };
 
   services.nextcloud = {
