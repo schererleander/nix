@@ -10,6 +10,8 @@
     home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    site.url = "github:schererleander/site";
+
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
@@ -48,6 +50,9 @@
           host = "sachiel";
           username = "administrator";
           system = linux-system;
+          extraModules = [
+            inputs.site.nixosModules.default
+          ];
         };
       };
       darwinConfigurations.lilith = lib.mkSystem {

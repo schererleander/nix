@@ -107,21 +107,18 @@
       add_header X-Content-Type-Options nosniff;
     '';
 
-    virtualHosts."schererleander.de" = {
-      root = "/var/www/site";
-      default = true;
-      forceSSL = true;
-      enableACME = true;
-      locations = {
-        "/" = {
-          tryFiles = "$uri $uri/ /index.html";
-        };
-      };
-    };
     virtualHosts."cloud.schererleander.de" = {
       forceSSL = true;
-      enableACME = true;
+      sslCertificate = "/etc/ssl/schererleander.de/fullchain.pem";
+      sslCertificateKey = "/etc/ssl/schererleander.de/privkey.key";
     };
+  };
+
+  services.site = {
+    enable = true;
+    domain = "schererleander.de";
+    sslCertificate = "/etc/ssl/schererleander.de/fullchain.pem";
+    sslCertificateKey = "/etc/ssl/schererleander.de/privkey.key";
   };
 
   services.nextcloud = {
