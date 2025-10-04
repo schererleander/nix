@@ -31,7 +31,6 @@
     enable = true;
     brews = [
       "openjdk@21"
-      "openjdk@11"
     ];
     casks = [
       "obsidian"
@@ -41,7 +40,7 @@
       "anki"
       "iterm2"
       "rectangle"
-      "spotify"
+      "slack"
     ];
     onActivation.cleanup = "zap";
     onActivation.autoUpdate = true;
