@@ -12,16 +12,12 @@
   ];
 
   boot.tmp.cleanOnBoot = true;
+	boot.loader.grub.configurationLimit = 2;
   zramSwap.enable = true;
 
   networking = {
     hostName = host;
     domain = "schererleander.de";
-  };
-
-  security.sudo = {
-    enable = true;
-    wheelNeedsPassword = false;
   };
 
   users.users.root.hashedPassword = "!";
@@ -48,7 +44,7 @@
 
   system.autoUpgrade = {
     enable = true;
-    flake = "path:/home/${username}/nix#${host}";
+    flake = "github:schererleander/nix#${host}";
     allowReboot = true;
 
     rebootWindow = {
