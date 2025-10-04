@@ -50,7 +50,7 @@
 
       shellAliases = {
         ls = "ls --color=auto";
-				nc = "nix flake check --all-systems";
+				nixceck = "nix flake check --all-systems";
       };
 
       zplug = {
