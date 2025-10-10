@@ -35,6 +35,7 @@
     casks = [
       "obsidian"
       "nextcloud"
+      "mullvad-vpn"
       "bambu-studio"
       "arduino-ide"
       "anki"
