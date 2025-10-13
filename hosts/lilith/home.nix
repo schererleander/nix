@@ -27,6 +27,7 @@
 
   dev.enable = true;
   spicetify.enable = true;
+	anki.enable = true;
 
   home.stateVersion = "25.05";
 }

@@ -17,6 +17,7 @@
     ./waybar.nix
     ./firefox.nix
     ./spicetify.nix
+		./anki.nix
 		./dunst.nix
 		./hyprlock.nix
 		./swayidle.nix

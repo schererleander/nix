@@ -38,7 +38,6 @@
       "mullvad-vpn"
       "bambu-studio"
       "arduino-ide"
-      "anki"
       "iterm2"
       "rectangle"
       "slack"
