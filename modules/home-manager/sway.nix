@@ -59,7 +59,7 @@ in
           "XF86AudioMute" = "exec wpctl set-mute @DEFAULT_AUDIO_DEVICE@ toggle";
         };
 
-        menu = "${pkgs.wmenu}/bin/wmenu-run -b -N 000000";
+        menu = "${pkgs.wmenu}/bin/wmenu-run -b -N 000000E6";
         terminal = "${pkgs.foot}/bin/foot";
         defaultWorkspace = "workspace number 1";
 
