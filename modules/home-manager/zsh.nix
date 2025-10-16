@@ -37,10 +37,10 @@
           local transparent_color=$3
           local output_file=$4
 
-          magick "$input_file" \
-            -fuzz "$fuzz" -transparent "$transparent_color" \
-            -blur 0x1 \
-            "$output_file"
+					magick "$input_file" \
+						-fuzz 12% -transparent "$transparent_color" \
+						-alpha on -channel A -blur 0x2 -level 5%,100% +channel \
+						"$output_file"
 
           echo "Saved transparent image to: $output_file"
         }
