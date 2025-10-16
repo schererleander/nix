@@ -1,6 +1,6 @@
 {
   config,
-	pkgs,
+  pkgs,
   lib,
   ...
 }:
@@ -10,11 +10,10 @@
   config = lib.mkIf config.anki.enable {
     programs.anki = {
       enable = true;
-			addons = [
-				pkgs.ankiAddons.review-heatmap
-				pkgs.ankiAddons.recolor
-			];
+      addons = [
+          pkgs.ankiAddons.review-heatmap
+          pkgs.ankiAddons.recolor
+      ];
     };
   };
 }
-
