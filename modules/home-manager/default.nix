@@ -21,6 +21,6 @@
 		./dunst.nix
 		./hyprlock.nix
 		./swayidle.nix
-		./opencode.nix
+		#./opencode.nix
   ];
 }
