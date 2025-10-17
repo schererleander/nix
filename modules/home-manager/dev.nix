@@ -12,6 +12,7 @@
     zsh.enable = true;
     git.enable = true;
     gh.enable = true;
+		opencode.enable = true;
     neovim.enable = true;
     tmux.enable = true;
     gpg.enable = true;
