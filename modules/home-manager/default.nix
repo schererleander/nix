@@ -22,5 +22,6 @@
 		./hyprlock.nix
 		./swayidle.nix
 		#./opencode.nix
+		./latex.nix
   ];
 }
