@@ -1,6 +1,6 @@
 {
   config,
-	pkgs,
+  pkgs,
   lib,
   ...
 }:
@@ -10,31 +10,18 @@
   config = lib.mkIf config.latex.enable {
     programs.texlive = {
       enable = true;
-      extraPackages =	tpkgs: with tpkgs; [
-				amsmath
-				amsfonts
-				amsthm
-				geometry
-				graphicx
-				xcolor
-				hyperref
-				biblatex
-				fontspec
-				microtype
-				tikz
-				pgfplots
-			];
+      extraPackages = tpkgs: { inherit (tpkgs) collection-basic biblatex; };
     };
 
-		home.packages = with pkgs; [
-			biber
-		];
+    home.packages = with pkgs; [
+      biber
+    ];
 
-		programs.pandoc = {
-			enable = true;
-			defaults = {
-				pdf-engine = "xelatex";
-			};
-		};
+    programs.pandoc = {
+      enable = true;
+      defaults = {
+        pdf-engine = "xelatex";
+      };
+    };
   };
 }
