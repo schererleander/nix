@@ -38,7 +38,7 @@
           local output_file=$4
 
 					magick "$input_file" \
-						-fuzz 12% -transparent "$transparent_color" \
+						-fuzz $fuzz -transparent "$transparent_color" \
 						-alpha on -channel A -blur 0x2 -level 5%,100% +channel \
 						"$output_file"
 
