@@ -41,6 +41,7 @@
       "iterm2"
       "rectangle"
       "slack"
+			"anki"
     ];
     onActivation.cleanup = "zap";
     onActivation.autoUpdate = true;
