@@ -10,7 +10,9 @@
   config = lib.mkIf config.latex.enable {
     programs.texlive = {
       enable = true;
-      extraPackages = tpkgs: { inherit (tpkgs) collection-basic biblatex; };
+			# See https://mynixos.com/search?q=texlivepackages.collection for more collections
+			# and https://mynixos.com/search?q=texlivepackages for more individual packages.
+      extraPackages = tpkgs: { inherit (tpkgs) collection-basic collection-latex collection-latexrecommended biblatex; };
     };
 
     home.packages = with pkgs; [
@@ -20,7 +22,7 @@
     programs.pandoc = {
       enable = true;
       defaults = {
-        pdf-engine = "xelatex";
+        pdf-engine = "pdfetex";
       };
     };
   };
