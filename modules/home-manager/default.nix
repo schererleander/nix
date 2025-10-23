@@ -23,5 +23,6 @@
 		./swayidle.nix
 		#./opencode.nix
 		./latex.nix
+		./typst.nix
   ];
 }
