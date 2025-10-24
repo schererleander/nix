@@ -85,14 +85,14 @@
     };
   };
 
-  environment.etc = {
+	environment.etc = {
     # Adapted failregex for syslogs
     "fail2ban/filter.d/nextcloud.local".text = pkgs.lib.mkDefault (
       pkgs.lib.mkAfter ''
         [Definition]
-        failregex = ^.*"remoteAddr":"&lt;HOST&gt;".*"message":"Login failed:
-                    ^.*"remoteAddr":"&lt;HOST&gt;".*"message":"Two-factor challenge failed:
-                    ^.*"remoteAddr":"&lt;HOST&gt;".*"message":"Trusted domain error.
+        failregex = ^.*"remoteAddr":"<HOST>".*"message":"Login failed: (?P<failure-id>.*)",.*
+                    ^.*"remoteAddr":"<HOST>".*"message":"Two-factor challenge failed: (?P<failure-id>.*)",.*
+                    ^.*"remoteAddr":"<HOST>".*"message":"Trusted domain error\.(?P<failure-id>.*)",.*
       ''
     );
   };
