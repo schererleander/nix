@@ -74,7 +74,6 @@
           backend = "systemd";
           journalmatch = "SYSLOG_IDENTIFIER=Nextcloud";
           # END modification to work with syslog instead of logile
-          enabled = true;
           port = 443;
           protocol = "tcp";
           filter = "nextcloud";
@@ -129,7 +128,6 @@
             add_header 'Referrer-Policy' 'same-origin';
             add_header X-Frame-Options DENY;
             add_header X-Content-Type-Options nosniff;
-      			add_header X-XSS-Protection "1; mode=block";
     '';
 
     virtualHosts."cloud.schererleander.de" = {
