@@ -12,7 +12,7 @@
   ];
 
   boot.tmp.cleanOnBoot = true;
-	boot.loader.grub.configurationLimit = 2;
+  boot.loader.grub.configurationLimit = 2;
   zramSwap.enable = true;
 
   networking = {
@@ -67,7 +67,35 @@
           bantime = "1h";
         };
       };
+      nextcloud = {
+        enabled = true;
+        settings = {
+          # START modification to work with syslog instead of logile
+          backend = "systemd";
+          journalmatch = "SYSLOG_IDENTIFIER=Nextcloud";
+          # END modification to work with syslog instead of logile
+          enabled = true;
+          port = 443;
+          protocol = "tcp";
+          filter = "nextcloud";
+          maxretry = 3;
+          bantime = 86400;
+          findtime = 43200;
+        };
+      };
     };
+  };
+
+  environment.etc = {
+    # Adapted failregex for syslogs
+    "fail2ban/filter.d/nextcloud.local".text = pkgs.lib.mkDefault (
+      pkgs.lib.mkAfter ''
+        [Definition]
+        failregex = ^.*"remoteAddr":"&lt;HOST&gt;".*"message":"Login failed:
+                    ^.*"remoteAddr":"&lt;HOST&gt;".*"message":"Two-factor challenge failed:
+                    ^.*"remoteAddr":"&lt;HOST&gt;".*"message":"Trusted domain error.
+      ''
+    );
   };
 
   services.openssh = {
@@ -93,14 +121,15 @@
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
     appendHttpConfig = ''
-      map $scheme $hsts_header {
-          https   "max-age=31536000; includeSubdomains; preload";
-      }
-      add_header Strict-Transport-Security $hsts_header;
-      #add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self';" always;
-      add_header 'Referrer-Policy' 'same-origin';
-      add_header X-Frame-Options DENY;
-      add_header X-Content-Type-Options nosniff;
+            map $scheme $hsts_header {
+                https   "max-age=31536000; includeSubdomains; preload";
+            }
+            add_header Strict-Transport-Security $hsts_header;
+            #add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self';" always;
+            add_header 'Referrer-Policy' 'same-origin';
+            add_header X-Frame-Options DENY;
+            add_header X-Content-Type-Options nosniff;
+      			add_header X-XSS-Protection "1; mode=block";
     '';
 
     virtualHosts."cloud.schererleander.de" = {
