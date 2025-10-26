@@ -171,6 +171,7 @@
       trusted_domains = [ "cloud.schererleander.de" ];
       logtimezone = "Europe/Berlin";
     };
+    phpOptions."opcache.interned_strings_buffer" = "64";
   };
 
   security.auditd.enable = true;
