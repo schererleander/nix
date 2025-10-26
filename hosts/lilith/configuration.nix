@@ -39,9 +39,10 @@
       "bambu-studio"
       "arduino-ide"
       "iterm2"
+      "docker"
       "rectangle"
       "slack"
-			"anki"
+      "anki"
     ];
     onActivation.cleanup = "zap";
     onActivation.autoUpdate = true;
