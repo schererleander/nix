@@ -15,6 +15,13 @@
   boot.loader.grub.configurationLimit = 2;
   zramSwap.enable = true;
 
+  swapDevices = [
+    {
+      device = "/var/swapfile";
+      size = 4096;
+    }
+  ];
+
   networking = {
     hostName = host;
     domain = "schererleander.de";
