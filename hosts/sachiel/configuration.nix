@@ -170,8 +170,18 @@
       overwriteProtocol = "https";
       trusted_domains = [ "cloud.schererleander.de" ];
       logtimezone = "Europe/Berlin";
+      log_type = "file";
     };
     phpOptions."opcache.interned_strings_buffer" = "64";
+  };
+
+  services.borgbackup.jobs.nextcloud = {
+    paths = "/var/lib/nextcloud";
+    repo = "ssh://h8xn8qvo@h8xn8qvo.repo.borgbase.com/./repo";
+    encryption.mode = "none";
+		environment.BORG_RSH = "ssh -i /home/${username}/.ssh/borgbase-nextcloud";
+    compression = "auto,lzma";
+    startAt = "daily";
   };
 
   security.auditd.enable = true;
