@@ -2,6 +2,7 @@
   pkgs,
   host,
   lib,
+  config,
   username,
   ...
 }:
@@ -176,12 +177,45 @@
   };
 
   services.borgbackup.jobs.nextcloud = {
-    paths = "/var/lib/nextcloud";
+    paths = [
+      "/var/lib/nextcloud"
+      "/var/lib/backup/nextcloud/db"
+    ];
     repo = "h8xn8qvo@h8xn8qvo.repo.borgbase.com:repo";
     encryption.mode = "none";
     environment.BORG_RSH = "ssh -i /home/${username}/.ssh/borgbase-nextcloud -o StrictHostKeyChecking=accept-new";
     compression = "auto,lzma";
     startAt = "daily";
+    readWritePaths = [
+      "/var/lib/backup"
+      "/var/lib/nextcloud"
+    ];
+    preHook = ''
+      set -euo pipefail
+      INSTALL="${pkgs.coreutils}/bin/install"
+      FIND="${pkgs.findutils}/bin/find"
+      MYSQLDUMP="${pkgs.mariadb-client}/bin/mysqldump"
+      GZIP="${pkgs.gzip}/bin/gzip"
+      OCC="${lib.getExe config.services.nextcloud.occ}"
+
+      # This command requires write access to /var/lib/backup.
+      $INSTALL -d -m 0750 -o root -g root /var/lib/backup/nextcloud/db
+
+      trap "$OCC maintenance:mode --off >/dev/null 2>&1 || true" EXIT
+
+      $OCC maintenance:mode --on
+
+      # Make a consistent database dump without locking the site.
+      $MYSQLDUMP --single-transaction --quick --lock-tables=false --databases nextcloud \
+        | $GZIP -c > /var/lib/backup/nextcloud/db/nextcloud-$(date +%F-%H%M%S).sql.gz
+
+      # Delete local dump files older than 14 days.
+      $FIND /var/lib/backup/nextcloud/db -type f -name "*.sql.gz" -mtime +14 -delete || true
+    '';
+    postHook = ''
+      set -euo pipefail
+      ${lib.getExe config.services.nextcloud.occ} maintenance:mode --off || true
+    '';
   };
 
   security.auditd.enable = true;
