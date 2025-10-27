@@ -177,9 +177,9 @@
 
   services.borgbackup.jobs.nextcloud = {
     paths = "/var/lib/nextcloud";
-    repo = "ssh://h8xn8qvo@h8xn8qvo.repo.borgbase.com/./repo";
+    repo = "h8xn8qvo@h8xn8qvo.repo.borgbase.com:repo";
     encryption.mode = "none";
-		environment.BORG_RSH = "ssh -i /home/${username}/.ssh/borgbase-nextcloud";
+    environment.BORG_RSH = "ssh -i /home/${username}/.ssh/borgbase-nextcloud -o StrictHostKeyChecking=accept-new";
     compression = "auto,lzma";
     startAt = "daily";
   };
