@@ -39,7 +39,7 @@
       "bambu-studio"
       "arduino-ide"
       "iterm2"
-      "docker"
+      "docker-desktop"
       "rectangle"
       "slack"
       "anki"
