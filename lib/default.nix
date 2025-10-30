@@ -59,7 +59,8 @@ in
           }
           // extraSpecialArgs;
           home-manager.users.${username} = import hostHome;
-          home-manager.sharedModules = sharedModules;
+          home-manager.sharedModules =
+            sharedModules ++ lib.optional darwinHost inputs.mac-app-util.homeManagerModules.default;
         }
       ]
       ++ extraModules;
