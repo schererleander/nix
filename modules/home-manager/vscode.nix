@@ -34,7 +34,7 @@
           [
             ms-vscode.cmake-tools
             ms-azuretools.vscode-docker
-            eamodio.gitlens
+            github.copilot
             ms-python.python
             golang.go
             rust-lang.rust-analyzer
