@@ -12,7 +12,8 @@
     zsh.enable = true;
     git.enable = true;
     gh.enable = true;
-		#opencode.enable = true;
+    #opencode.enable = true;
+    vscode.enable = true;
     neovim.enable = true;
     tmux.enable = true;
     gpg.enable = true;
@@ -38,7 +39,7 @@
       nerd-fonts.symbols-only
 
       jetbrains.idea-community
-			opencode
+      opencode
     ];
   };
 }
