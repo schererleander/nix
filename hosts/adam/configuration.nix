@@ -80,7 +80,10 @@
     ignoreShellProgramCheck = true;
   };
 
-	xdg.portal.enable = true;
+	xdg.portal = {
+		enable = true;
+		wlr.enable = true;
+  };
 
   services.openssh.enable = true;
 
