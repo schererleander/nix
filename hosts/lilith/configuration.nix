@@ -1,9 +1,42 @@
-{ host, username, ... }:
+{
+  pkgs,
+  host,
+  username,
+  ...
+}:
 
 {
+  imports = [
+    ../../modules
+  ];
+
   users.users.${username}.home = "/Users/${username}";
 
   networking.hostName = host;
+
+  home-manager.users.${username} = {
+    home.username = username;
+    home.homeDirectory = "/Users/${username}";
+
+    programs.home-manager.enable = true;
+
+    home.packages = with pkgs; [
+      htop
+      ffmpeg
+      wget
+      imagemagick
+
+      gcc
+      maven
+      cmake
+      gnupg
+      lua
+
+      zathura
+
+      nerd-fonts.symbols-only
+    ];
+  };
 
   system.primaryUser = username;
   system.defaults = {
@@ -48,6 +81,8 @@
     onActivation.autoUpdate = true;
     onActivation.upgrade = true;
   };
+
+  nx.
 
   system.stateVersion = 5;
 }

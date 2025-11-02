@@ -41,10 +41,6 @@
           username = "schererleander";
           system = linux-system;
           overlays = overlays;
-          sharedModules = [
-            inputs.nixcord.homeModules.nixcord
-            inputs.spicetify-nix.homeManagerModules.spicetify
-          ];
         };
         sachiel = lib.mkSystem {
           host = "sachiel";
@@ -60,10 +56,6 @@
         username = username;
         system = darwin-system;
         overlays = overlays;
-        sharedModules = [
-          inputs.nixcord.homeModules.nixcord
-          inputs.spicetify-nix.homeManagerModules.spicetify
-        ];
       };
     };
 }

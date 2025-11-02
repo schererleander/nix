@@ -1,17 +1,17 @@
 {
-  pkgs,
+  inputs,
+  system,
   host,
+  pkgs,
   username,
   ...
 }:
 
 {
-
   imports = [
     ./hardware-configuration.nix
-    ./audio.nix
-    ./wooting.nix
-    ../../modules/nixos
+    ../../modules
+		../../modules/system
   ];
 
   boot = {
@@ -52,54 +52,37 @@
 
   environment.variables.AMD_VULKAN_ICD = "RADV";
 
-  # Network
-  networking = {
-    hostName = host;
-    networkmanager.enable = true;
-  };
+  home-manager.users.${username} = {
+    home.username = username;
+    home.homeDirectory = "/home/${username}";
 
-  # Improve startup time
-  systemd.services.NetworkManager-wait-online.enable = false;
+    programs.home-manager.enable = true;
 
-  # Time
-  time.timeZone = "Europe/Berlin";
+    home.packages = with pkgs; [
+      obsidian
+      firefox
+      imv
+      mpv
 
-  # Keymap
-  console.keyMap = "de";
+      nextcloud-client
 
-  # User
-  users.users.${username} = {
-    isNormalUser = true;
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "video"
-      "input"
+      xdg-utils
+      pulsemixer
     ];
-    shell = pkgs.zsh;
-    ignoreShellProgramCheck = true;
+    home.stateVersion = "25.05";
   };
 
-	xdg.portal = {
-		enable = true;
-		wlr.enable = true;
-  };
-
-  services.openssh.enable = true;
-
-  programs.dconf.enable = true;
-
-  # Mullvad vpn
-  services.mullvad-vpn = {
-    enable = true;
-    package = pkgs.mullvad-vpn;
-  };
-
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-  nixpkgs.config.allowUnfree = true;
+  nx.desktop.sway.enable = true;
+  nx.desktop.waybar.enable = true;
+  nx.desktop.dunst.enable = true;
+  nx.programs.gh.enable = true;
+  nx.programs.gpg.enable = true;
+  nx.programs.neovim.enable = true;
+  nx.programs.tmux.enable = true;
+  nx.programs.zsh.enable = true;
+  nx.programs.foot.enable = true;
+  nx.programs.spicetify.enable = true;
+  nx.programs.zathura.enable = true;
 
   system.stateVersion = "25.05";
 }

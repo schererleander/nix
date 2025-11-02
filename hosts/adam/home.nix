@@ -5,25 +5,7 @@
     ../../modules/home-manager
   ];
 
-  home.username = username;
-  home.homeDirectory = "/home/${username}";
-
-  programs.home-manager.enable = true;
-
-  home.packages = with pkgs; [
-    obsidian
-    firefox
-    imv
-    mpv
-
-    nextcloud-client
-
-    xdg-utils
-    pulsemixer
-
-    # fonts
-    noto-fonts
-    noto-fonts-cjk-sans
+      noto-fonts-cjk-sans
     noto-fonts-emoji
   ];
 
@@ -37,6 +19,7 @@
   foot.enable = true;
   waybar.enable = true;
   dunst.enable = true;
+  hyprlock.enable = true;
 
   spicetify.enable = true;
   zathura.enable = true;
