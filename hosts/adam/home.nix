@@ -16,6 +16,8 @@
     imv
     mpv
 
+    nextcloud-client
+
     xdg-utils
     pulsemixer
 
@@ -25,31 +27,6 @@
     noto-fonts-emoji
   ];
 
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Adwaita-dark";
-      package = pkgs.gnome-themes-extra;
-    };
-    gtk3.extraConfig = {
-      Settings = ''
-        gtk-application-prefer-dark-theme=1
-      '';
-    };
-    gtk4.extraConfig = {
-      Settings = ''
-        gtk-application-prefer-dark-theme=1
-      '';
-    };
-  };
-
-  home.pointerCursor = {
-    gtk.enable = true;
-    name = "Adwaita";
-    package = pkgs.adwaita-icon-theme;
-    size = 24;
-  };
-
   programs.zsh.shellAliases = {
     open = "xdg-open";
   };
@@ -57,9 +34,10 @@
   dev.enable = true;
 
   sway.enable = true;
-  dunst.enable = true;
-  waybar.enable = true;
   foot.enable = true;
+  waybar.enable = true;
+  dunst.enable = true;
+
   spicetify.enable = true;
   zathura.enable = true;
   nixcord.enable = true;
