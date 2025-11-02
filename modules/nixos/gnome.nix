@@ -1,6 +1,6 @@
 {
   config,
-	pkgs,
+  pkgs,
   lib,
   ...
 }:
@@ -10,6 +10,8 @@
   config = lib.mkIf config.gnome.enable {
     services.xserver = {
       enable = true;
+      xkb.layout = "de";
+      xkb.variant = "";
       desktopManager.gnome.enable = true;
       displayManager.gdm.enable = true;
     };
