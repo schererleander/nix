@@ -24,5 +24,6 @@
 		#./opencode.nix
 		./latex.nix
 		./typst.nix
+		./gnome-dconf.nix
   ];
 }
