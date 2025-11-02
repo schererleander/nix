@@ -183,7 +183,10 @@
     ];
     repo = "h8xn8qvo@h8xn8qvo.repo.borgbase.com:repo";
     encryption.mode = "none";
-    environment.BORG_RSH = "ssh -i /home/${username}/.ssh/borgbase-nextcloud -o StrictHostKeyChecking=accept-new";
+    environment = {
+      BORG_RSH = "ssh -i /home/${username}/.ssh/borgbase-nextcloud -o StrictHostKeyChecking=accept-new";
+      TMPDIR = "/var/tmp";
+    };
     compression = "auto,lzma";
     startAt = "daily";
     readWritePaths = [
