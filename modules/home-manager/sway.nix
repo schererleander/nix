@@ -78,5 +78,30 @@ in
       XDG_CURRENT_DESKTOP = "sway";
       XDG_SCREENSHOTS_DIR = "~/Pictures/Screenshots/";
     };
+
+    gtk = {
+      enable = true;
+      theme = {
+        name = "Adwaita-dark";
+        package = pkgs.gnome-themes-extra;
+      };
+      gtk3.extraConfig = {
+        Settings = ''
+          gtk-application-prefer-dark-theme=1
+        '';
+      };
+      gtk4.extraConfig = {
+        Settings = ''
+          gtk-application-prefer-dark-theme=1
+        '';
+      };
+    };
+
+    home.pointerCursor = {
+      gtk.enable = true;
+      name = "Adwaita";
+      package = pkgs.adwaita-icon-theme;
+      size = 24;
+    };
   };
 }

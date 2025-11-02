@@ -11,6 +11,7 @@
     ./hardware-configuration.nix
     ./audio.nix
     ./wooting.nix
+    ../../modules/nixos
   ];
 
   boot = {
@@ -79,17 +80,9 @@
     ignoreShellProgramCheck = true;
   };
 
-  services = {
-    openssh.enable = true;
-    gnome.gnome-keyring.enable = true;
-  };
+	xdg.portal.enable = true;
 
-  xdg.portal = {
-    enable = true;
-    wlr.enable = true;
-  };
-
-  security.polkit.enable = true;
+  services.openssh.enable = true;
 
   programs.dconf.enable = true;
 
