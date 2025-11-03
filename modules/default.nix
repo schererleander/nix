@@ -1,10 +1,8 @@
 { ... }:
 
 {
-	imports = [
-	  ./desktop
-		./programs
-		./services
-		#./system
-	];
+  imports = [
+    ./desktop
+    ./programs
+  ];
 }
