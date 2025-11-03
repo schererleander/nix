@@ -72,17 +72,29 @@
     home.stateVersion = "25.05";
   };
 
-  nx.desktop.sway.enable = true;
-  nx.desktop.waybar.enable = true;
-  nx.desktop.dunst.enable = true;
-  nx.programs.gh.enable = true;
-  nx.programs.gpg.enable = true;
-  nx.programs.neovim.enable = true;
-  nx.programs.tmux.enable = true;
-  nx.programs.zsh.enable = true;
-  nx.programs.foot.enable = true;
-  nx.programs.spicetify.enable = true;
-  nx.programs.zathura.enable = true;
+  nx = {
+    desktop = {
+      sway.enable = true;
+      waybar.enable = true;
+      dunst.enable = true;
+    };
+    programs = {
+      gh.enable = true;
+      gpg.enable = true;
+      neovim.enable = true;
+      tmux.enable = true;
+      zsh.enable = true;
+      foot.enable = true;
+      spicetify.enable = true;
+      zathura.enable = true;
+    };
+    services = {
+      printer.enable = true;
+      pipewire.enable = true;
+      polkit.enable = true;
+      mullvad.enable = true;
+    };
+  };
 
   system.stateVersion = "25.05";
 }
