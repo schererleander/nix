@@ -1,6 +1,7 @@
 {
   pkgs,
   host,
+  inputs,
   username,
   ...
 }:
@@ -15,6 +16,10 @@
   networking.hostName = host;
 
   home-manager.users.${username} = {
+    imports = [
+      inputs.mac-app-util.homeManagerModules.default
+    ];
+
     home.username = username;
     home.homeDirectory = "/Users/${username}";
 
@@ -26,16 +31,13 @@
       wget
       imagemagick
 
-      gcc
-      maven
-      cmake
-      gnupg
-      lua
-
       zathura
+      zoxide
+      gemini-cli
 
       nerd-fonts.symbols-only
     ];
+    home.stateVersion = "25.05";
   };
 
   system.primaryUser = username;
@@ -82,7 +84,17 @@
     onActivation.upgrade = true;
   };
 
-  nx.
+  nx = {
+    programs = {
+      neovim.enable = true;
+      zsh.enable = true;
+      anki.enable = true;
+      spicetify.enable = true;
+      vscode.enable = true;
+    };
+  };
+
+  
 
   system.stateVersion = 5;
 }
