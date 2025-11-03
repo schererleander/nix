@@ -11,7 +11,9 @@ let
   pinentryProgram = if pkgs.stdenv.isDarwin then "pinentry-mac" else "pinentry-curses";
 in
 {
-  options.nx.programs.gpg.enable = lib.mkEnableOption "Setup gpg and agent";
+  options.nx.programs.gpg.enable = lib.mkEnableOption "Setup gpg and agent" // {
+    default = true;
+  };
   config = lib.mkIf config.nx.programs.gpg.enable {
     home-manager.users.${username} = {
       programs.gpg.enable = true;
