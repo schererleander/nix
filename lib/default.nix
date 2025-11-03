@@ -13,6 +13,7 @@ in
       overlays ? [ ],
       extraModules ? [ ],
       extraSpecialArgs ? { },
+      useHomeManager ? true,
     }:
     let
       darwinHost = isDarwin system;
@@ -30,13 +31,18 @@ in
       ];
       };
 
-      modules = [
-        hostCfg
-        nixpkgsModule
-        (if darwinHost then inputs.home-manager.darwinModules.home-manager else inputs.home-manager.nixosModules.home-manager)
-      ]
-      ++ lib.optionals darwinHost [ inputs.mac-app-util.darwinModules.default ]
-      ++ extraModules;
+      modules =
+        [
+          hostCfg
+          nixpkgsModule
+        ]
+        ++ (lib.optional useHomeManager (
+          if darwinHost then
+            inputs.home-manager.darwinModules.home-manager
+          else
+            inputs.home-manager.nixosModules.home-manager
+        ))
+        ++ extraModules;
     in
     builder {
       system = system;
