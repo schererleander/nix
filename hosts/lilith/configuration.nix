@@ -16,13 +16,8 @@
   networking.hostName = host;
 
   home-manager.users.${username} = {
-    imports = [
-      inputs.mac-app-util.homeManagerModules.default
-    ];
-
     home.username = username;
     home.homeDirectory = "/Users/${username}";
-
     programs.home-manager.enable = true;
 
     home.packages = with pkgs; [
@@ -34,10 +29,14 @@
       zathura
       zoxide
       gemini-cli
+      iterm2
+      rectangle
+      slack
+      podman
 
       nerd-fonts.symbols-only
     ];
-    home.stateVersion = "25.05";
+    home.stateVersion = "25.11";
   };
 
   system.primaryUser = username;
@@ -68,15 +67,10 @@
       "openjdk@21"
     ];
     casks = [
-      "obsidian"
       "nextcloud"
       "mullvad-vpn"
       "bambu-studio"
       "arduino-ide"
-      "iterm2"
-      "docker-desktop"
-      "rectangle"
-      "slack"
       "anki"
     ];
     onActivation.cleanup = "zap";
@@ -90,11 +84,10 @@
       zsh.enable = true;
       anki.enable = true;
       spicetify.enable = true;
-      vscode.enable = true;
+      zed-editor.enable = true;
+      obsidian.enable = true;
     };
   };
-
-  
 
   system.stateVersion = 5;
 }

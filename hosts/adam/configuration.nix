@@ -1,7 +1,4 @@
 {
-  inputs,
-  system,
-  host,
   pkgs,
   username,
   ...
@@ -12,6 +9,7 @@
     ./hardware-configuration.nix
     ../../modules
 		../../modules/system
+		../../modules/services
   ];
 
   boot = {
@@ -45,9 +43,6 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-    extraPackages = with pkgs; [
-      amdvlk
-    ];
   };
 
   environment.variables.AMD_VULKAN_ICD = "RADV";
@@ -69,7 +64,7 @@
       xdg-utils
       pulsemixer
     ];
-    home.stateVersion = "25.05";
+    home.stateVersion = "25.11";
   };
 
   nx = {
@@ -96,5 +91,5 @@
     };
   };
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 }

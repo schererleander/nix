@@ -155,7 +155,7 @@
 
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud31;
+    package = pkgs.nextcloud32;
     hostName = "cloud.schererleander.de";
     https = true;
     database.createLocally = true;
@@ -197,7 +197,7 @@
       set -euo pipefail
       INSTALL="${pkgs.coreutils}/bin/install"
       FIND="${pkgs.findutils}/bin/find"
-      MYSQLDUMP="${pkgs.mariadb-client}/bin/mysqldump"
+      MYSQLDUMP="${pkgs.mariadb.client}/bin/mysqldump"
       GZIP="${pkgs.gzip}/bin/gzip"
       OCC="${lib.getExe config.services.nextcloud.occ}"
 
@@ -236,7 +236,6 @@
     ];
   };
 
-  
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "25.05";
 }
