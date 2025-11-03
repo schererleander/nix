@@ -16,5 +16,6 @@
 		./tmux.nix
 		./vscode.nix
 		./zsh.nix
+		./zed.nix
 	];
 }
