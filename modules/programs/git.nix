@@ -13,13 +13,6 @@
     home-manager.users.${username} = {
       programs.git = {
         enable = true;
-        userName = "schererleander";
-        userEmail = "leander@schererleander.de";
-        aliases = {
-          st = "status";
-          co = "checkout";
-          br = "branch";
-        };
         signing = {
           key = "506793F115464BB4";
           signByDefault = true;
@@ -28,11 +21,21 @@
           "*~"
           ".DS_Store"
         ];
-        diff-highlight.enable = true;
-        extraConfig = {
+        settings = {
+          user.name = "schererleander";
+          user.email = "leander@schererleander.de";
+          alias = {
+            st = "status";
+            co = "checkout";
+            br = "branch";
+          };
           pull.rebase = true;
           url."git@github.com:".insteadOf = "https://github.com";
         };
+      };
+      programs.diff-highlight = {
+        enable = true;
+        enableGitIntegration = true;
       };
     };
   };
