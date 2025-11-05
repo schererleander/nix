@@ -1,7 +1,7 @@
 { ... }:
 
 let
-  locale = "en_US.UTF-8";
+  locale = "de_DE.UTF-8";
 in
 {
   # Set your time zone.
@@ -20,4 +20,5 @@ in
     LC_TELEPHONE = locale;
     LC_TIME = locale;
   };
+  console.keyMap = "de";
 }
