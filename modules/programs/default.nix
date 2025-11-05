@@ -20,5 +20,6 @@
     ./zed.nix
     ./obsidian.nix
     ./opencode.nix
+		./gemini.nix
   ];
 }
