@@ -8,8 +8,8 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules
-		../../modules/system
-		../../modules/services
+    ../../modules/system
+    ../../modules/services
   ];
 
   boot = {
@@ -45,6 +45,8 @@
     enable32Bit = true;
   };
 
+  programs.dconf.enable = true;
+
   environment.variables.AMD_VULKAN_ICD = "RADV";
 
   home-manager.users.${username} = {
@@ -54,12 +56,12 @@
     programs.home-manager.enable = true;
 
     home.packages = with pkgs; [
-      obsidian
       firefox
       imv
       mpv
+      gemini-cli
 
-      nextcloud-client
+      zoxide
 
       xdg-utils
       pulsemixer
@@ -69,9 +71,7 @@
 
   nx = {
     desktop = {
-      sway.enable = true;
-      waybar.enable = true;
-      dunst.enable = true;
+      gnome.enable = true;
     };
     programs = {
       gh.enable = true;
@@ -79,15 +79,16 @@
       neovim.enable = true;
       tmux.enable = true;
       zsh.enable = true;
-      foot.enable = true;
       spicetify.enable = true;
-      zathura.enable = true;
+      obsidian.enable = true;
     };
     services = {
       printer.enable = true;
       pipewire.enable = true;
       polkit.enable = true;
+      wooting.enable = true;
       mullvad.enable = true;
+      nextcloud-client.enable = true;
     };
   };
 
