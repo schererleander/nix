@@ -7,5 +7,6 @@
 		./pipewire.nix
 		./mullvad.nix
 		./nextcloud-client.nix
+		./wooting.nix
 	];
 }
