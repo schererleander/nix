@@ -1,13 +1,18 @@
 {
   config,
-  username,
+  pkgs,
   lib,
+  username,
   ...
 }:
 {
   options.nx.programs.zsh.enable = lib.mkEnableOption "Configure zsh";
   config = lib.mkIf config.nx.programs.zsh.enable {
     home-manager.users.${username} = {
+      home.packages = with pkgs; [
+        zoxide
+        imagemagick
+      ];
       programs.zsh = {
         enable = true;
         enableCompletion = true;
