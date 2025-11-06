@@ -1,7 +1,6 @@
 {
   pkgs,
   host,
-  inputs,
   username,
   ...
 }:
@@ -24,19 +23,21 @@
       htop
       ffmpeg
       wget
-      imagemagick
 
       zathura
-      zoxide
       gemini-cli
       iterm2
       rectangle
       slack
       podman
+			jetbrains.idea-community
 
       nerd-fonts.symbols-only
     ];
     home.stateVersion = "25.11";
+    home.sessionVariables = {
+      PATH = "/opt/homebrew/opt/openjdk@21/bin:$PATH";
+    };
   };
 
   system.primaryUser = username;
@@ -86,6 +87,7 @@
       spicetify.enable = true;
       zed-editor.enable = true;
       obsidian.enable = true;
+			opencode.enable = true;
     };
   };
 
