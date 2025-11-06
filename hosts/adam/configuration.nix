@@ -80,7 +80,7 @@
       zsh.enable = true;
       spicetify.enable = true;
       obsidian.enable = true;
-      gemini-client.enable = true;
+      gemini-cli.enable = true;
     };
     services = {
       printer.enable = true;
