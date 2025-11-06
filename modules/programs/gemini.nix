@@ -1,16 +1,21 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  username,
+  ...
+}:
 
 {
-	options.programs.gemini-cli.enable = lib.mkEnableOption "Install Gemini CLI tool";
-	config = lib.mkIf config.programs.gemini-cli.enable {
-		programs.gemini-cli = {
-			enable = true;
-			settings = {
-				"ui.theme" = "Default";
-				"general.preferredEditor" = "nvim";
-				"general.disableAutoUpdate" = true;
-				"privacy.usageStatisticsEnabled" = false;
-			};
-		};
-	};
+  options.nx.programs.gemini-cli.enable = lib.mkEnableOption "Install Gemini CLI tool";
+  config = lib.mkIf config.nx.programs.gemini-cli.enable {
+    home-manager.users."${username}".programs.gemini-cli = {
+      enable = true;
+      settings = {
+        "ui.theme" = "Default";
+        "general.preferredEditor" = "nvim";
+        "general.disableAutoUpdate" = true;
+        "privacy.usageStatisticsEnabled" = false;
+      };
+    };
+  };
 }
