@@ -100,7 +100,7 @@
         [Definition]
         _groupsre = (?:(?:,?\s*"\w+":(?:"[^"]+"|\w+))*)
         failregex = ^\{%(_groupsre)s,?\s*"remoteAddr":"<HOST>"%(_groupsre)s,?\s*"message":"Login failed:
-                    ^\{%(_groupsre)s,?\s*"remoteAddr":"<HOST>"%(_groupsre)s,?\s*"message":"Trusted domain error.
+                      ^\{%(_groupsre)s,?\s*"remoteAddr":"<HOST>"%(_groupsre)s,?\s*"message":"Trusted domain error.
         datepattern = ,?\s*"time"\s*:\s*"%%Y-%%m-%%d[T ]%%H:%%M:%%S(%%z)?"
       ''
     );
@@ -139,6 +139,15 @@
       add_header X-Content-Type-Options nosniff;
     '';
 
+    #virtualHosts."bitwarden.schererleander.de" = {
+    #  forceSSL = true;
+    #  sslCertificate = "/etc/ssl/schererleander.de/fullchain.pem";
+    #  sslCertificateKey = "/etc/ssl/schererleander.de/privkey.key";
+    #  locations."/" = {
+    #    proxyPass = "http://127.0.0.1:${toString config.services.vaultwarden.config.ROCKET_PORT}";
+    #  };
+    #};
+
     virtualHosts."cloud.schererleander.de" = {
       forceSSL = true;
       sslCertificate = "/etc/ssl/schererleander.de/fullchain.pem";
@@ -152,6 +161,30 @@
     sslCertificate = "/etc/ssl/schererleander.de/fullchain.pem";
     sslCertificateKey = "/etc/ssl/schererleander.de/privkey.key";
   };
+
+  # services.vaultwarden = {
+  #   enable = true;
+  #   environmentFile = "/var/lib/vaultwarden.env";
+  #   backupDir = "/var/backup/vaultwarden";
+  #   config = {
+  #     DOMAIN = "https://bitwarden.schererleander.de";
+  #     SIGNUPS_ALLOWED = true;
+  #     ROCKET_ADDRESS = "127.0.0.1";
+  #     ROCKET_PORT = 8222;
+  #     ROCKET_LOG = "critical";
+  #     KDF = "PBKDF2";
+  #     KDFIterations = 600000;
+  #   };
+  # };
+  #
+  # services.borgbackup.jobs.vaultwarden = {
+  #   paths = [ "/var/backup/vaultwarden" ];
+  #   repo = "t7e4d4f9@t7e4d4f9.repo.borgbase.com:repo";
+  #   encryption.mode = "none";
+  #   environment.BORG_RSH = "ssh -i /home/${username}/.ssh/borgbase-vaultwarden -o StrictHostKeyChecking=accept-new";
+  #   compression = "auto,lzma";
+  #   startAt = "daily";
+  # };
 
   services.nextcloud = {
     enable = true;
