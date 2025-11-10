@@ -7,7 +7,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules
+    ../../modules/desktop
+    ../../modules/programs
     ../../modules/system
     ../../modules/services
   ];

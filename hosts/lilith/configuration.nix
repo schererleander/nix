@@ -7,7 +7,7 @@
 
 {
   imports = [
-    ../../modules
+    ../../modules/programs
   ];
 
   users.users.${username}.home = "/Users/${username}";
@@ -90,6 +90,8 @@
 			opencode.enable = true;
     };
   };
+
+  nix.enable = false;
 
   system.stateVersion = 5;
 }
