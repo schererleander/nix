@@ -53,6 +53,12 @@
   system.autoUpgrade = {
     enable = true;
     flake = "github:schererleander/nix#${host}";
+		flags = [
+			"--update-inpu"
+			"nixpkgs"
+			"--no-write-lock-file"
+      "-L" # print build logs
+		];
     allowReboot = true;
 
     rebootWindow = {
