@@ -47,7 +47,6 @@
     zoxide
     neovim
     htop
-    lynis
   ];
 
   system.autoUpgrade = {
