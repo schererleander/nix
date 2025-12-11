@@ -24,9 +24,8 @@
       "rd.systemd.show_status=auto"
     ];
     initrd = {
-      luks.devices."luks-0689cc49-e7d8-4eaa-ac8e-d4fd711217ac".device =
-        "/dev/disk/by-uuid/0689cc49-e7d8-4eaa-ac8e-d4fd711217ac";
-      verbose = false;
+      luks.devices."luks-803851e9-7fa8-4367-a927-0bb76d0fe830".device =
+        "/dev/disk/by-uuid/803851e9-7fa8-4367-a927-0bb76d0fe830";
     };
     consoleLogLevel = 3;
     loader = {
@@ -37,6 +36,12 @@
     };
     plymouth = {
       enable = true;
+      theme = "lone";
+      themePackages = with pkgs; [
+        (adi1090x-plymouth-themes.override {
+          selected_themes = [ "lone" ];
+        })
+      ];
     };
   };
 
@@ -48,8 +53,6 @@
 
   programs.dconf.enable = true;
 
-  environment.variables.AMD_VULKAN_ICD = "RADV";
-
   home-manager.users.${username} = {
     home.username = username;
     home.homeDirectory = "/home/${username}";
@@ -58,22 +61,22 @@
 
     home.packages = with pkgs; [
       firefox
+      blender
+      godot
       imv
       mpv
 
       zoxide
-
-      xdg-utils
-      pulsemixer
     ];
     home.stateVersion = "25.11";
   };
 
   nx = {
     desktop = {
-      gnome.enable = true;
+      cinnamon.enable = true;
     };
     programs = {
+      git.enable = true;
       gh.enable = true;
       gpg.enable = true;
       neovim.enable = true;
@@ -82,8 +85,11 @@
       spicetify.enable = true;
       obsidian.enable = true;
       gemini-cli.enable = true;
+      opencode.enable = true;
+      nixcord.enable = true;
     };
     services = {
+      openssh.enable = true;
       printer.enable = true;
       pipewire.enable = true;
       polkit.enable = true;
