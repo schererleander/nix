@@ -19,9 +19,7 @@
       };
       home.packages = with pkgs; [
         ripgrep
-
-        # github pilot
-        nodejs
+        gcc
 
         # language servers
         lua-language-server
