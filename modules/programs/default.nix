@@ -21,5 +21,6 @@
     ./obsidian.nix
     ./opencode.nix
 		./gemini.nix
+		./kitty.nix
   ];
 }
