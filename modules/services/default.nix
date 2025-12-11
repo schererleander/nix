@@ -8,5 +8,6 @@
 		./mullvad.nix
 		./nextcloud-client.nix
 		./wooting.nix
+		./openssh.nix
 	];
 }
