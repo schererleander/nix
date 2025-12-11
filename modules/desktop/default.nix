@@ -6,5 +6,6 @@
     ./dunst.nix
     ./waybar.nix
     ./gnome
+    ./cinnamon
   ];
 }
