@@ -14,7 +14,7 @@
       programs.git = {
         enable = true;
         signing = {
-          key = "506793F115464BB4";
+          key = "A3502B180BC1D41A";
           signByDefault = true;
         };
         ignores = [
