@@ -76,6 +76,7 @@
       cinnamon.enable = true;
     };
     programs = {
+      kitty.enable = true;
       git.enable = true;
       gh.enable = true;
       gpg.enable = true;
