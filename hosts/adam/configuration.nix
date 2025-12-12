@@ -67,7 +67,15 @@
       mpv
 
       zoxide
+
+      noto-fonts-cjk-sans
+      noto-fonts-emoji
     ];
+
+    programs.zsh.shellAliases = {
+      open = "xdg-open";
+    };
+    
     home.stateVersion = "25.11";
   };
 
