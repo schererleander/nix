@@ -53,7 +53,7 @@
     enable = true;
     flake = "github:schererleander/nix#${host}";
 		flags = [
-			"--update-inpu"
+			"--update-input"
 			"nixpkgs"
 			"--no-write-lock-file"
       "-L" # print build logs
