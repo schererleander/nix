@@ -69,7 +69,7 @@
       zoxide
 
       noto-fonts-cjk-sans
-      noto-fonts-emoji
+			noto-fonts-color-emoji
     ];
 
     programs.zsh.shellAliases = {
