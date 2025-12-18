@@ -316,11 +316,11 @@
         "nixpkgs": "nixpkgs_5"
       },
       "locked": {
-        "lastModified": 1766051856,
-        "narHash": "sha256-Zr4iJgumIFUz2F1dk2cbsn+RonlZ1GzISxxHuxjpiKE=",
+        "lastModified": 1766056158,
+        "narHash": "sha256-nB53SAIXV8dqjc0yle4LO9akX8LMgtS/VXoB4aMww5s=",
         "owner": "schererleander",
         "repo": "site",
-        "rev": "855b3c81e81fc94b048ecbc58fa0e6b685524650",
+        "rev": "37e2962472acc01b15cc10831bc3bf01e9dc0ed0",
         "type": "github"
       },
       "original": {
