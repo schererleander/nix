@@ -7,5 +7,7 @@
     ./waybar.nix
     ./gnome
     ./cinnamon
+		./labwc/sfwbar.nix
+		./labwc
   ];
 }
