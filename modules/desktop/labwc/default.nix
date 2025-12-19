@@ -28,7 +28,7 @@ let
 in
 {
   imports = [
-    ../sfwbar.nix
+    ./sfwbar.nix
   ];
 
   options.nx.desktop.labwc.enable = lib.mkEnableOption "Enable labwc";
