@@ -12,9 +12,11 @@
 			programs.kitty = {
 				enable = true;
 				enableGitIntegration = true;
+				font = {
+					name = "monospace";
+					size = 11;
+				};
 				settings = {
-					font_size = 11;
-
 					cursor_shape = "underline";
 					cursor_blink_interval = "-1";
 					cursor_stop_blinking_after = "15.0";
