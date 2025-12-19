@@ -20,38 +20,24 @@ map('n', '<leader>o', '<CMD>update<BAR>source %<CR>', { desc = 'Save & reload in
 map('n', '<leader>w', '<CMD>write<CR>')
 map('n', '<leader>q', '<CMD>quit<CR>')
 
--- Bootstrap lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable",
-    lazypath,
-  })
-end
-vim.opt.rtp:prepend(lazypath)
-
--- Plugin specifications
-require("lazy").setup({
-	{ "ellisonleao/gruvbox.nvim" },
-	{ "echasnovski/mini.starter" },
-	{ "lewis6991/gitsigns.nvim" },
-	{ "windwp/nvim-autopairs" },
-	{ "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
-	{ "j-hui/fidget.nvim" },
-	{ "nvim-treesitter/nvim-treesitter" },
-	{ "neovim/nvim-lspconfig" },
-	{ "hrsh7th/nvim-cmp" },
-	{ "hrsh7th/cmp-nvim-lsp" },
-	{ "hrsh7th/cmp-buffer" },
-	{ "hrsh7th/cmp-path" },
-	{ "hrsh7th/cmp-cmdline" },
-	{ "L3MON4D3/LuaSnip" },
-	{ "saadparwaiz1/cmp_luasnip" },
-	{ "onsails/lspkind-nvim" }
+vim.pack.add({
+	{ src = "https://github.com/ellisonleao/gruvbox.nvim" },
+	{ src = "https://github.com/echasnovski/mini.starter" },
+	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
+	{ src = "https://github.com/windwp/nvim-autopairs" },
+	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
+	{ src = "https://github.com/j-hui/fidget.nvim" },
+	{ src = "https://github.com/nvim-lua/plenary.nvim" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+	{ src = "https://github.com/neovim/nvim-lspconfig" },
+	{ src = "https://github.com/hrsh7th/nvim-cmp" },
+	{ src = "https://github.com/hrsh7th/cmp-nvim-lsp" },
+	{ src = "https://github.com/hrsh7th/cmp-buffer" },
+	{ src = "https://github.com/hrsh7th/cmp-path" },
+	{ src = "https://github.com/hrsh7th/cmp-cmdline" },
+	{ src = "https://github.com/L3MON4D3/LuaSnip" },
+	{ src = "https://github.com/saadparwaiz1/cmp_luasnip" },
+	{ src = "https://github.com/onsails/lspkind-nvim" }
 })
 
 require("nvim-treesitter.configs").setup({
@@ -105,74 +91,75 @@ cmp.setup({
 -- Add parentheses after selecting function or method
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 cmp.event:on(
-  'confirm_done',
-  cmp_autopairs.on_confirm_done()
+	'confirm_done',
+	cmp_autopairs.on_confirm_done()
 )
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-  callback = function(ev)
-    local opts = { buffer = ev.buf, noremap = true, silent = true }
-    vim.keymap.set('n', '<leader>lf', function() vim.lsp.buf.format { async = true } end, opts)
-  end,
+	group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+	callback = function(ev)
+		local opts = { buffer = ev.buf, noremap = true, silent = true }
+		vim.keymap.set('n', '<leader>lf', function() vim.lsp.buf.format { async = true } end, opts)
+	end,
 })
 
 local servers = {
-  nixd = {
-    settings = {
-      nixd = {
-        formatting = {
-          command = { "nixfmt" },
-        },
-      },
-    },
-  },
-  lua_ls = {
-    settings = {
-      lua_ls = {
-        formatting = {
-          command = { "luaformatter" },
-        },
-      },
-      Lua = {
-        runtime = {
-          version = 'LuaJIT',
-        },
-        diagnostics = {
-          globals = { 'vim', 'require' },
-        },
-        workspace = {
-          library = vim.api.nvim_get_runtime_file("", true),
-        },
-        telemetry = {
-          enable = false,
-        },
-      },
-    },
-  },
-  pyright = {},
-  tailwindcss = {},
-  gopls = {
-    settings = {
-      gopls = {
-        analyses = {
-          unusedparams = true,
-          unusedwrite = true,
-        },
-        staticcheck = true,
-      },
-    },
-  },
-  rust_analyzer = {},
+	nixd = {
+		settings = {
+			nixd = {
+				formatting = {
+					command = { "nixfmt" },
+				},
+			},
+		},
+	},
+	lua_ls = {
+		settings = {
+			lua_ls = {
+				formatting = {
+					command = { "luaformatter" },
+				},
+			},
+			Lua = {
+				runtime = {
+					version = 'LuaJIT',
+				},
+				diagnostics = {
+					globals = { 'vim', 'require' },
+				},
+				workspace = {
+					library = vim.api.nvim_get_runtime_file("", true),
+				},
+				telemetry = {
+					enable = false,
+				},
+			},
+		},
+	},
+	pyright = {},
+	tailwindcss = {},
+	gopls = {
+		settings = {
+			gopls = {
+				analyses = {
+					unusedparams = true,
+					unusedwrite = true,
+				},
+				staticcheck = true,
+			},
+		},
+	},
+	rust_analyzer = {},
+	ts_ls = {},
 }
 
 local server_names = {}
 for server, config in pairs(servers) do
-  config.capabilities = capabilities
-  vim.lsp.config(server, config)
-  table.insert(server_names, server)
+	config.capabilities = capabilities
+	vim.lsp.config(server, config)
+	table.insert(server_names, server)
 end
 
 vim.lsp.enable(server_names)
@@ -216,4 +203,3 @@ hl(0, "DiagnosticSignError", { bg = "none" })
 hl(0, "DiagnosticSignHint", { bg = "none" })
 hl(0, "DiagnosticSignInfo", { bg = "none" })
 hl(0, "DiagnosticSignWarn", { bg = "none" })
-

@@ -13,7 +13,7 @@
       settings = {
         theme = "system";
         share = "disabled";
-        autoUpdate = false;
+        autoupdate = false;
       };
     };
   };

@@ -52,12 +52,12 @@
   system.autoUpgrade = {
     enable = true;
     flake = "github:schererleander/nix#${host}";
-		flags = [
-			"--update-input"
-			"nixpkgs"
-			"--no-write-lock-file"
+    flags = [
+      "--update-input"
+      "nixpkgs"
+      "--no-write-lock-file"
       "-L" # print build logs
-		];
+    ];
     allowReboot = true;
 
     rebootWindow = {
@@ -158,6 +158,16 @@
       sslCertificate = "/etc/ssl/schererleander.de/fullchain.pem";
       sslCertificateKey = "/etc/ssl/schererleander.de/privkey.key";
     };
+
+    virtualHosts."analytics.schererleander.de" = {
+      forceSSL = true;
+      sslCertificate = "/etc/ssl/schererleander.de/fullchain.pem";
+      sslCertificateKey = "/etc/ssl/schererleander.de/privkey.key";
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:${toString config.services.plausible.server.port}";
+				proxyWebsockets = true;
+      };
+    };
   };
 
   services.site = {
@@ -257,6 +267,14 @@
       set -euo pipefail
       ${lib.getExe config.services.nextcloud.occ} maintenance:mode --off || true
     '';
+  };
+
+  services.plausible = {
+    enable = true;
+    server = {
+      baseUrl = "https://analytics.scherereleander.de";
+      secretKeybaseFile = "/etc/plausible-secret-keybase";
+    };
   };
 
   security.auditd.enable = true;
