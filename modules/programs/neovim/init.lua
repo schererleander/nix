@@ -152,6 +152,7 @@ local servers = {
 		},
 	},
 	rust_analyzer = {},
+	ts_ls = {},
 }
 
 local server_names = {}
