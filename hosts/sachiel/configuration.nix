@@ -159,12 +159,13 @@
       sslCertificateKey = "/etc/ssl/schererleander.de/privkey.key";
     };
 
-    virtualHosts."analytics.scherereleander.de" = {
+    virtualHosts."analytics.schererleander.de" = {
       forceSSL = true;
       sslCertificate = "/etc/ssl/schererleander.de/fullchain.pem";
       sslCertificateKey = "/etc/ssl/schererleander.de/privkey.key";
       locations."/" = {
         proxyPass = "http://127.0.0.1:${toString config.services.plausible.server.port}";
+				proxyWebsockets = true;
       };
     };
   };
@@ -270,11 +271,6 @@
 
   services.plausible = {
     enable = true;
-    adminUser = {
-      activate = true;
-      email = "leander@scherereleander.de";
-      passwordFile = "/etc/plausible-admin-pwd";
-    };
     server = {
       baseUrl = "https://analytics.scherereleander.de";
       secretKeybaseFile = "/etc/plausible-secret-keybase";
