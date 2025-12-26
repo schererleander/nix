@@ -51,6 +51,20 @@
     enable32Bit = true;
   };
 
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Experimental = true;
+        FastConnectable = true;
+      };
+      Policy = {
+        AutoEnable = true;
+      };
+    };
+  };
+
   programs.dconf.enable = true;
 
   home-manager.users.${username} = {
@@ -69,19 +83,19 @@
       zoxide
 
       noto-fonts-cjk-sans
-			noto-fonts-color-emoji
+      noto-fonts-color-emoji
     ];
 
     programs.zsh.shellAliases = {
       open = "xdg-open";
     };
-    
+
     home.stateVersion = "25.11";
   };
 
   nx = {
     desktop = {
-      cinnamon.enable = true;
+      kde.enable = true;
     };
     programs = {
       kitty.enable = true;
