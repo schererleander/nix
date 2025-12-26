@@ -10,12 +10,13 @@
   config = lib.mkIf config.nx.programs.gemini-cli.enable {
     home-manager.users."${username}".programs.gemini-cli = {
       enable = true;
-      settings = {
-        "ui.theme" = "Default";
-        "general.preferredEditor" = "nvim";
-        "general.disableAutoUpdate" = true;
-        "privacy.usageStatisticsEnabled" = false;
-      };
+			# Cant store credentials due config read-only
+      #settings = {
+      #  "ui.theme" = "Default";
+      #  "general.preferredEditor" = "nvim";
+      #  "general.disableAutoUpdate" = true;
+      #  "privacy.usageStatisticsEnabled" = false;
+      #};
     };
   };
 }
