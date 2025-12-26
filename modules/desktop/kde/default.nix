@@ -8,7 +8,7 @@
 {
 
   options.nx.desktop.kde.enable = lib.mkEnableOption "Enable kde";
-  config = lib.mkIf config.nx.programs.git.enable {
+  config = lib.mkIf config.nx.desktop.kde.enable {
     services.displayManager.sddm.enable = true;
     services.displayManager.sddm.wayland.enable = true;
     services.desktopManager.plasma6.enable = true;
