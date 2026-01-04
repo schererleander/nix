@@ -245,7 +245,7 @@
       set -euo pipefail
       INSTALL="${pkgs.coreutils}/bin/install"
       FIND="${pkgs.findutils}/bin/find"
-      MYSQLDUMP="${pkgs.mariadb.client}/bin/mysqldump"
+      MYSQLDUMP="${pkgs.mariadb.client}/bin/mysql-dump"
       GZIP="${pkgs.gzip}/bin/gzip"
       OCC="${lib.getExe config.services.nextcloud.occ}"
 
