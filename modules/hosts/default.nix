@@ -9,5 +9,6 @@
     ./printer
     ./server
     ./wooting
+		./steam
   ];
 }
