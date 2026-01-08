@@ -39,11 +39,6 @@ in
         type = types.bool;
         default = false;
       };
-      java = mkOption {
-        description = "enable the java integration";
-        type = types.bool;
-        default = false;
-      };
       nix = mkOption {
         description = "enable the nix integration";
         type = types.bool;
@@ -79,7 +74,6 @@ in
         ++ (optionals cfg.langs.ts [ pkgs.nodePackages.typescript-language-server ])
         ++ (optionals cfg.langs.python [ ])
         ++ (optionals cfg.langs.go [ pkgs.gopls ])
-        ++ (optionals cfg.langs.java [ pkgs.jdt-language-server ])
         ++ (optionals cfg.langs.nix [
           pkgs.nil
           pkgs.nixfmt
