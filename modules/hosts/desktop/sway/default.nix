@@ -7,17 +7,39 @@
 }:
 
 let
-  inherit (lib) mkEnableOption mkIf mkOptionDefault;
-  mod = config.home-manager.users.${username}.wayland.windowManager.sway.config.modifier;
+  inherit (lib) mkEnableOption mkOption mkIf mkOptionDefault types;
   cfg = config.nx.desktop.sway;
+  mod = "Mod4";
 in
 {
-  imports = [
-    ./swayidle.nix
-    ./swaylock.nix
-  ];
+  options.nx.desktop.sway = {
+    enable = mkEnableOption "Enable sway";
+    monitors = mkOption {
+      type = types.attrsOf (types.submodule {
+        options = {
+          resolution = mkOption {
+            type = types.str;
+            description = "Monitor resolution and refresh rate";
+            example = "1920x1080@240Hz";
+          };
+          position = mkOption {
+            type = types.str;
+            default = "0 0";
+            description = "Monitor position";
+            example = "1920 0";
+          };
+        };
+      });
+      default = { };
+      description = "Monitor configuration";
+    };
+    wallpaper = mkOption {
+      type = types.nullOr types.path;
+      default = null;
+      description = "Wallpaper image path";
+    };
+  };
 
-  options.nx.desktop.sway.enable = mkEnableOption "Enable sway and setup";
   config = mkIf cfg.enable {
     home-manager.users.${username} = {
       home.packages = with pkgs; [
@@ -37,16 +59,14 @@ in
         config = {
           input = {
             "*" = {
-              xkb_layout = "de";
+              xkb_layout = config.console.keyMap;
             };
           };
 
-          output = {
-            DP-1 = {
-              resolution = "1920x1080@240Hz";
-              bg = "/etc/nixos/images/pond.jpg fill";
-            };
-          };
+          output = lib.mapAttrs (name: monitor: {
+            resolution = monitor.resolution;
+            position = monitor.position;
+          } // (if cfg.wallpaper != null then { bg = "${cfg.wallpaper} fill"; } else { })) cfg.monitors;
 
           gaps = {
             inner = 15;
@@ -57,7 +77,7 @@ in
             border = 0;
           };
 
-          modifier = "Mod4";
+          modifier = mod;
 
           keybindings = mkOptionDefault {
             "${mod}+q" = "kill";
@@ -76,7 +96,7 @@ in
 
           bars = [
             {
-              "command" = "${pkgs.waybar}/bin/waybar";
+              command = "${pkgs.waybar}/bin/waybar";
             }
           ];
         };
@@ -113,6 +133,48 @@ in
         name = "Adwaita";
         package = pkgs.adwaita-icon-theme;
         size = 24;
+      };
+
+      # swaylock
+      programs.swaylock = {
+        enable = true;
+        settings = {
+          font = "monospace 12";
+          color = "00000000";
+          ring-color = "ffffffff";
+          key-hl-color = "ff0000ff";
+          bs-hl-color = "ff0000ff";
+        };
+      };
+
+      # swayidle
+      services.swayidle = {
+        enable = true;
+        timeouts = [
+          {
+            timeout = 300;
+            command = "${pkgs.swaylock}/bin/swaylock -f -c 000000";
+          }
+          {
+            timeout = 600;
+            command = "${pkgs.sway}/bin/swaymsg 'output * dpms off'";
+            resumeCommand = "${pkgs.sway}/bin/swaymsg output * dpms on";
+          }
+          {
+            timeout = 900;
+            command = "${pkgs.systemd}/bin/systemctl suspend";
+          }
+        ];
+        events = [
+          {
+            event = "after-resume";
+            command = "${pkgs.sway}/bin/swaymsg output * dpms on";
+          }
+          {
+            event = "before-sleep";
+            command = "${pkgs.swaylock}/bin/swaylock -f -c 000000";
+          }
+        ];
       };
     };
   };

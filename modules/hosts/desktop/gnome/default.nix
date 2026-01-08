@@ -10,13 +10,7 @@ let
   cfg = config.nx.desktop.gnome;
 in
 {
-  imports = [
-    ./dconf.nix
-  ];
-
-  options.nx.desktop.gnome = {
-    enable = mkEnableOption "Enable GNOME desktop environment";
-  };
+  options.nx.desktop.gnome.enable = mkEnableOption "Enable GNOME desktop environment";
 
   config = mkIf cfg.enable {
     services.displayManager.gdm.enable = true;

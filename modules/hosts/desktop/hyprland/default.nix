@@ -7,51 +7,164 @@
 }:
 
 let
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkEnableOption mkOption mkIf types optionals;
   cfg = config.nx.desktop.hyprland;
 in
 {
-  imports = [
-    ./hyprlock.nix
-  ];
+  options.nx.desktop.hyprland = {
+    enable = mkEnableOption "Enable hyprland";
+    monitors = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+      description = "Monitor configuration strings for Hyprland";
+      example = [ "DP-1,highrr,0x0,auto" ];
+    };
+    lockscreen = {
+      background = mkOption {
+        type = types.nullOr types.path;
+        default = null;
+        description = "Background image for hyprlock";
+      };
+      profileImage = mkOption {
+        type = types.nullOr types.path;
+        default = null;
+        description = "Profile image for hyprlock";
+      };
+    };
+  };
 
-  options.nx.desktop.hyprland.enable = mkEnableOption "Enable hyprland and setup";
   config = mkIf cfg.enable {
-    nx.desktop.hyprlock.enable = true;
+    programs.hyprlock.enable = true;
+
     home-manager.users.${username} = {
       home.packages = with pkgs; [
         hyprshot
         hyprpicker
       ];
+
+      programs.hyprlock = {
+        enable = true;
+        settings = {
+          general = {
+            immediate_render = true;
+          };
+
+          background = [
+            ({
+              monitor = "";
+              color = "rgba(0, 0, 0, 1.0)";
+            } // (if cfg.lockscreen.background != null then { path = "${cfg.lockscreen.background}"; } else { }))
+          ];
+
+          input-field = [
+            {
+              monitor = "";
+              size = "300, 30";
+              outline_thickness = 0;
+              dots_size = 0.25;
+              dots_spacing = 0.55;
+              dots_center = true;
+              dots_rounding = -1;
+              outer_color = "rgba(242, 243, 244, 0)";
+              inner_color = "rgba(242, 243, 244, 0)";
+              font_color = "rgba(242, 243, 244, 0.75)";
+              fade_on_empty = false;
+              placeholder_text = "";
+              hide_input = false;
+              check_color = "rgba(204, 136, 34, 0)";
+              fail_color = "rgba(204, 34, 34, 0)";
+              fail_text = "$FAIL <b>($ATTEMPTS)</b>";
+              fail_transition = 300;
+              capslock_color = -1;
+              numlock_color = -1;
+              bothlock_color = -1;
+              invert_numlock = false;
+              swap_font_color = false;
+              position = "0, -468";
+              halign = "center";
+              valign = "center";
+            }
+          ];
+
+          label = [
+            {
+              monitor = "";
+              text = ''cmd[update:1000] echo "$(date +"%A, %B %d")"'';
+              color = "rgba(242, 243, 244, 0.75)";
+              font_size = 20;
+              position = "0, 405";
+              halign = "center";
+              valign = "center";
+            }
+            {
+              monitor = "";
+              text = ''cmd[update:1000] echo "$(date +"%k:%M")"'';
+              color = "rgba(242, 243, 244, 0.75)";
+              font_size = 93;
+              position = "0, 310";
+              halign = "center";
+              valign = "center";
+            }
+          ] ++ optionals (cfg.lockscreen.profileImage != null) [
+            {
+              monitor = "";
+              text = "${username}";
+              color = "rgba(242, 243, 244, 0.75)";
+              font_size = 12;
+              position = "0, -407";
+              halign = "center";
+              valign = "center";
+            }
+            {
+              monitor = "";
+              text = "Enter Password";
+              color = "rgba(242, 243, 244, 0.75)";
+              font_size = 10;
+              position = "0, -438";
+              halign = "center";
+              valign = "center";
+            }
+          ];
+
+          image = optionals (cfg.lockscreen.profileImage != null) [
+            {
+              monitor = "";
+              path = "${cfg.lockscreen.profileImage}";
+              border_color = "0xffdddddd";
+              border_size = 0;
+              size = 73;
+              rounding = -1;
+              rotate = 0;
+              reload_time = -1;
+              reload_cmd = "";
+              position = "0, -353";
+              halign = "center";
+              valign = "center";
+            }
+          ];
+        };
+      };
+
       wayland.windowManager.hyprland = {
         enable = true;
         systemd.enable = true;
         xwayland.enable = true;
         settings = {
-          monitor = [
-            "DP-1,highrr,0x0,auto"
-          ];
+          monitor = if cfg.monitors != [ ] then cfg.monitors else [ ",preferred,auto,auto" ];
 
           "$background" = "rgba(000000FF)";
           "$accent" = "rgba(FFFFFFFF)";
-
-          exec-once = [
-          ];
 
           env = [
             "XCURSOR_SIZE,24"
           ];
 
           input = {
-            kb_layout = "de";
+            kb_layout = config.console.keyMap;
             follow_mouse = 1;
             touchpad = {
-              natural_scroll = "yes";
+              natural_scroll = true;
             };
-          };
-
-          "device:logitech-g-pro--1" = {
-            sensitivity = -0.5;
           };
 
           general = {
@@ -76,15 +189,10 @@ in
               contrast = 1.1;
               brightness = 1.0;
             };
-
-            drop_shadow = false;
-            shadow_range = 30;
-            shadow_render_power = 4;
-            "col.shadow" = "$background";
           };
 
           animations = {
-            enabled = "yes";
+            enabled = true;
             bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
             animation = [
               "windows, 1, 7, myBezier"
@@ -101,21 +209,13 @@ in
           };
 
           dwindle = {
-            pseudotile = "yes";
-            preserve_split = "yes";
-          };
-
-          master = {
-            new_is_master = true;
+            pseudotile = true;
+            preserve_split = true;
           };
 
           xwayland = {
             force_zero_scaling = true;
           };
-
-          windowrulev2 = [
-            "noborder,class:(steam)"
-          ];
 
           "$mod" = "SUPER";
 

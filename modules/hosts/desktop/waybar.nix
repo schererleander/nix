@@ -11,8 +11,9 @@ let
 in
 {
   options.nx.desktop.waybar.enable = mkEnableOption "Enable and configure Waybar";
+
   config = mkIf cfg.enable {
-    home-manager.users."${username}" = {
+    home-manager.users.${username} = {
       programs.waybar = {
         enable = true;
         settings = {
@@ -21,7 +22,7 @@ in
             layer = "top";
             position = "bottom";
             modules-center = [ "mpris" ];
-            modules-left = [ "sway/workspaces" ];
+            modules-left = [ "wlr/workspaces" ];
             modules-right = [
               "privacy"
               "tray"
@@ -45,20 +46,6 @@ in
               icon-size = 16;
             };
 
-            cpu = {
-              format = "󰻠";
-              tooltip = true;
-            };
-
-            memory = {
-              format = "";
-            };
-
-            temperature = {
-              critical-threshold = 80;
-              format = "";
-            };
-
             network = {
               format-disconnect = "󰌙";
               format-ethernet = "󰌘";
@@ -69,17 +56,15 @@ in
                 "󰤥"
                 "󰤨"
               ];
-
               tooltip-format-wifi = "{essid} | {signalStrength}%";
               tooltip-format-ethernet = "{ifname}";
             };
 
             bluetooth = {
-              format = " {status}";
+              format = " {status}";
               format-disabled = "";
               format-no-controller = "";
-              format-connected = " {device_alias}";
-              tooltip = false;
+              format-connected = " {device_alias}";
             };
 
             clock = {
@@ -91,9 +76,9 @@ in
               format = "{icon}";
               format-icons = {
                 default = [
-                  ""
-                  ""
-                  ""
+                  ""
+                  ""
+                  ""
                 ];
               };
               tooltip-format = "{desc} | {volume}%";
@@ -102,31 +87,31 @@ in
         };
 
         style = ''
-                  * {
-                    border: none;
-                    border-radius: 0;
-                    font-family: monospace;
-                    font-size: 12px;
-          					background: none;
-                  }
+          * {
+            border: none;
+            border-radius: 0;
+            font-family: monospace;
+            font-size: 12px;
+            background: none;
+          }
 
-                  window#waybar {
-                    background: rgba(0, 0, 0, 0.9);
-                  }
+          window#waybar {
+            background: rgba(0, 0, 0, 0.9);
+          }
 
-                  #workspaces button {
-                    padding-left: 5px;
-                    padding-right: 5px;
-                  }
+          #workspaces button {
+            padding-left: 5px;
+            padding-right: 5px;
+          }
 
-                  #workspaces button.focused {
-                    font-weight: bold;
-                  }
+          #workspaces button.focused {
+            font-weight: bold;
+          }
 
-                  #clock, #pulseaudio, #tray, #network, #battery, #bluetooth, #cpu, #memory, #temperature, #custom-expand, #group-expand {
-                    padding-left: 10px;
-                    padding-right: 10px;
-                  }
+          #clock, #pulseaudio, #tray, #network, #battery, #bluetooth {
+            padding-left: 10px;
+            padding-right: 10px;
+          }
         '';
       };
     };

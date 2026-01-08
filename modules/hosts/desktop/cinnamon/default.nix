@@ -10,9 +10,7 @@ let
   cfg = config.nx.desktop.cinnamon;
 in
 {
-  options.nx.desktop.cinnamon = {
-    enable = mkEnableOption "Enable Cinnamon desktop environment";
-  };
+  options.nx.desktop.cinnamon.enable = mkEnableOption "Enable Cinnamon desktop environment";
 
   config = mkIf cfg.enable {
     services.xserver.enable = true;
@@ -20,19 +18,10 @@ in
     services.xserver.desktopManager.cinnamon.enable = true;
 
     services.speechd.enable = mkForce false;
-    services.orca.enable = mkForce true;
+    services.orca.enable = mkForce false;
 
     environment.systemPackages = with pkgs; [
       nemo-preview
     ];
-
-    environment.variables.QT_QPA_PLATFORMTHEME = "qt5ct";
-
-    services.xserver.xkb = {
-      layout = "de";
-      variant = "";
-    };
-
-    console.keyMap = "de";
   };
 }
