@@ -49,6 +49,11 @@ in
         type = types.bool;
         default = true;
       };
+      lua = mkOption {
+        description = "enable the lua integration";
+        type = types.bool;
+        default = true;
+      };
       latex = mkOption {
         description = "enable latex integration";
         type = types.bool;
@@ -77,8 +82,9 @@ in
         ++ (optionals cfg.langs.java [ pkgs.jdt-language-server ])
         ++ (optionals cfg.langs.nix [
           pkgs.nil
-          pkgs.nixfmt-rfc-style
+          pkgs.nixfmt
         ])
+        ++ (optionals cfg.langs.lua [ pkgs.lua-language-server ])
         ++ (optionals cfg.langs.latex [ pkgs.texlab ]);
 
       plugins = with pkgs.vimPlugins; [
