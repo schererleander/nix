@@ -4,10 +4,10 @@
   imports = [
     ./audio
     ./desktop
+    ./dns
     ./openssh
     ./printer
     ./server
-    ./system
     ./wooting
   ];
 }
