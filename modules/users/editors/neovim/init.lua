@@ -142,6 +142,15 @@ vim.lsp.config('nixd', {
 vim.lsp.config('nil_ls', {
 	cmd = { 'nil' },
 	capabilities = capabilities,
+	settings = {
+		['nil'] = {
+			nix = {
+				flake = {
+					autoArchive = true,
+				},
+			},
+		},
+	},
 })
 
 vim.lsp.config('lua_ls', {
