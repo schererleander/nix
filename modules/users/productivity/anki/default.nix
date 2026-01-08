@@ -1,6 +1,5 @@
 {
   config,
-  options,
   lib,
   ...
 }:
@@ -17,14 +16,13 @@ in
     };
   };
   config = mkIf cfg.enable {
-    # Marked as broken
-    #home-manager.users.${username}.programs.anki = {
-    #enable = true;
-    #style = "native";
-    #addons = with pkgs.ankiAddons; [
-    #  anki-connect
-    #  review-heatmap
-    #];
-    #};
+    programs.anki = {
+    enable = true;
+			#style = "native";
+			#addons = with pkgs.ankiAddons; [
+			#  anki-connect
+			#  review-heatmap
+			#];
+    };
   };
 }

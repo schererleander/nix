@@ -30,7 +30,7 @@ in
         "bash"
         "zsh"
       ];
-      default = "zsh";
+      default = "bash";
     };
   };
 }

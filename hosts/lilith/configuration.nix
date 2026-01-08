@@ -2,27 +2,15 @@
   pkgs,
   host,
   username,
-  inputs,
   ...
 }:
 
 {
-  users.users.${username}.home = "/Users/${username}";
-
   networking.hostName = host;
 
-  home-manager.users.${username} = {
-    home.username = username;
-    home.homeDirectory = "/Users/${username}";
-    programs.home-manager.enable = true;
-
-    imports = [
-      ../../modules/users
-      inputs.nixcord.homeModules.nixcord
-      inputs.spicetify-nix.homeManagerModules.spicetify
-    ];
-
-    home.packages = with pkgs; [
+  nx.user.${username} = {
+    stateVersion = "25.11";
+    packages = with pkgs; [
       htop
       ffmpeg
       wget
@@ -37,27 +25,24 @@
 
       nerd-fonts.symbols-only
     ];
-    home.stateVersion = "25.11";
-    home.sessionVariables = {
+    sessionVariables = {
       PATH = "/opt/homebrew/opt/openjdk@21/bin:$PATH";
     };
 
     nx = {
-      editors = {
-        neovim = {
-          enable = true;
-          langs = {
-            python = true;
-            go = true;
-            java = true;
-            latex = true;
-          };
+      terminal.defaultShell = "zsh";
+
+      editors.neovim = {
+        enable = true;
+        langs = {
+          python = true;
+          go = true;
+          java = true;
+          latex = true;
         };
       };
       git.enable = true;
-      cli = {
-        opencode.enable = true;
-      };
+      cli.opencode.enable = true;
       media = {
         spicetify.enable = true;
         nixcord.enable = true;

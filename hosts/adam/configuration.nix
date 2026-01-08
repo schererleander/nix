@@ -1,7 +1,6 @@
 {
   pkgs,
   username,
-  inputs,
   ...
 }:
 
@@ -9,8 +8,6 @@
   imports = [
     ./hardware-configuration.nix
   ];
-
-  home-manager.extraSpecialArgs = { inherit inputs; };
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
@@ -66,32 +63,25 @@
 
   programs.dconf.enable = true;
 
-  home-manager.users.${username} = {
-    home.username = username;
-    home.homeDirectory = "/home/${username}";
-    imports = [
-      ../../modules/users
-      inputs.nixcord.homeModules.nixcord
-      inputs.spicetify-nix.homeManagerModules.spicetify
-    ];
+  nx = {
+    desktop.kde.enable = true;
 
-    programs.home-manager.enable = true;
-    home.packages = with pkgs; [
-      imv
-      mpv
-      firefox
+    user.${username} = {
+      stateVersion = "25.11";
+      packages = with pkgs; [
+        imv
+        mpv
+        firefox
+        zoxide
+      ];
+      shellAliases = {
+        open = "xdg-open";
+      };
 
-      zoxide
-    ];
+      nx = {
+        terminal.defaultShell = "zsh";
 
-    programs.zsh.shellAliases = {
-      open = "xdg-open";
-    };
-
-    nx = {
-      #browsers.firefox.enable = true;
-      editors = {
-        neovim = {
+        editors.neovim = {
           enable = true;
           langs = {
             python = true;
@@ -100,27 +90,19 @@
             latex = true;
           };
         };
+        git.enable = true;
+        cli.opencode.enable = true;
+        media = {
+          spicetify.enable = true;
+          nixcord.enable = true;
+        };
+        productivity = {
+          nextcloud-client.enable = true;
+          obsidian.enable = true;
+          latex.enable = true;
+          anki.enable = true;
+        };
       };
-      git.enable = true;
-      cli = {
-        opencode.enable = true;
-      };
-      media = {
-        spicetify.enable = true;
-        nixcord.enable = true;
-      };
-      productivity = {
-        obsidian.enable = true;
-        latex.enable = true;
-      };
-    };
-
-    home.stateVersion = "25.11";
-  };
-
-  nx = {
-    desktop = {
-      kde.enable = true;
     };
   };
 
