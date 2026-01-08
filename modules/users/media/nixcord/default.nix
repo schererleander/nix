@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  inputs,
   ...
 }:
 let
@@ -9,7 +8,6 @@ let
   inherit (lib) mkOption types mkIf;
 in
 {
-  imports = [ inputs.nixcord.homeModules.nixcord ];
   options.nx.media.nixcord = {
     enable = lib.mkOption {
       description = "Enable nixcord and setup";

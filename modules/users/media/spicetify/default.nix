@@ -12,8 +12,6 @@ let
   inherit (lib) mkOption types mkIf;
 in
 {
-  imports = [ inputs.spicetify-nix.homeManagerModules.spicetify ];
-
   options.nx.media.spicetify = {
     enable = mkOption {
       description = "Command-line tool to customize the official Spotify client";

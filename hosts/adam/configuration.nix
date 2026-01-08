@@ -69,7 +69,11 @@
   home-manager.users.${username} = {
     home.username = username;
     home.homeDirectory = "/home/${username}";
-    imports = [ ../../modules/users ];
+    imports = [
+      ../../modules/users
+      inputs.nixcord.homeModules.nixcord
+      inputs.spicetify-nix.homeManagerModules.spicetify
+    ];
 
     programs.home-manager.enable = true;
     home.packages = with pkgs; [
