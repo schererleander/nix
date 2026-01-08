@@ -85,6 +85,7 @@
 
   nx = {
     desktop.kde.enable = true;
+		dns.enable = true;
 
     user.${username} = {
       stateVersion = "25.11";
