@@ -1,0 +1,7 @@
+{ ... }:
+{
+  imports = [
+    ./nixcord
+    ./spicetify
+  ];
+}

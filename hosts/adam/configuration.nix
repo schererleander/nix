@@ -1,17 +1,16 @@
 {
   pkgs,
   username,
+  inputs,
   ...
 }:
 
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/desktop
-    ../../modules/programs
-    ../../modules/system
-    ../../modules/services
   ];
+
+  home-manager.extraSpecialArgs = { inherit inputs; };
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
@@ -70,24 +69,46 @@
   home-manager.users.${username} = {
     home.username = username;
     home.homeDirectory = "/home/${username}";
+    imports = [ ../../modules/users ];
 
     programs.home-manager.enable = true;
-
     home.packages = with pkgs; [
-      firefox
-      blender
-      godot
       imv
       mpv
+      firefox
 
       zoxide
-
-      noto-fonts-cjk-sans
-      noto-fonts-color-emoji
     ];
 
     programs.zsh.shellAliases = {
       open = "xdg-open";
+    };
+
+    nx = {
+      #browsers.firefox.enable = true;
+      editors = {
+        neovim = {
+          enable = true;
+          langs = {
+            python = true;
+            go = true;
+            java = true;
+            latex = true;
+          };
+        };
+      };
+      git.enable = true;
+      cli = {
+        opencode.enable = true;
+      };
+      media = {
+        spicetify.enable = true;
+        nixcord.enable = true;
+      };
+      productivity = {
+        obsidian.enable = true;
+        latex.enable = true;
+      };
     };
 
     home.stateVersion = "25.11";
@@ -96,29 +117,6 @@
   nx = {
     desktop = {
       kde.enable = true;
-    };
-    programs = {
-      kitty.enable = true;
-      git.enable = true;
-      gh.enable = true;
-      gpg.enable = true;
-      neovim.enable = true;
-      tmux.enable = true;
-      zsh.enable = true;
-      spicetify.enable = true;
-      obsidian.enable = true;
-      gemini-cli.enable = true;
-      opencode.enable = true;
-      nixcord.enable = true;
-    };
-    services = {
-      openssh.enable = true;
-      printer.enable = true;
-      pipewire.enable = true;
-      polkit.enable = true;
-      wooting.enable = true;
-      mullvad.enable = true;
-      nextcloud-client.enable = true;
     };
   };
 

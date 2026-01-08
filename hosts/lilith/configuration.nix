@@ -2,14 +2,11 @@
   pkgs,
   host,
   username,
+  inputs,
   ...
 }:
 
 {
-  imports = [
-    ../../modules/programs
-  ];
-
   users.users.${username}.home = "/Users/${username}";
 
   networking.hostName = host;
@@ -18,6 +15,12 @@
     home.username = username;
     home.homeDirectory = "/Users/${username}";
     programs.home-manager.enable = true;
+
+    imports = [
+      ../../modules/users
+      inputs.nixcord.homeModules.nixcord
+      inputs.spicetify-nix.homeManagerModules.spicetify
+    ];
 
     home.packages = with pkgs; [
       htop
@@ -30,13 +33,39 @@
       rectangle
       slack
       podman
-			jetbrains.idea-community
+      jetbrains.idea-community
 
       nerd-fonts.symbols-only
     ];
     home.stateVersion = "25.11";
     home.sessionVariables = {
       PATH = "/opt/homebrew/opt/openjdk@21/bin:$PATH";
+    };
+
+    nx = {
+      editors = {
+        neovim = {
+          enable = true;
+          langs = {
+            python = true;
+            go = true;
+            java = true;
+            latex = true;
+          };
+        };
+      };
+      git.enable = true;
+      cli = {
+        opencode.enable = true;
+      };
+      media = {
+        spicetify.enable = true;
+        nixcord.enable = true;
+      };
+      productivity = {
+        obsidian.enable = true;
+        latex.enable = true;
+      };
     };
   };
 
@@ -77,18 +106,6 @@
     onActivation.cleanup = "zap";
     onActivation.autoUpdate = true;
     onActivation.upgrade = true;
-  };
-
-  nx = {
-    programs = {
-      neovim.enable = true;
-      zsh.enable = true;
-      anki.enable = true;
-      spicetify.enable = true;
-      zed-editor.enable = true;
-      obsidian.enable = true;
-			opencode.enable = true;
-    };
   };
 
   nix.enable = false;

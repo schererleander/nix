@@ -25,24 +25,24 @@ in
         nixpkgs.overlays = overlays;
         nixpkgs.config.allowUnfree = true;
 
-      nix.settings.experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
+        nix.settings.experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
       };
 
-      modules =
-        [
-          hostCfg
-          nixpkgsModule
-        ]
-        ++ (lib.optional useHomeManager (
-          if darwinHost then
-            inputs.home-manager.darwinModules.home-manager
-          else
-            inputs.home-manager.nixosModules.home-manager
-        ))
-        ++ extraModules;
+      modules = [
+        hostCfg
+        nixpkgsModule
+      ]
+      ++ (lib.optional (!darwinHost) ../modules/hosts)
+      ++ (lib.optional useHomeManager (
+        if darwinHost then
+          inputs.home-manager.darwinModules.home-manager
+        else
+          inputs.home-manager.nixosModules.home-manager
+      ))
+      ++ extraModules;
     in
     builder {
       system = system;

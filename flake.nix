@@ -27,9 +27,7 @@
       linux-system = "x86_64-linux";
       darwin-system = "aarch64-darwin";
       username = "schererleander";
-      overlays = [
-        inputs.neovim-nightly-overlay.overlays.default
-      ];
+      overlays = [ ];
       lib = import ./lib { inherit inputs; };
     in
     {
@@ -45,9 +43,6 @@
           username = "administrator";
           system = linux-system;
           useHomeManager = false;
-          extraModules = [
-            inputs.site.nixosModules.default
-          ];
         };
       };
       darwinConfigurations.lilith = lib.mkSystem {
