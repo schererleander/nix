@@ -10,5 +10,6 @@
     ./server
     ./wooting
 		./steam
+		./mullvad-vpn
   ];
 }
