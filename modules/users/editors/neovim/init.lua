@@ -126,62 +126,88 @@ vim.api.nvim_create_autocmd('LspAttach', {
 	end,
 })
 
-local servers = {
-	nixd = {
-		settings = {
-			nixd = {
-				formatting = {
-					command = { "nixfmt" },
-				},
+-- Native LSP setup (Neovim v0.11+)
+vim.lsp.config('nixd', {
+	cmd = { 'nixd' },
+	capabilities = capabilities,
+	settings = {
+		nixd = {
+			formatting = {
+				command = { "nixfmt" },
 			},
 		},
 	},
-	lua_ls = {
-		settings = {
-			lua_ls = {
-				formatting = {
-					command = { "luaformatter" },
-				},
-			},
-			Lua = {
-				runtime = {
-					version = 'LuaJIT',
-				},
-				diagnostics = {
-					globals = { 'vim', 'require' },
-				},
-				workspace = {
-					library = vim.api.nvim_get_runtime_file("", true),
-				},
-				telemetry = {
-					enable = false,
-				},
-			},
-		},
-	},
-	pyright = {},
-	tailwindcss = {},
-	gopls = {
-		settings = {
-			gopls = {
-				analyses = {
-					unusedparams = true,
-					unusedwrite = true,
-				},
-				staticcheck = true,
-			},
-		},
-	},
-	rust_analyzer = {},
-	ts_ls = {},
-}
+})
 
+vim.lsp.config('nil_ls', {
+	cmd = { 'nil' },
+	capabilities = capabilities,
+})
 
-local lspconfig = require('lspconfig')
-for server, config in pairs(servers) do
-	config.capabilities = capabilities
-	lspconfig[server].setup(config)
-end
+vim.lsp.config('lua_ls', {
+	cmd = { 'lua-language-server' },
+	capabilities = capabilities,
+	settings = {
+		Lua = {
+			runtime = {
+				version = 'LuaJIT',
+			},
+			diagnostics = {
+				globals = { 'vim', 'require' },
+			},
+			workspace = {
+				library = vim.api.nvim_get_runtime_file("", true),
+			},
+			telemetry = {
+				enable = false,
+			},
+		},
+	},
+})
+
+vim.lsp.config('pyright', {
+	cmd = { 'pyright-langserver', '--stdio' },
+	capabilities = capabilities,
+})
+
+vim.lsp.config('tailwindcss', {
+	cmd = { 'tailwindcss-language-server', '--stdio' },
+	capabilities = capabilities,
+})
+
+vim.lsp.config('gopls', {
+	cmd = { 'gopls' },
+	capabilities = capabilities,
+	settings = {
+		gopls = {
+			analyses = {
+				unusedparams = true,
+				unusedwrite = true,
+			},
+			staticcheck = true,
+		},
+	},
+})
+
+vim.lsp.config('rust_analyzer', {
+	cmd = { 'rust-analyzer' },
+	capabilities = capabilities,
+})
+
+vim.lsp.config('ts_ls', {
+	cmd = { 'typescript-language-server', '--stdio' },
+	capabilities = capabilities,
+})
+
+-- Enable all configured servers
+vim.lsp.enable('nixd')
+vim.lsp.enable('nil_ls')
+vim.lsp.enable('lua_ls')
+vim.lsp.enable('pyright')
+vim.lsp.enable('tailwindcss')
+vim.lsp.enable('gopls')
+vim.lsp.enable('rust_analyzer')
+vim.lsp.enable('ts_ls')
 
 vim.diagnostic.config({
 	virtual_text = { source = "if_many" },
