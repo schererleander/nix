@@ -1,7 +1,0 @@
-{ ... }:
-{
-  imports = [
-    ./tmux
-    ./opencode
-  ];
-}

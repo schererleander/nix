@@ -1,57 +1,21 @@
 {
-  pkgs,
   host,
-  username,
   ...
 }:
 
+let
+  username = "schererleander";
+in
 {
   networking.hostName = host;
 
-  nx.user.${username} = {
-    stateVersion = "25.11";
-    packages = with pkgs; [
-      htop
-      ffmpeg
-      wget
+  # User configuration
+  users.users.${username}.home = "/Users/${username}";
 
-      zathura
-      gemini-cli
-      iterm2
-      rectangle
-      slack
-      podman
-      jetbrains.idea-community
-
-      nerd-fonts.symbols-only
-    ];
-    sessionVariables = {
-      PATH = "/opt/homebrew/opt/openjdk@21/bin:$PATH";
-    };
-
-    nx = {
-      terminal.defaultShell = "zsh";
-
-      editors.neovim = {
-        enable = true;
-        langs = {
-          python = true;
-          go = true;
-          java = true;
-          latex = true;
-        };
-      };
-      git.enable = true;
-      cli.opencode.enable = true;
-      media = {
-        spicetify.enable = true;
-        nixcord.enable = true;
-      };
-      productivity = {
-        obsidian.enable = true;
-        latex.enable = true;
-      };
-    };
+  home-manager.users.${username} = {
+    imports = [ ../../home/schererleander.nix ];
+    home.username = username;
+    home.homeDirectory = "/Users/${username}";
   };
 
   system.primaryUser = username;
@@ -63,8 +27,6 @@
     };
     WindowManager.EnableStandardClickToShowDesktop = false;
     finder = {
-      #ShowPathbar = true;
-      #ShowStatusBar = true;
       _FXShowPosixPathInTitle = true;
       _FXSortFoldersFirst = true;
     };
@@ -82,11 +44,7 @@
       "openjdk@21"
     ];
     casks = [
-      "nextcloud"
       "mullvad-vpn"
-      "bambu-studio"
-      "arduino-ide"
-      "anki"
     ];
     onActivation.cleanup = "zap";
     onActivation.autoUpdate = true;

@@ -1,7 +1,0 @@
-{ ... }:
-{
-  imports = [
-    ./nixcord
-    ./spicetify
-  ];
-}

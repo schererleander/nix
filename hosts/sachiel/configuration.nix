@@ -1,10 +1,12 @@
 {
   pkgs,
   host,
-  username,
   ...
 }:
 
+let
+  username = "administrator";
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -65,10 +67,16 @@
   };
 
   nx.server = {
-    openssh.enable = true;
+    openssh = {
+      enable = true;
+      allowedUsers = [ username ];
+    };
     fail2ban.enable = true;
     nginx.enable = true;
-    nextcloud.enable = true;
+    nextcloud = {
+      enable = true;
+      user = username;
+    };
     site.enable = true;
   };
 
