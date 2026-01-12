@@ -1,4 +1,9 @@
-{ inputs, config, self, ... }:
+{
+  inputs,
+  config,
+  self,
+  ...
+}:
 
 let
   inherit (inputs.nixpkgs) lib;
@@ -11,7 +16,10 @@ let
   commonNixosModules = nixosModuleFiles ++ [
     {
       nixpkgs.config.allowUnfree = true;
-      nix.settings.experimental-features = [ "nix-command" "flakes" ];
+      nix.settings.experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
     }
   ];
 
@@ -19,6 +27,7 @@ let
   homeManagerModules = [
     inputs.home-manager.nixosModules.home-manager
     {
+      home-manager.backupFileExtension = "backup";
       home-manager.extraSpecialArgs = { inherit inputs; };
       home-manager.sharedModules = [ config.flake.homeModules.default ];
     }
@@ -28,15 +37,24 @@ in
   flake.nixosConfigurations = {
     adam = lib.nixosSystem {
       system = "x86_64-linux";
-      specialArgs = { inherit inputs; host = "adam"; };
-      modules = commonNixosModules ++ homeManagerModules ++ [
-        (self + /hosts/adam/configuration.nix)
-      ];
+      specialArgs = {
+        inherit inputs;
+        host = "adam";
+      };
+      modules =
+        commonNixosModules
+        ++ homeManagerModules
+        ++ [
+          (self + /hosts/adam/configuration.nix)
+        ];
     };
 
     sachiel = lib.nixosSystem {
       system = "x86_64-linux";
-      specialArgs = { inherit inputs; host = "sachiel"; };
+      specialArgs = {
+        inherit inputs;
+        host = "sachiel";
+      };
       modules = commonNixosModules ++ [
         (self + /hosts/sachiel/configuration.nix)
       ];
