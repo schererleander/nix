@@ -13,21 +13,26 @@ in
 
   config = mkIf cfg.enable {
     boot = {
-      kernelParams = [
-        "quiet"
-        "splash"
-        "boot.shell_on_fail"
-        "udev.log_priority=3"
-        "rd.systemd.show_status=auto"
-      ];
-      consoleLogLevel = 3;
+      # Show password prompt for encrypted root
+      initrd.systemd.enable = true;
+      kernelParams = [ "quiet" ];
       loader.systemd-boot.consoleMode = "max";
       plymouth = {
         enable = true;
-        theme = "lone";
+        theme = "loader_2";
         themePackages = with pkgs; [
           (adi1090x-plymouth-themes.override {
-            selected_themes = [ "lone" ];
+            selected_themes = [
+              #"lone"
+              #"red_loader"
+              #"cuts_alt"
+              #"abstract_ring_alt"
+              "loader_2"
+              #"sliced"
+              #"spinner_alt"
+              #"sphere"
+              #"loader"
+            ];
           })
         ];
       };
