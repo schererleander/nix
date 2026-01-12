@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (lib) mkEnableOption mkIf;
   cfg = config.nx.desktop.kde;
@@ -13,6 +18,10 @@ in
     };
     services.desktopManager.plasma6.enable = true;
     security.pam.services.sddm.enableKwallet = true;
-    environment.plasma6.excludePackages = with pkgs.kdePackages; [ elisa kate ];
+    environment.plasma6.excludePackages = with pkgs.kdePackages; [
+      elisa
+      kate
+    ];
+    environment.systemPackages = with pkgs.kdePackages; [ kcalc ];
   };
 }
