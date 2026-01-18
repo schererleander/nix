@@ -29,8 +29,6 @@ in
     ++ optionals isDarwin [
       iterm2
       rectangle
-      bambu-studio
-      arduino-ide
     ]
     ++ optionals (!isDarwin) [
       mpv
@@ -51,16 +49,19 @@ in
   nx = {
     shells.zsh.enable = true;
 
-    editors.neovim = {
-      enable = true;
-      langs = {
-        python = true;
-        go = true;
-        latex = true;
-        nix = true;
-        lua = true;
-        typst = true;
+    editors = {
+      neovim = {
+        enable = true;
+        langs = {
+          python = true;
+          go = true;
+          latex = true;
+          nix = true;
+          lua = true;
+          typst = true;
+        };
       };
+      zed-editor.enable = true;
     };
 
     programs.git.enable = true;
@@ -69,6 +70,7 @@ in
     media = {
       spicetify.enable = true;
       nixcord.enable = true;
+      jellyfin-mpv-shim.enable = !isDarwin;
     };
 
     productivity = {

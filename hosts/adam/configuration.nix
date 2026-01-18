@@ -54,7 +54,6 @@ in
   nx = {
     plymouth.enable = true;
     desktop.kde.enable = true;
-    steam.enable = true;
     dns.enable = true;
     hardware.bluetooth.enable = true;
   };
