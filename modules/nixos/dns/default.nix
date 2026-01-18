@@ -21,24 +21,27 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
-    services.resolved = {
-      enable = true;
-      dnssec = "true";
-      dnsovertls = "true";
-      domains = [ "~." ];
-      extraConfig = ''
-        DNSStubListener=yes
-        Cache=yes
-      '';
+    config = mkIf cfg.enable {
+      services.resolved = {
+        enable = true;
+        settings = {
+          Resolve = {
+            DNS = cfg.servers;
+            FallbackDNS = cfg.fallbackServers;
+            DNSSEC = true;
+            DNSOverTLS = true;
+            Domains = [ "~." ];
+          };
+        };
+      };
+      networking = {
+        nameservers = cfg.servers;
+        networkmanager.dns = lib.mkDefault "systemd-resolved";
+      };
+      systemd.services.systemd-resolved.environment = {
+        DNS = concatStringsSep " " cfg.servers;
+        FallbackDNS = concatStringsSep " " cfg.fallbackServers;
+      };
     };
-    networking = {
-      nameservers = cfg.servers;
-      networkmanager.dns = lib.mkDefault "systemd-resolved";
-    };
-    systemd.services.systemd-resolved.environment = {
-      DNS = concatStringsSep " " cfg.servers;
-      FallbackDNS = concatStringsSep " " cfg.fallbackServers;
-    };
-  };
+
 }
