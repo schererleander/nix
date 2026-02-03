@@ -5,16 +5,11 @@
 }:
 let
   cfg = config.nx.media.nixcord;
-  inherit (lib) mkEnableOption mkOption types mkIf;
+  inherit (lib) mkEnableOption mkIf;
 in
 {
   options.nx.media.nixcord = {
     enable = mkEnableOption "nixcord and setup";
-    frameless = mkOption {
-      description = "Make discord frameless";
-      type = types.bool;
-      default = true;
-    };
   };
   config = mkIf cfg.enable {
     programs.nixcord = {
@@ -23,7 +18,7 @@ in
         themeLinks = [
           "https://refact0r.github.io/system24/theme/system24.theme.css"
         ];
-        frameless = cfg.frameless;
+        frameless = true;
         plugins = {
           alwaysAnimate.enable = false;
           imageLink.enable = true;

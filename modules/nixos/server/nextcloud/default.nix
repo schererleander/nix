@@ -5,89 +5,76 @@
   ...
 }:
 let
-  inherit (lib) mkEnableOption mkOption types mkIf;
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.nx.server.nextcloud;
 in
 {
   options.nx.server.nextcloud = {
     enable = mkEnableOption "Nextcloud server";
-    user = mkOption {
-      description = "System user for paths like SSH keys";
-      type = types.str;
-    };
-    adminUser = mkOption {
-      description = "Admin user";
-      type = types.str;
-      default = "schererleander";
-    };
-    adminPassFile = mkOption {
-      description = "Admin user key file";
-      type = types.str;
-      default = "/etc/nextcloud-admin-pass";
-    };
-    hostName = mkOption {
-      description = "Nextcloud hostname";
-      type = types.str;
-      default = "cloud.schererleander.de";
-    };
-    backup = mkOption {
-      description = "enable borgbase backups";
-      type = types.bool;
-      default = true;
-    };
-    backupSshKeyPath = mkOption {
-      description = "SSH key path for borgbase backup";
-      type = types.str;
-      default = "/home/${cfg.user}/.ssh/borgbase-nextcloud";
-    };
-    jail = mkOption {
-      description = "setup fail2ban jail";
-      type = types.bool;
-      default = config.nx.server.fail2ban.enable;
-    };
   };
 
   config = mkIf cfg.enable {
     services.nextcloud = {
       enable = true;
       package = pkgs.nextcloud32;
-      hostName = cfg.hostName;
+      hostName = "cloud.schererleander.de";
       https = true;
       database.createLocally = true;
       maxUploadSize = "16G";
       config = {
         dbtype = "mysql";
-        adminuser = cfg.adminUser;
-        adminpassFile = cfg.adminPassFile;
+        adminuser = "schererleander";
+        adminpassFile = config.sops.secrets."nextcloud-admin-pass".path;
       };
       settings = {
         maintenance_window_start = 2; # 02:00
         default_phone_region = "de";
         overwriteProtocol = "https";
-        trusted_domains = [ cfg.hostName ];
+        trusted_domains = [ "cloud.schererleander.de" ];
         logtimezone = config.time.timeZone;
         log_type = "file";
+        enabledPreviewProviders = [
+          # Default
+          "OC\\Preview\\BMP"
+          "OC\\Preview\\GIF"
+          "OC\\Preview\\JPEG"
+          "OC\\Preview\\Krita"
+          "OC\\Preview\\MarkDown"
+          "OC\\Preview\\OpenDocument"
+          "OC\\Preview\\PNG"
+          "OC\\Preview\\TXT"
+          "OC\\Preview\\XBitmap"
+          # Non default
+          #"OC\\Preview\\Font"
+          "OC\\Preview\\HEIC"
+          #"OC\\Preview\\MP3"
+          #"OC\\Preview\\Movie"
+          #"OC\\Preview\\PDF"
+          #"OC\\Preview\\SVG"
+        ];
       };
       phpOptions."opcache.interned_strings_buffer" = "64";
     };
 
     services.nginx.virtualHosts = mkIf ((config.nx.server.nginx or { }).enable or false) {
-      "${cfg.hostName}" = {
+      "cloud.schererleander.de" = {
         forceSSL = true;
         sslCertificate = config.nx.server.nginx.sslCertificate;
         sslCertificateKey = config.nx.server.nginx.sslCertificateKey;
       };
     };
 
-    services.borgbackup.jobs.nextcloud = mkIf cfg.backup {
+    services.borgbackup.jobs.nextcloud = {
       paths = [
         "/var/lib/nextcloud"
         "/var/lib/backup/nextcloud/db"
       ];
-      repo = "h8xn8qvo@h8xn8qvo.repo.borgbase.com:repo";
+      repo = config.sops.secrets."borg_repo".path;
       encryption.mode = "none";
       environment = {
-        BORG_RSH = "ssh -i ${cfg.backupSshKeyPath} -o StrictHostKeyChecking=accept-new";
+        BORG_RSH = "ssh -i ${
+          config.sops.secrets."borgbase_ssh_key".path
+        } -o StrictHostKeyChecking=accept-new";
         TMPDIR = "/var/tmp";
       };
       compression = "auto,lzma";
@@ -124,7 +111,9 @@ in
       '';
     };
 
-    services.fail2ban = mkIf cfg.jail {
+    services.fail2ban = {
+      enable = true;
+      bantime = "86400";
       jails = {
         nextcloud = {
           enabled = true;
@@ -136,14 +125,13 @@ in
             protocol = "tcp";
             filter = "nextcloud";
             maxretry = 3;
-            bantime = 86400;
             findtime = 43200;
           };
         };
       };
     };
 
-    environment.etc = mkIf cfg.jail {
+    environment.etc = {
       # Adapted failregex for syslogs
       "fail2ban/filter.d/nextcloud.local".text = pkgs.lib.mkDefault (
         pkgs.lib.mkAfter ''
@@ -157,3 +145,4 @@ in
     };
   };
 }
+

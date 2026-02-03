@@ -5,38 +5,30 @@
 }:
 
 let
-  inherit (lib) mkEnableOption mkOption types mkIf;
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.nx.server.openssh;
 in
 {
   options.nx.server.openssh = {
     enable = mkEnableOption "OpenSSH server";
-    port = mkOption {
-      description = "Port for openssh";
-      type = types.port;
-      default = 8693;
-    };
-    allowedUsers = mkOption {
-      description = "Users allowed to SSH";
-      type = types.listOf types.str;
-      default = [ ];
-    };
   };
 
   config = mkIf cfg.enable {
     services.openssh = {
       enable = true;
-      ports = [ cfg.port ];
+      ports = [ 8693 ];
       settings = {
         PasswordAuthentication = false;
-        AllowUsers = cfg.allowedUsers;
+        AllowUsers = [ ];
         X11Forwarding = false;
         PermitRootLogin = "yes";
       };
     };
-    networking.firewall.allowedTCPPorts = [ cfg.port ];
+    networking.firewall.allowedTCPPorts = [ 8693 ];
 
     services.fail2ban = {
+      enable = true;
+      bantime = "1h";
       jails = {
         sshd = {
           enabled = true;
@@ -45,7 +37,6 @@ in
             backend = "systemd";
             maxretry = 4;
             findtime = "10m";
-            bantime = "1h";
           };
         };
       };

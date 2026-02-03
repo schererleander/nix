@@ -71,7 +71,6 @@ in
       enable = true;
       allowedUsers = [ username ];
     };
-    fail2ban.enable = true;
     nginx.enable = true;
     nextcloud = {
       enable = true;
