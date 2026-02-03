@@ -19,7 +19,7 @@ in
       wget
       zoxide
       zathura
-      jetbrains.idea-community
+      jetbrains.idea-oss
       anki
       obsidian
       typst
@@ -50,17 +50,7 @@ in
     shells.zsh.enable = true;
 
     editors = {
-      neovim = {
-        enable = true;
-        langs = {
-          python = true;
-          go = true;
-          latex = true;
-          nix = true;
-          lua = true;
-          typst = true;
-        };
-      };
+      neovim.enable = true;
       zed-editor.enable = true;
     };
 

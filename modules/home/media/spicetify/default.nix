@@ -7,7 +7,7 @@
 }:
 
 let
-  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.system};
+  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
   cfg = config.nx.media.spicetify;
   inherit (lib) mkEnableOption mkIf;
 in
