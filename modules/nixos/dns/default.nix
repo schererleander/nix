@@ -1,6 +1,12 @@
 { config, lib, ... }:
 let
-  inherit (lib) mkEnableOption mkOption types mkIf concatStringsSep;
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    types
+    mkIf
+    concatStringsSep
+    ;
   cfg = config.nx.dns;
 in
 {
@@ -17,31 +23,34 @@ in
     };
     fallbackServers = mkOption {
       type = types.listOf types.str;
-      default = [ "8.8.8.8#dns.google" "8.8.4.4#dns.google" ];
+      default = [
+        "8.8.8.8#dns.google"
+        "8.8.4.4#dns.google"
+      ];
     };
   };
 
-    config = mkIf cfg.enable {
-      services.resolved = {
-        enable = true;
-        settings = {
-          Resolve = {
-            DNS = cfg.servers;
-            FallbackDNS = cfg.fallbackServers;
-            DNSSEC = true;
-            DNSOverTLS = true;
-            Domains = [ "~." ];
-          };
+  config = mkIf cfg.enable {
+    services.resolved = {
+      enable = true;
+      settings = {
+        Resolve = {
+          DNS = cfg.servers;
+          FallbackDNS = cfg.fallbackServers;
+          DNSSEC = true;
+          DNSOverTLS = true;
+          Domains = [ "~." ];
         };
       };
-      networking = {
-        nameservers = cfg.servers;
-        networkmanager.dns = lib.mkDefault "systemd-resolved";
-      };
-      systemd.services.systemd-resolved.environment = {
-        DNS = concatStringsSep " " cfg.servers;
-        FallbackDNS = concatStringsSep " " cfg.fallbackServers;
-      };
     };
+    networking = {
+      nameservers = cfg.servers;
+      networkmanager.dns = lib.mkDefault "systemd-resolved";
+    };
+    systemd.services.systemd-resolved.environment = {
+      DNS = concatStringsSep " " cfg.servers;
+      FallbackDNS = concatStringsSep " " cfg.fallbackServers;
+    };
+  };
 
 }

@@ -13,12 +13,12 @@ in
   };
   config = mkIf cfg.enable {
     programs.anki = {
-    enable = true;
-			#style = "native";
-			#addons = with pkgs.ankiAddons; [
-			#  anki-connect
-			#  review-heatmap
-			#];
+      enable = true;
+      #style = "native";
+      #addons = with pkgs.ankiAddons; [
+      #  anki-connect
+      #  review-heatmap
+      #];
     };
   };
 }

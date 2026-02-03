@@ -1,6 +1,11 @@
 { config, lib, ... }:
 let
-  inherit (lib) mkEnableOption mkOption types mkIf;
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    types
+    mkIf
+    ;
   cfg = config.nx.services.openssh;
 in
 {

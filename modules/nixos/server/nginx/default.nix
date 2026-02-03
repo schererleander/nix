@@ -4,7 +4,12 @@
   ...
 }:
 let
-  inherit (lib) mkEnableOption mkOption types mkIf;
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    types
+    mkIf
+    ;
   cfg = config.nx.server.nginx;
 in
 {

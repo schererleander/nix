@@ -5,7 +5,12 @@
 }:
 let
   cfg = config.nx.programs.git;
-  inherit (lib) mkEnableOption mkOption mkIf types;
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    mkIf
+    types
+    ;
 in
 {
   options.nx.programs.git = {

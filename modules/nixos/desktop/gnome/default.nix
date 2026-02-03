@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (lib) mkEnableOption mkIf;
   cfg = config.nx.desktop.gnome;
@@ -13,10 +18,14 @@ in
     services.gnome.games.enable = false;
 
     environment.gnome.excludePackages = with pkgs; [
-      gnome-tour gnome-user-docs epiphany
+      gnome-tour
+      gnome-user-docs
+      epiphany
     ];
     environment.systemPackages = with pkgs; [
-      gnomeExtensions.pop-shell gnomeExtensions.blur-my-shell gnome-tweaks
+      gnomeExtensions.pop-shell
+      gnomeExtensions.blur-my-shell
+      gnome-tweaks
     ];
   };
 }

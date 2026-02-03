@@ -5,7 +5,7 @@
   ...
 }:
 let
-  inherit (lib) mkEnableOption mkIf mkDefault;
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.nx.server.nextcloud;
 in
 {
@@ -47,9 +47,9 @@ in
           # Non default
           #"OC\\Preview\\Font"
           "OC\\Preview\\HEIC"
-          #"OC\\Preview\\MP3"
-          #"OC\\Preview\\Movie"
-          #"OC\\Preview\\PDF"
+          "OC\\Preview\\MP3"
+          "OC\\Preview\\Movie"
+          "OC\\Preview\\PDF"
           #"OC\\Preview\\SVG"
         ];
       };
@@ -113,7 +113,7 @@ in
 
     services.fail2ban = {
       enable = true;
-       bantime = lib.mkDefault "1h";
+      bantime = lib.mkDefault "1h";
       jails = {
         nextcloud = {
           enabled = true;
@@ -145,4 +145,3 @@ in
     };
   };
 }
-
