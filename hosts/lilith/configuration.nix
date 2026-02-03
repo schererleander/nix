@@ -45,6 +45,9 @@ in
     ];
     casks = [
       "mullvad-vpn"
+      "nextcloud"
+      "iterm2"
+      "rectangle"
     ];
     onActivation.cleanup = "zap";
     onActivation.autoUpdate = true;

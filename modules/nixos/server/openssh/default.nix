@@ -5,7 +5,7 @@
 }:
 
 let
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkEnableOption mkIf mkDefault;
   cfg = config.nx.server.openssh;
 in
 {
@@ -17,18 +17,17 @@ in
     services.openssh = {
       enable = true;
       ports = [ 8693 ];
-      settings = {
-        PasswordAuthentication = false;
-        AllowUsers = [ ];
-        X11Forwarding = false;
-        PermitRootLogin = "yes";
-      };
+       settings = {
+         PasswordAuthentication = false;
+         X11Forwarding = false;
+         PermitRootLogin = "yes";
+       };
     };
     networking.firewall.allowedTCPPorts = [ 8693 ];
 
     services.fail2ban = {
       enable = true;
-      bantime = "1h";
+       bantime = lib.mkDefault "1h";
       jails = {
         sshd = {
           enabled = true;

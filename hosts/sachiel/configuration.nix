@@ -1,4 +1,5 @@
 {
+  inputs,
   pkgs,
   host,
   ...
@@ -10,6 +11,7 @@ in
 {
   imports = [
     ./hardware-configuration.nix
+    (import ../../modules/secrets/default.nix)
   ];
 
   boot.tmp.cleanOnBoot = true;
@@ -67,15 +69,9 @@ in
   };
 
   nx.server = {
-    openssh = {
-      enable = true;
-      allowedUsers = [ username ];
-    };
+    openssh.enable = true;
     nginx.enable = true;
-    nextcloud = {
-      enable = true;
-      user = username;
-    };
+    nextcloud.enable = true;
     site.enable = true;
   };
 

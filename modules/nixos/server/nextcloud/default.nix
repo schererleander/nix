@@ -5,7 +5,7 @@
   ...
 }:
 let
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkEnableOption mkIf mkDefault;
   cfg = config.nx.server.nextcloud;
 in
 {
@@ -113,7 +113,7 @@ in
 
     services.fail2ban = {
       enable = true;
-      bantime = "86400";
+       bantime = lib.mkDefault "1h";
       jails = {
         nextcloud = {
           enabled = true;
