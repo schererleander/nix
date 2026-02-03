@@ -19,21 +19,17 @@ in
       wget
       zoxide
       zathura
-      jetbrains.idea-oss
+      jetbrains.idea
       anki
       obsidian
       typst
       nerd-fonts.symbols-only
-      nextcloud-client
-    ]
-    ++ optionals isDarwin [
-      iterm2
-      rectangle
     ]
     ++ optionals (!isDarwin) [
       mpv
       firefox
       arduino-ide
+      nextcloud-client
     ];
 
   home.sessionVariables = optionalAttrs isDarwin {

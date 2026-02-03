@@ -13,31 +13,22 @@
         owner = "root";
         mode = "0600";
       };
-       "ssh_github_key" = {
-         owner = "administrator";
-         mode = "0600";
-       };
-       "ssh_jonsbo_key" = {
-         owner = "administrator";
-         mode = "0600";
-       };
-       "ssh_sachiel_key" = {
-         owner = "administrator";
-         mode = "0600";
-       };
-       "ssh_config" = {
-         owner = "administrator";
-         mode = "0600";
-       };
-       "ssh_borgbase_unraid_key" = {
-         owner = "root";
-         mode = "0600";
-       };
-       "borg_repo" = {
-         owner = "root";
-         mode = "0600";
-       };
+      "ssh_github_key" = {
+        owner = "administrator";
+        mode = "0600";
+      };
+      "ssh_jonsbo_key" = {
+        owner = "administrator";
+        mode = "0600";
+      };
+      "ssh_sachiel_key" = {
+        owner = "administrator";
+        mode = "0600";
+      };
+      "borg_repo" = {
+        owner = "root";
+        mode = "0600";
+      };
     };
   };
 }
-
