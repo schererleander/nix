@@ -14,6 +14,7 @@ in
   flake.homeModules = {
     default = {
       imports = homeModuleFiles ++ [
+        inputs.sops-nix.homeManagerModules.sops
         inputs.nixcord.homeModules.nixcord
         inputs.spicetify-nix.homeManagerModules.spicetify
       ];
