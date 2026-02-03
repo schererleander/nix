@@ -56,11 +56,11 @@ in
       phpOptions."opcache.interned_strings_buffer" = "64";
     };
 
-    services.nginx.virtualHosts = mkIf ((config.nx.server.nginx or { }).enable or false) {
+    services.nginx.virtualHosts = {
       "cloud.schererleander.de" = {
         forceSSL = true;
-        sslCertificate = config.nx.server.nginx.sslCertificate;
-        sslCertificateKey = config.nx.server.nginx.sslCertificateKey;
+        sslCertificate = config.sops.secrets."cert_fullchain".path;
+        sslCertificateKey = config.sops.secrets."cert_private".path;
       };
     };
 

@@ -21,8 +21,8 @@ in
     services.site = {
       enable = true;
       domain = "schererleander.de";
-      sslCertificate = "/etc/ssl/schererleander.de/fullchain.pem";
-      sslCertificateKey = "/etc/ssl/schererleander.de/privkey.key";
+      sslCertificate = config.sops.secrets."cert_fullchain".path;
+      sslCertificateKey = config.sops.secrets."cert_private".path;
     };
   };
 }

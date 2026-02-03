@@ -29,6 +29,14 @@
         owner = "root";
         mode = "0600";
       };
+      "cert_fullchain" = {
+        owner = "nginx";
+        group = "nginx";
+      };
+      "cert_private" = {
+        owner = "nginx";
+        group = "nginx";
+      };
     };
   };
 }

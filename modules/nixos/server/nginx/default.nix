@@ -6,8 +6,6 @@
 let
   inherit (lib)
     mkEnableOption
-    mkOption
-    types
     mkIf
     ;
   cfg = config.nx.server.nginx;
@@ -16,21 +14,6 @@ in
   options.nx.server.nginx = {
     enable = mkEnableOption "nginx reverse proxy" // {
       default = true;
-    };
-    hostName = mkOption {
-      description = "url of server";
-      type = types.str;
-      default = "schererleander.de";
-    };
-    sslCertificate = mkOption {
-      description = "ssl certificate to use";
-      type = types.nullOr types.str;
-      default = "/etc/ssl/${cfg.hostName}/fullchain.pem";
-    };
-    sslCertificateKey = mkOption {
-      description = "ssl certificate key to use";
-      type = types.nullOr types.str;
-      default = "/etc/ssl/${cfg.hostName}/privkey.key";
     };
   };
   config = mkIf cfg.enable {
