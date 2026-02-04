@@ -26,6 +26,9 @@ in
         adminuser = "schererleander";
         adminpassFile = config.sops.secrets."nextcloud-admin-pass".path;
       };
+      secrets = {
+        secret = config.sops.secrets."nextcloud-secret".path;
+      };
       settings = {
         maintenance_window_start = 2; # 02:00
         default_phone_region = "de";
@@ -33,25 +36,8 @@ in
         trusted_domains = [ "cloud.schererleander.de" ];
         logtimezone = config.time.timeZone;
         log_type = "file";
-        enabledPreviewProviders = [
-          # Default
-          "OC\\Preview\\BMP"
-          "OC\\Preview\\GIF"
-          "OC\\Preview\\JPEG"
-          "OC\\Preview\\Krita"
-          "OC\\Preview\\MarkDown"
-          "OC\\Preview\\OpenDocument"
-          "OC\\Preview\\PNG"
-          "OC\\Preview\\TXT"
-          "OC\\Preview\\XBitmap"
-          # Non default
-          #"OC\\Preview\\Font"
-          "OC\\Preview\\HEIC"
-          "OC\\Preview\\MP3"
-          "OC\\Preview\\Movie"
-          "OC\\Preview\\PDF"
-          #"OC\\Preview\\SVG"
-        ];
+        # Disable mail functionality for single-user instance
+        mail_smtpmode = "null";
       };
       phpOptions."opcache.interned_strings_buffer" = "64";
     };

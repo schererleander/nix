@@ -9,6 +9,11 @@
         owner = "root";
         mode = "0600";
       };
+      "nextcloud-secret" = {
+        owner = "nextcloud";
+        group = "nextcloud";
+        mode = "0400";
+      };
       "nextcloud-admin-pass" = {
         owner = "root";
         mode = "0600";
