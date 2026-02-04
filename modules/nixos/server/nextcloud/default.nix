@@ -69,8 +69,10 @@ in
         "/var/lib/nextcloud"
         "/var/lib/backup/nextcloud/db"
       ];
-      repo = config.sops.secrets."borg_repo".path;
+      repo = "$BORG_REPO";
       encryption.mode = "none";
+      user = "root";
+      group = "root";
       environment = {
         BORG_RSH = "ssh -i ${
           config.sops.secrets."borgbase_ssh_key".path
@@ -85,6 +87,9 @@ in
       ];
       preHook = ''
         set -euo pipefail
+
+        export BORG_REPO="$(cat ${config.sops.secrets."borg_repo".path})"
+
         INSTALL="${pkgs.coreutils}/bin/install"
         FIND="${pkgs.findutils}/bin/find"
         MYSQLDUMP="${pkgs.mariadb.client}/bin/mariadb-dump"
