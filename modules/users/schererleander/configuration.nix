@@ -16,7 +16,7 @@
 
       home = {
         username = "schererleander";
-        stateVersion = "25.05";
+        stateVersion = "26.05";
       };
     };
 }

@@ -43,13 +43,14 @@
           "nextcloud"
           "iterm2"
           "rectangle"
+          "tailscale-app"
         ];
         masApps = {
-          "AdGuard Mini" = 1440147259;
+          #"AdGuard Mini" = 1440147259;
           #"WebSSH - Sysadmin Toolbox" = 497714887;
-          "Windows App" = 1295203466;
-          "Goodnotes: KI-Notizen, PDF" = 1444383602;
-          "WhatsApp Messenger" = 310633997;
+          #"Windows App" = 1295203466;
+          #"Goodnotes: KI-Notizen, PDF" = 1444383602;
+          #"WhatsApp Messenger" = 310633997;
         };
         onActivation.cleanup = "zap";
         onActivation.autoUpdate = true;
@@ -59,6 +60,6 @@
       nix.enable = false;
 
       nixpkgs.config.allowUnfree = true;
-      system.stateVersion = 5;
+      system.stateVersion = 6;
     };
 }
