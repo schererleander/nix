@@ -19,9 +19,7 @@
           adminuser = "schererleander";
           adminpassFile = config.sops.secrets."nextcloud-admin-pass".path;
         };
-        secrets = {
-          secret = config.sops.secrets."nextcloud-secret".path;
-        };
+        secretFile = config.sops.secrets."nextcloud-secrets".path;
         settings = {
           maintenance_window_start = 2; # 02:00
           default_phone_region = "de";

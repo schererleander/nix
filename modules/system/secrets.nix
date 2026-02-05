@@ -11,7 +11,7 @@
             owner = "root";
             mode = "0600";
           };
-          "nextcloud-secret" = {
+          "nextcloud-secrets" = {
             owner = "nextcloud";
             group = "nextcloud";
             mode = "0400";
