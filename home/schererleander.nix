@@ -19,11 +19,11 @@ in
       wget
       zoxide
       zathura
-      jetbrains.idea
       anki
       obsidian
       typst
       nerd-fonts.symbols-only
+      jetbrains.idea
     ]
     ++ optionals (!isDarwin) [
       mpv
