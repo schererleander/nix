@@ -30,7 +30,33 @@
           # Disable mail functionality for single-user instance
           mail_smtpmode = "null";
         };
-        phpOptions."opcache.interned_strings_buffer" = "64";
+        phpOptions."opcache.interned_strings_buffer" = "32";
+      };
+
+      # Reduce memory usage
+      services.phpfpm.pools.nextcloud = {
+        settings = {
+          "pm" = lib.mkForce "ondemand";
+          "pm.max_children" = lib.mkForce "3";
+          "pm.process_idle_timeout" = lib.mkForce "10s";
+          "pm.max_requests" = lib.mkForce "500";
+        };
+      };
+      services.nextcloud.phpOptions = {
+        memory_limit = lib.mkForce "512M";
+      };
+
+      # Reduce memory usage
+      services.mysql.settings = {
+        mysqld = {
+          innodb_buffer_pool_size = "128M";
+          innodb_log_buffer_size = "8M";
+          key_buffer_size = "8M";
+          max_connections = "20"; # Reduce from default 151
+          table_open_cache = "32";
+          query_cache_size = "0"; # Disable query cache
+          performance_schema = "OFF";
+        };
       };
 
       services.nginx.virtualHosts = {
