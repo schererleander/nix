@@ -9,6 +9,7 @@
     system = "aarch64-darwin";
     modules = [
       inputs.self.modules.darwin.lilith
+      inputs.self.modules.darwin.dns
       inputs.self.modules.darwin.home-manager
     ];
   };

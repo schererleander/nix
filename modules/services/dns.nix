@@ -3,14 +3,12 @@
     { lib, ... }:
     let
       servers = [
-        "1.1.1.1#cloudflare-dns.com"
-        "1.0.0.1#cloudflare-dns.com"
-        "9.9.9.9#dns.quad9.net"
-        "149.112.112.112#dns.quad9.net"
+        "194.242.2.2#dns.mullvad.net"
+        "2a07:e340::2#dns.mullvad.net"
       ];
       fallbackServers = [
-        "8.8.8.8#dns.google"
-        "8.8.4.4#dns.google"
+        "1.1.1.1#cloudflare-dns.com"
+        "1.0.0.1#cloudflare-dns.com"
       ];
     in
     {
@@ -29,6 +27,42 @@
       networking = {
         nameservers = servers;
         networkmanager.dns = lib.mkDefault "systemd-resolved";
+      };
+    };
+
+  flake.modules.darwin.dns =
+    { pkgs, lib, ... }:
+    {
+      environment.systemPackages = [ pkgs.cloudflared ];
+
+      networking = {
+        dns = [ "127.0.0.1" ];
+        knownNetworkServices = [
+          "Wi-Fi"
+          "Thunderbolt Bridge"
+        ];
+      };
+
+      launchd.daemons.cloudflared-dns = {
+        serviceConfig = {
+          Label = "com.cloudflare.cloudflared-dns";
+          ProgramArguments = [
+            "${pkgs.cloudflared}/bin/cloudflared"
+            "proxy-dns"
+            "--upstream"
+            "https://dns.mullvad.net/dns-query"
+            "--upstream"
+            "https://dns.quad9.net/dns-query"
+            "--port"
+            "53"
+            "--address"
+            "127.0.0.1"
+          ];
+          RunAtLoad = true;
+          KeepAlive = true;
+          StandardOutPath = "/var/log/cloudflared-dns.log";
+          StandardErrorPath = "/var/log/cloudflared-dns.log";
+        };
       };
     };
 }
