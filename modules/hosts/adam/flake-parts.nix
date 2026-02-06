@@ -2,13 +2,14 @@
 {
   flake.nixosConfigurations."adam" = inputs.nixpkgs.lib.nixosSystem {
     specialArgs = { inherit inputs; };
-    modules = [
-      inputs.self.modules.nixos.adam
-      inputs.self.modules.nixos.home-manager
-      inputs.self.modules.nixos.plymouth
-      inputs.self.modules.nixos.kde
-      inputs.self.modules.nixos.dns
-      inputs.self.modules.nixos.bluetooth
+    modules = with inputs.self.modules.nixos; [
+      adam
+      home-manager
+      plymouth
+      kde
+      dns
+      bluetooth
+      mullvad-vpn
     ];
   };
 }
