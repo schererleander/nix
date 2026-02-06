@@ -28,6 +28,10 @@
         nameservers = servers;
         networkmanager.dns = lib.mkDefault "systemd-resolved";
       };
+      # Workaround mullvad dns REFUSED response
+      networking.hosts = {
+        "216.58.206.78" = [ "www.youtube.com" ];
+      };
     };
 
   flake.modules.darwin.dns =
