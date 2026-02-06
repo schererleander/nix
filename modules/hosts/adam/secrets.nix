@@ -13,12 +13,12 @@
             mode = "0600";
           };
           "ssh_jonsbo_key" = {
-            owner = "administrator";
+            owner = "schererleander";
             group = "users";
             mode = "0600";
           };
           "ssh_sachiel_key" = {
-            owner = "administrator";
+            owner = "schererleander";
             group = "users";
             mode = "0600";
           };
