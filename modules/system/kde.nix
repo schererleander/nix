@@ -2,6 +2,7 @@
   flake.modules.nixos.kde =
     { pkgs, ... }:
     {
+      networking.networkmanager.enable = true;
       services.displayManager.sddm = {
         enable = true;
         wayland.enable = true;
@@ -12,6 +13,9 @@
         elisa
         kate
       ];
-      environment.systemPackages = with pkgs.kdePackages; [ kcalc ];
+      environment.systemPackages = with pkgs.kdePackages; [
+        kcalc
+        elisa
+      ];
     };
 }
