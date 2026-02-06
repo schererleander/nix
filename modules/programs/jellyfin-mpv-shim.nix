@@ -23,6 +23,8 @@
           gpu-api = "vulkan";
           target-colorspace-hint = "yes";
           target-peak = 500;
+          UP = "add chapter 1";
+          DOWN = "add chapter -1";
         }
         // (optionalAttrs false {
           target-trc = "pq";

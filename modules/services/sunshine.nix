@@ -1,13 +1,11 @@
 {
-  flake.modules.nixos.sunshine =
-    { ... }:
-    {
-      services.sunshine = {
-        enable = true;
-        autoStart = true;
-        capSysAdmin = true;
-        openFirewall = true;
-      };
-      hardware.graphics.enable = true;
+  flake.modules.nixos.sunshine = {
+    services.sunshine = {
+      enable = true;
+      autoStart = true;
+      capSysAdmin = true;
+      openFirewall = true;
     };
+    hardware.graphics.enable = true;
+  };
 }
