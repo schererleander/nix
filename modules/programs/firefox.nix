@@ -132,6 +132,9 @@
 
               # Hide ctr-tab tab preview menu
               "browser.ctrlTab.sortByRecentlyUsed" = false;
+
+              # Disabl popup when download finished
+              "browser.download.alwaysOpenPanel" = false;
             };
           };
         };
