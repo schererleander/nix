@@ -1,6 +1,6 @@
 {
   flake.modules.homeManager.schererleander =
-    { inputs, ... }:
+    { inputs, pkgs, ... }:
     {
       imports = with inputs.self.modules.homeManager; [
         gpg
@@ -11,12 +11,19 @@
         zed
         nixcord
         spicetify
-        obsidian
+        jellyfin-mpv-shim
+        nextcloud-client
       ];
 
       home = {
         username = "schererleander";
         stateVersion = "26.05";
+        packages = with pkgs; [
+          firefox
+          obsidian
+          tor-browser
+          gohufont
+        ];
       };
     };
 }
