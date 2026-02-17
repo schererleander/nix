@@ -21,6 +21,8 @@
         domain = "schererleander.de";
       };
 
+      time.timeZone = "UTC";
+
       users.users.root.hashedPassword = "!";
       users.mutableUsers = false;
       users.users.administrator = {
