@@ -39,6 +39,7 @@
           "openjdk@21"
         ];
         casks = [
+          "anki"
           "mullvad-vpn"
           "nextcloud"
           "iterm2"
@@ -58,8 +59,11 @@
       };
 
       nix = {
-        enable = true;
-        settings.experimental-features = [ "nix-command" "flakes" ];
+        enable = false;
+        settings.experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
       };
 
       nixpkgs.config.allowUnfree = true;
