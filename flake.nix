@@ -26,6 +26,15 @@
 
     firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
     firefox-addons.inputs.nixpkgs.follows = "nixpkgs";
+
+    neuwld-src.url = "git+https://git.sr.ht/~shrub900/neuwld";
+    neuwld-src.flake = false;
+
+    neuswc-src.url = "git+https://git.sr.ht/~shrub900/neuswc";
+    neuswc-src.flake = false;
+
+    shko-src.url = "git+https://git.sr.ht/~chld/shko";
+    shko-src.flake = false;
   };
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
