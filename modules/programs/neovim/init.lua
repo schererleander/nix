@@ -17,6 +17,9 @@ vim.o.clipboard = "unnamedplus"
 
 local map = vim.keymap.set
 map('n', '<leader>o', '<CMD>update<BAR>source %<CR>', { desc = 'Save & reload init.lua' })
+map('n', '<leader>lf', function()
+	vim.lsp.buf.format({ async = true })
+end, { desc = 'Format buffer via LSP' })
 map('n', '<leader>w', '<CMD>write<CR>')
 map('n', '<leader>q', '<CMD>quit<CR>')
 
@@ -108,7 +111,6 @@ cmp.setup({
 	})
 })
 
--- Add parentheses after selecting function or method
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 cmp.event:on(
 	'confirm_done',
@@ -117,32 +119,11 @@ cmp.event:on(
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-vim.api.nvim_create_autocmd('LspAttach', {
-	group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-	callback = function(ev)
-		local opts = { buffer = ev.buf, noremap = true, silent = true }
-		vim.keymap.set('n', '<leader>lf', function() vim.lsp.buf.format { async = true } end, opts)
-	end,
-})
-
--- Format on save for all languages with LSP support
-vim.api.nvim_create_autocmd('BufWritePre', {
-	group = vim.api.nvim_create_augroup('FormatOnSave', {}),
-	callback = function()
-		local clients = vim.lsp.get_clients({ bufnr = 0 })
-		for _, client in ipairs(clients) do
-			if client.supports_method('textDocument/formatting') then
-				vim.lsp.buf.format({ async = false })
-				return
-			end
-		end
-	end,
-})
-
--- Native LSP setup (Neovim v0.11+)
-vim.lsp.config('nixd', {
-	cmd = { 'nixd' },
+vim.lsp.config('*', {
 	capabilities = capabilities,
+})
+
+vim.lsp.config('nixd', {
 	settings = {
 		nixd = {
 			formatting = {
@@ -153,8 +134,6 @@ vim.lsp.config('nixd', {
 })
 
 vim.lsp.config('nil_ls', {
-	cmd = { 'nil' },
-	capabilities = capabilities,
 	settings = {
 		['nil'] = {
 			nix = {
@@ -167,39 +146,17 @@ vim.lsp.config('nil_ls', {
 })
 
 vim.lsp.config('lua_ls', {
-	cmd = { 'lua-language-server' },
-	capabilities = capabilities,
 	settings = {
 		Lua = {
-			runtime = {
-				version = 'LuaJIT',
-			},
-			diagnostics = {
-				globals = { 'vim', 'require' },
-			},
-			workspace = {
-				library = vim.api.nvim_get_runtime_file("", true),
-			},
-			telemetry = {
-				enable = false,
-			},
+			runtime = { version = 'LuaJIT' },
+			diagnostics = { globals = { 'vim', 'require' } },
+			workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+			telemetry = { enable = false },
 		},
 	},
 })
 
-vim.lsp.config('pyright', {
-	cmd = { 'pyright-langserver', '--stdio' },
-	capabilities = capabilities,
-})
-
-vim.lsp.config('tailwindcss', {
-	cmd = { 'tailwindcss-language-server', '--stdio' },
-	capabilities = capabilities,
-})
-
 vim.lsp.config('gopls', {
-	cmd = { 'gopls' },
-	capabilities = capabilities,
 	settings = {
 		gopls = {
 			analyses = {
@@ -211,25 +168,30 @@ vim.lsp.config('gopls', {
 	},
 })
 
-vim.lsp.config('rust_analyzer', {
-	cmd = { 'rust-analyzer' },
-	capabilities = capabilities,
+vim.lsp.config('clangd', {
+	cmd = {
+		"clangd",
+		"--background-index",
+		"--clang-tidy",
+		"--fallback-style=llvm", -- Options: llvm, google, chromium, mozilla, webkit
+	}
 })
 
-vim.lsp.config('ts_ls', {
-	cmd = { 'typescript-language-server', '--stdio' },
-	capabilities = capabilities,
-})
+local servers = {
+	'nixd',
+	'nil_ls',
+	'lua_ls',
+	'gopls',
+	'clangd',
+	'pyright',
+	'tailwindcss',
+	'rust_analyzer',
+	'ts_ls'
+}
 
--- Enable all configured servers
-vim.lsp.enable('nixd')
-vim.lsp.enable('nil_ls')
-vim.lsp.enable('lua_ls')
-vim.lsp.enable('pyright')
-vim.lsp.enable('tailwindcss')
-vim.lsp.enable('gopls')
-vim.lsp.enable('rust_analyzer')
-vim.lsp.enable('ts_ls')
+for _, lsp in ipairs(servers) do
+	vim.lsp.enable(lsp)
+end
 
 vim.diagnostic.config({
 	virtual_text = { source = "if_many" },

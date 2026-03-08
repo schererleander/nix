@@ -16,6 +16,7 @@
           nil
           nixfmt
           lua-language-server
+          clang-tools
           texlab
           tinymist
         ];
