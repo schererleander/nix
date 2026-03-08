@@ -10,6 +10,8 @@
       dns
       bluetooth
       mullvad-vpn
+      steam
+      wooting
     ];
   };
 }
