@@ -1,18 +1,13 @@
 {
-  flake.modules.homeManager.schererleander =
+  flake.modules.homeManager.schererleander-base =
     { inputs, pkgs, ... }:
     {
       imports = with inputs.self.modules.homeManager; [
         gpg
         git
         zsh
-        opencode
         neovim
         zed
-        nixcord
-        spicetify
-        jellyfin-mpv-shim
-        nextcloud-client
       ];
 
       home = {
@@ -21,8 +16,6 @@
         packages = with pkgs; [
           firefox
           obsidian
-          tor-browser
-          gohufont
         ];
       };
     };

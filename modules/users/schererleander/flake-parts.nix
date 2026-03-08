@@ -6,7 +6,7 @@
       pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
       extraSpecialArgs = { inherit inputs; };
       modules = [
-        inputs.self.modules.homeManager.user-schererleander
+        inputs.self.modules.homeManager.schererleander-linux
         {
           home.homeDirectory = "/home/schererleander";
         }
@@ -18,7 +18,7 @@
       pkgs = inputs.nixpkgs.legacyPackages.aarch64-darwin;
       extraSpecialArgs = { inherit inputs; };
       modules = [
-        inputs.self.modules.homeManager.user-schererleander
+        inputs.self.modules.homeManager.schererleander-darwin
         {
           home.homeDirectory = "/Users/schererleander";
         }

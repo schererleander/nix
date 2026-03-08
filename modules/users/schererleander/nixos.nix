@@ -8,7 +8,7 @@
         useGlobalPkgs = true;
         useUserPackages = true;
         extraSpecialArgs = { inherit inputs; };
-        users.schererleander = inputs.self.modules.homeManager.schererleander;
+        users.schererleander = inputs.self.modules.homeManager.schererleander-linux;
       };
     };
 }
