@@ -9,6 +9,7 @@
         inputs.self.modules.homeManager.spicetify
         inputs.self.modules.homeManager.jellyfin-mpv-shim
         inputs.self.modules.homeManager.nextcloud-client
+        inputs.self.modules.homeManager.vlc
       ];
     };
 }
