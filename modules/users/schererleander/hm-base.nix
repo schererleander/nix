@@ -10,7 +10,12 @@
         zed
       ];
 
+      nixpkgs.config.allowUnfree = true;
+
+      # Allow search or installation for unfree packages as a user
       home = {
+        file.".config/nixpkgs/config.nix".text = "{ allowUnfree = true; }";
+
         username = "schererleander";
         stateVersion = "26.05";
         packages = with pkgs; [
