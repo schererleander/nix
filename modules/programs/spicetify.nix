@@ -28,7 +28,7 @@
         ];
 
         theme = spicePkgs.themes.sleek;
-        colorScheme = "Coral";
+        colorScheme = "UltraBlack";
       };
     };
 }
