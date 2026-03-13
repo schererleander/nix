@@ -36,6 +36,12 @@
             owner = "root";
             mode = "0600";
           };
+          "ssh_git_pubkey" = {
+            owner = "git";
+            group = "git";
+            mode = "0400";
+            path = "/var/lib/git-server/.ssh/authorized_keys";
+          };
           "cert_fullchain" = {
             owner = "nginx";
             group = "nginx";

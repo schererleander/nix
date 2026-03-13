@@ -9,6 +9,8 @@
         enable = true;
         ports = [ 8693 ];
         settings = {
+					AllowTcpForwarding = false;
+					AllowAgentForwarding = false;
           PasswordAuthentication = false;
           X11Forwarding = false;
           PermitRootLogin = "yes";

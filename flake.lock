@@ -125,38 +125,6 @@
         "type": "github"
       }
     },
-    "neuswc-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1772915938,
-        "narHash": "sha256-2y7nKZKKWQaxJSuz5ia4VIcR4ibsAt/M6oqDy5jRpg4=",
-        "ref": "refs/heads/main",
-        "rev": "d7a9eda640d4b4d96f6158266099d3c3fe8e5673",
-        "revCount": 743,
-        "type": "git",
-        "url": "https://git.sr.ht/~shrub900/neuswc"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://git.sr.ht/~shrub900/neuswc"
-      }
-    },
-    "neuwld-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1772906688,
-        "narHash": "sha256-0+rgWrefh19bBEmcqw0Lal1PHkendtCkQ2EIg+LHb74=",
-        "ref": "refs/heads/main",
-        "rev": "235b7b62be7d7c9eefa011eac4a5b78ba7390f1c",
-        "revCount": 211,
-        "type": "git",
-        "url": "https://git.sr.ht/~shrub900/neuwld"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://git.sr.ht/~shrub900/neuwld"
-      }
-    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -267,31 +235,12 @@
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "import-tree": "import-tree",
-        "neuswc-src": "neuswc-src",
-        "neuwld-src": "neuwld-src",
         "nix-darwin": "nix-darwin",
         "nixcord": "nixcord",
         "nixpkgs": "nixpkgs",
-        "shko-src": "shko-src",
         "site": "site",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix"
-      }
-    },
-    "shko-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1772882728,
-        "narHash": "sha256-PLj1TqZkhaSYgbtWwnfjGjF4ZtDAmkDxUadeEReGwf0=",
-        "ref": "refs/heads/master",
-        "rev": "a21d5b6a76dcf161f1b374b32a93a7e4c1439212",
-        "revCount": 85,
-        "type": "git",
-        "url": "https://git.sr.ht/~chld/shko"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://git.sr.ht/~chld/shko"
       }
     },
     "site": {
