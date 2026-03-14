@@ -91,7 +91,8 @@
         preHook = ''
           set -euo pipefail
 
-          export BORG_REPO="$(cat ${config.sops.secrets."borg_repo".path})"
+          # Exporting the specific Nextcloud repo secret
+          export BORG_REPO="$(cat ${config.sops.secrets."borg_nextcloud_repo".path})"
 
           INSTALL="${pkgs.coreutils}/bin/install"
           FIND="${pkgs.findutils}/bin/find"

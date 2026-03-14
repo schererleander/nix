@@ -32,7 +32,11 @@
             owner = "administrator";
             mode = "0600";
           };
-          "borg_repo" = {
+          "borg_git_repo" = {
+            owner = "root";
+            mode = "0600";
+          };
+          "borg_nextcloud_repo" = {
             owner = "root";
             mode = "0600";
           };
