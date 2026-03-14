@@ -75,7 +75,7 @@
         paths = [
           "/var/lib/git-server"
         ];
-        repo = "ssh://e5e496ni@e5e496ni.repo.borgbase.com/./repo";
+        repo = "$BORG_REPO";
         encryption.mode = "none";
         environment = {
           BORG_RSH = "ssh -i ${
@@ -84,6 +84,12 @@
         };
         compression = "auto,lzma";
         startAt = "daily";
+        preHook = ''
+          set -euo pipefail
+
+          # Exporting the specific Git repo secret
+          export BORG_REPO="$(cat ${config.sops.secrets."borg_git_repo".path})"
+        '';
       };
     };
 }
