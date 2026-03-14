@@ -7,6 +7,10 @@
         defaultSopsFile = inputs.self + /secrets/secrets.yaml;
         age.keyFile = "/etc/sops/age_key";
         secrets = {
+          "borgbase_ssh_key" = {
+            owner = "root";
+            mode = "0600";
+          };
           "nextcloud-secrets" = {
             owner = "nextcloud";
             group = "nextcloud";
@@ -16,7 +20,20 @@
             owner = "root";
             mode = "0600";
           };
-          # SSL certificates
+          "borg_git_repo" = {
+            owner = "root";
+            mode = "0600";
+          };
+          "borg_nextcloud_repo" = {
+            owner = "root";
+            mode = "0600";
+          };
+          "ssh_git_pubkey" = {
+            owner = "git";
+            group = "git";
+            mode = "0400";
+            path = "/var/lib/git-server/.ssh/authorized_keys";
+          };
           "cert_fullchain" = {
             owner = "nginx";
             group = "nginx";
@@ -24,15 +41,6 @@
           "cert_private" = {
             owner = "nginx";
             group = "nginx";
-          };
-          # Backup configuration
-          "borgbase_ssh_key" = {
-            owner = "root";
-            mode = "0600";
-          };
-          "borg_repo" = {
-            owner = "root";
-            mode = "0600";
           };
         };
       };
