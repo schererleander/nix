@@ -70,5 +70,20 @@
           Persistent = true;
         };
       };
+
+      services.borgbackup.jobs.git = {
+        paths = [
+          "/var/lib/git-server"
+        ];
+        repo = "ssh://e5e496ni@e5e496ni.repo.borgbase.com/./repo";
+        encryption.mode = "none";
+        environment = {
+          BORG_RSH = "ssh -i ${
+            config.sops.secrets."borgbase_ssh_key".path
+          } -o StrictHostKeyChecking=accept-new";
+        };
+        compression = "auto,lzma";
+        startAt = "daily";
+      };
     };
 }
