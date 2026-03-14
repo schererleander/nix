@@ -17,6 +17,70 @@
     {
       programs.firefox = {
         enable = true;
+
+        policies = {
+          DisableTelemetry = true;
+          DisableFirefoxStudies = true;
+          PasswordManagerEnabled = false;
+          OfferToSaveLogins = false;
+          DisplayBookmarksToolbar = "never";
+          NoDefaultBookmarks = true;
+
+          Homepage = {
+            URL = "about:blank";
+            Locked = true;
+            StartPage = "homepage";
+          };
+
+          NewTabPage = false;
+
+          EnableTrackingProtection = {
+            Value = true;
+            Locked = true;
+            Cryptomining = true;
+            Fingerprinting = true;
+          };
+
+          EncryptedMediaExtensions = {
+            Enabled = true;
+            Locked = true;
+          };
+
+          FirefoxHome = {
+            Search = true;
+            TopSites = true;
+            SponsoredTopSites = false;
+            Highlights = true;
+            Locked = true;
+          };
+
+          UserMessaging = {
+            ExtensionRecommendations = false;
+            FeatureRecommendations = false;
+            Locked = true;
+            MoreFromMozilla = false;
+            SkipOnboarding = true;
+            UrlbarInterventions = false;
+          };
+
+          Preferences = {
+            # Disable fullscreen notification
+            "full-screen-api.warning.timeout" = "0";
+
+            # Disable annoying translation popup
+            "browser.translations.automaticallyPopup" = false;
+
+            # Enable all extensions automatically
+            "extensions.autoDisableScopes" = 0;
+
+            # Hide ctr-tab tab preview menu
+            "browser.ctrlTab.sortByRecentlyUsed" = false;
+
+            # Disable popup when download finished
+            "browser.download.alwaysOpenPanel" = false;
+          };
+        };
+
         profiles.default = {
           extensions = {
             packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
@@ -38,7 +102,7 @@
           };
 
           search = {
-            default = "DuckDuckGo";
+            default = "ddg";
             engines = {
               nix-packages = {
                 name = "Nix Packages";
@@ -73,69 +137,6 @@
               google.metaData.alias = "@g";
             };
             force = true;
-          };
-
-          policies = {
-            DisableTelemetry = true;
-            DisableFirefoxStudies = true;
-            PasswordManagerEnabled = false;
-            OfferToSaveLogins = false;
-            DisplayBookmarksToolbar = "never";
-            NoDefaultBookmarks = true;
-
-            Homepage = {
-              URL = "about:blank";
-              Locked = true;
-              StartPage = "homepage";
-            };
-
-            NewTabPage = false;
-
-            EnableTrackingProtection = {
-              Value = true;
-              Locked = true;
-              Cryptomining = true;
-              Fingerprinting = true;
-            };
-
-            EncryptedMediaExtensions = {
-              Enabled = true;
-              Locked = true;
-            };
-
-            FirefoxHome = {
-              Search = true;
-              TopSites = true;
-              SponsoredTopSites = false;
-              Highlights = true;
-              Locked = true;
-            };
-
-            UserMessaging = {
-              ExtensionRecommendations = false;
-              FeatureRecommendations = false;
-              Locked = true;
-              MoreFromMozilla = false;
-              SkipOnboarding = true;
-              UrlbarInterventions = false;
-            };
-
-            Preferences = {
-              # Disable fullscreen notification
-              "full-screen-api.warning.timeout" = "0";
-
-              # Disable annoying translation popup
-              "browser.translations.automaticallyPopup" = false;
-
-              # Enable all extensions automatically
-              "extensions.autoDisableScopes" = 0;
-
-              # Hide ctr-tab tab preview menu
-              "browser.ctrlTab.sortByRecentlyUsed" = false;
-
-              # Disabl popup when download finished
-              "browser.download.alwaysOpenPanel" = false;
-            };
           };
         };
       };
