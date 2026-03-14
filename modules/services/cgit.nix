@@ -32,6 +32,19 @@
           "enable-log-filecount" = 1;
           "enable-log-linecount" = 1;
           "branch-sort" = "age";
+
+          readme = ":README.md";
+
+          "about-filter" = "${pkgs.writeShellScript "cgit-about-filter" ''
+            case "$1" in
+              *.md) 
+                ${pkgs.lowdown}/bin/lowdown -Thtml --html-no-skiphtml --html-no-escapehtml 
+                ;;
+              *) 
+                ${pkgs.coreutils}/bin/cat 
+                ;;
+            esac
+          ''}";
         };
       };
 
