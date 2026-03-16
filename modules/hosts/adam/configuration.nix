@@ -45,7 +45,6 @@
       # User configuration
       users.users.schererleander = {
         isNormalUser = true;
-        home = "/home/schererleander";
         shell = pkgs.zsh;
         ignoreShellProgramCheck = true;
         extraGroups = [

@@ -15,6 +15,7 @@
       bluetooth
       mullvad-vpn
       steam
+			sunshine
       wooting
     ];
   };

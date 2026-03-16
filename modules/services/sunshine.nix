@@ -6,6 +6,5 @@
       capSysAdmin = true;
       openFirewall = true;
     };
-    hardware.graphics.enable = true;
   };
 }
