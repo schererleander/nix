@@ -13,19 +13,19 @@
         ];
       };
 
-      services.greetd = {
-        enable = true;
-        settings = {
-          default_session = {
-            command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
-            user = "greeter";
-          };
-        };
+      environment.sessionVariables = {
+        WLR_RENDERER = "vulkan";
       };
     };
 
   flake.modules.homeManager.sway =
     { lib, pkgs, ... }:
+    let
+      wallpaper = pkgs.fetchurl {
+        url = "https://cloud.schererleander.de/s/BgqELb7xBXna4iX/download";
+        sha256 = "0r9jcsn188yygnp6i8x03h75hqwd5g79f07lym165xd33xhgls5x";
+      };
+    in
     {
       wayland.windowManager.sway = {
         enable = true;
@@ -42,7 +42,11 @@
 
           output = {
             DP-1 = {
-              resolution = "2160x1440@240Hz";
+              resolution = "2560x1440@279.961HZ";
+              render_bit_depth = "10";
+              adaptive_sync = "true";
+              hdr = "on";
+              bg = "${wallpaper} fill";
             };
           };
 
@@ -54,6 +58,13 @@
             titlebar = false;
             border = 0;
           };
+
+          bars = [
+            {
+              statusCommand = "${pkgs.i3status}/bin/i3status";
+              trayOutput = "DP-1";
+            }
+          ];
 
           keybindings = lib.mkOptionDefault {
             "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
@@ -68,5 +79,10 @@
           defaultWorkspace = "workspace number 1";
         };
       };
+
+      home.sessionVariables = {
+        WLR_RENDERER = "vulkan";
+      };
+
     };
 }
