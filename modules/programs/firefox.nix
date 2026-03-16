@@ -26,6 +26,9 @@
           DisplayBookmarksToolbar = "never";
           NoDefaultBookmarks = true;
 
+          DisableFirefoxAccounts = true;
+          DisableAccounts = true;
+
           Homepage = {
             URL = "about:blank";
             Locked = true;
@@ -64,6 +67,10 @@
           };
 
           Preferences = {
+
+            # Enable hdr
+            "gfx.wayland.hdr" = true;
+
             # Disable fullscreen notification
             "full-screen-api.warning.timeout" = "0";
 
@@ -78,6 +85,17 @@
 
             # Disable popup when download finished
             "browser.download.alwaysOpenPanel" = false;
+
+            # Disable firefox view
+            "browser.tabs.firefox-view" = false;
+
+            # Disable AI features
+            "browser.ml.enable" = false;
+            "browser.ml.chat.enabled" = false;
+            "browser.ml.pageAssist.enabled" = false;
+            "browser.ml.linkPreview.enabled" = false;
+            "browser.tabs.groups.smart.enabled" = false;
+            "extensions.ml.enabled" = false;
           };
         };
 
@@ -86,6 +104,7 @@
             packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
               ublock-origin
               istilldontcareaboutcookies
+              adaptive-tab-bar-colour
             ];
 
             force = true;
@@ -124,6 +143,13 @@
 
                 icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
                 definedAliases = [ "@np" ];
+              };
+
+              mynixos = {
+                name = "MyNixOS";
+                urls = [ { template = "https://mynixos.com/search?q={searchTerms}"; } ];
+                iconMapObj."16" = "https://mynixos.com/favicon.ico";
+                definedAliases = [ "@mn" ];
               };
 
               nixos-wiki = {
