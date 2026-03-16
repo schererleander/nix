@@ -8,9 +8,8 @@
         zsh
         neovim
         zed
+				sioyek
       ];
-
-      nixpkgs.config.allowUnfree = true;
 
       # Allow search or installation for unfree packages as a user
       home = {
