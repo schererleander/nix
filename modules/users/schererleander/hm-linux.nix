@@ -4,6 +4,8 @@
     {
       imports = [
         inputs.self.modules.homeManager.schererleander-base
+        inputs.self.modules.homeManager.sway
+        inputs.self.modules.homeManager.firefox
         inputs.self.modules.homeManager.firefox
         inputs.self.modules.homeManager.opencode
         inputs.self.modules.homeManager.nixcord

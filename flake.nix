@@ -16,7 +16,8 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    site.url = "github:schererleander/site";
+		nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
+		nixpkgs-wayland.inputs.nixpkgs.follows = "nixpkgs";
 
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
