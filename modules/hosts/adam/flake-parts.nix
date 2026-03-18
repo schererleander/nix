@@ -12,6 +12,7 @@
       kde
       sway
       dns
+			audio
       bluetooth
       mullvad-vpn
       steam
