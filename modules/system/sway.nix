@@ -13,6 +13,11 @@
         ];
       };
 
+      xdg.portal = {
+        enable = true;
+        wlr.enable = true;
+      };
+
       environment.sessionVariables = {
         WLR_RENDERER = "vulkan";
       };
