@@ -35,25 +35,39 @@
     };
 
   flake.modules.darwin.dns =
-    { pkgs, lib, ... }:
-    let
-      dnscryptToml = pkgs.writeText "dnscrypt-proxy.toml" ''
-        listen_addresses = ['127.0.0.1:53']
-        # The exact names of the servers as defined in the public-resolvers list
-        server_names = ['mullvad-doh', 'quad9-doh-ip4-filter-pri']
-
-        [sources]
-          [sources.'public-resolvers']
-          urls = [
-            'https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md', 
-            'https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md'
-          ]
-          cache_file = '/var/tmp/public-resolvers.md'
-          minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
-      '';
-    in
+    { lib, ... }:
     {
-      environment.systemPackages = [ pkgs.dnscrypt-proxy ];
+      services.dnscrypt-proxy = {
+        enable = true;
+        settings = {
+          listen_addresses = [ "127.0.0.1:53" ];
+          server_names = [
+            "mullvad-doh"
+            "quad9-doh-ip4-filter-pri"
+          ];
+          fallback_resolvers = [
+            "9.9.9.9:53"
+            "1.1.1.1:53"
+          ];
+          ignore_system_dns = true;
+          sources.public-resolvers = {
+            urls = [
+              "https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md"
+              "https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md"
+            ];
+            cache_file = "/var/tmp/public-resolvers.md";
+            minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
+          };
+        };
+      };
+
+      users.users._dnscrypt-proxy.home = lib.mkForce "/private/var/lib/dnscrypt-proxy";
+
+      # Run as root so it can bind privileged port 53
+      launchd.daemons.dnscrypt-proxy.serviceConfig = {
+        UserName = lib.mkForce null;
+        GroupName = lib.mkForce null;
+      };
 
       networking = {
         dns = [ "127.0.0.1" ];
@@ -61,21 +75,6 @@
           "Wi-Fi"
           "Thunderbolt Bridge"
         ];
-      };
-
-      launchd.daemons.dnscrypt-proxy = {
-        serviceConfig = {
-          Label = "com.dnscrypt.proxy";
-          ProgramArguments = [
-            "${pkgs.dnscrypt-proxy}/bin/dnscrypt-proxy"
-            "-config"
-            "${dnscryptToml}"
-          ];
-          RunAtLoad = true;
-          KeepAlive = true;
-          StandardOutPath = "/var/log/dnscrypt-proxy.log";
-          StandardErrorPath = "/var/log/dnscrypt-proxy.log";
-        };
       };
     };
 }
