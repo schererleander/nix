@@ -8,7 +8,8 @@
         zsh
         neovim
         zed
-				sioyek
+        sioyek
+        opencode
       ];
 
       # Allow search or installation for unfree packages as a user
@@ -19,6 +20,8 @@
         stateVersion = "26.05";
         packages = with pkgs; [
           obsidian
+          claude-code
+          moonlight-qt
         ];
       };
     };

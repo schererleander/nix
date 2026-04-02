@@ -7,16 +7,16 @@
     }:
     {
       /*
-			imports = [
-				inputs.site.nixosModules.default
-			];
+        			imports = [
+        				inputs.site.nixosModules.default
+        			];
 
-			services.site = {
-				enable = true;
-				domain = "schererleander.de";
-				sslCertificate = config.sops.secrets."cert_fullchain".path;
-				sslCertificateKey = config.sops.secrets."cert_private".path;
-			};
+        			services.site = {
+        				enable = true;
+        				domain = "schererleander.de";
+        				sslCertificate = config.sops.secrets."cert_fullchain".path;
+        				sslCertificateKey = config.sops.secrets."cert_private".path;
+        			};
       */
 
       services.nginx.virtualHosts."schererleander.de" = {

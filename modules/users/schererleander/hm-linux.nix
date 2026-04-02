@@ -7,7 +7,6 @@
         inputs.self.modules.homeManager.sway
         inputs.self.modules.homeManager.firefox
         inputs.self.modules.homeManager.firefox
-        inputs.self.modules.homeManager.opencode
         inputs.self.modules.homeManager.nixcord
         inputs.self.modules.homeManager.spicetify
         inputs.self.modules.homeManager.jellyfin-mpv-shim

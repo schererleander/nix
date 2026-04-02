@@ -12,11 +12,11 @@
       kde
       sway
       dns
-			audio
+      audio
       bluetooth
       mullvad-vpn
       steam
-			sunshine
+      sunshine
       wooting
     ];
   };
