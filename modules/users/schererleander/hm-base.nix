@@ -10,7 +10,7 @@
         zed
         sioyek
         opencode
-				anki
+        spicetify
       ];
 
       # Allow search or installation for unfree packages as a user
