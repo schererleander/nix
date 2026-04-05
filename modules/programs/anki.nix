@@ -2,8 +2,6 @@
   flake.modules.homeManager.anki =
     {
       pkgs,
-      config,
-      osConfig,
       ...
     }:
     {
@@ -15,13 +13,10 @@
           sync = {
             autoSync = true;
             syncMedia = true;
-            usernameFile = osConfig.sops.secrets.anki_username.path;
-            keyFile = osConfig.sops.secrets.anki_syncKey.path;
+            usernameFile = "/run/secrets/anki_username";
+            keyFile = "/run/secrets/anki_syncKey";
           };
         };
-        addons = with pkgs.ankiAddons; [
-          review-heatmap
-        ];
       };
     };
 }
