@@ -10,6 +10,7 @@
         zed
         sioyek
         opencode
+				anki
       ];
 
       # Allow search or installation for unfree packages as a user

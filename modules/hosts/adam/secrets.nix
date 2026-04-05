@@ -22,6 +22,17 @@
             group = "users";
             mode = "0600";
           };
+          "anki_username" = {
+            owner = "schererleander";
+            group = "users";
+            mode = "0600";
+          };
+          "anki_syncKey" = {
+            owner = "schererleander";
+            group = "users";
+            mode = "0600";
+          };
+
         };
       };
     };
