@@ -19,6 +19,14 @@
             owner = "schererleander";
             mode = "0600";
           };
+          "anki_username" = {
+            owner = "schererleander";
+            mode = "0600";
+          };
+          "anki_syncKey" = {
+            owner = "schererleander";
+            mode = "0600";
+          };
         };
       };
     };
