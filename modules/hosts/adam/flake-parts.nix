@@ -10,6 +10,7 @@
       home-manager
       plymouth
       kde
+      localization
       sway
       dns
       audio
