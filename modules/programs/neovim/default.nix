@@ -12,13 +12,6 @@
           ripgrep
           fd
           gcc
-          gopls
-          nil
-          nixfmt
-          lua-language-server
-          clang-tools
-          texlab
-          tinymist
         ];
 
         plugins = with pkgs.vimPlugins; [

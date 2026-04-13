@@ -8,6 +8,7 @@
         zsh
         neovim
         zed
+        lsp
         sioyek
         opencode
         spicetify
@@ -23,6 +24,7 @@
           obsidian
           claude-code
           moonlight-qt
+					jetbrains.clion
         ];
       };
     };
