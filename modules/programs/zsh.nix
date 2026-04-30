@@ -1,13 +1,11 @@
 {
   flake.modules.homeManager.zsh =
+    { ... }:
     {
-      pkgs,
-      ...
-    }:
-    {
-      home.packages = with pkgs; [
-        zoxide
-      ];
+      programs.zoxide = {
+        enable = true;
+        enableZshIntegration = true;
+      };
 
       programs.zsh = {
         enable = true;
