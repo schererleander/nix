@@ -10,8 +10,8 @@
         zed
         lsp
         sioyek
-        opencode
         spicetify
+        nixcord
       ];
 
       # Allow search or installation for unfree packages as a user
@@ -23,8 +23,7 @@
         packages = with pkgs; [
           obsidian
           claude-code
-          moonlight-qt
-					jetbrains.clion
+          gemini-cli
         ];
       };
     };

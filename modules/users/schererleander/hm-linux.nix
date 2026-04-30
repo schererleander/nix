@@ -6,8 +6,6 @@
         schererleander-base
         sway
         firefox
-        firefox
-        nixcord
         anki
         jellyfin-mpv-shim
         nextcloud-client
