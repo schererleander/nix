@@ -27,6 +27,8 @@
           trusted_domains = [ "cloud.schererleander.de" ];
           logtimezone = config.time.timeZone;
           log_type = "file";
+          # NixOS already provides its own integrity check and the nix store is read-only, therefore Nextcloud does not need to do its own integrity checks.
+          "integrity.check.disabled" = true;
           # Disable mail functionality for single-user instance
           mail_smtpmode = "null";
         };
@@ -54,7 +56,6 @@
           key_buffer_size = "8M";
           max_connections = "20"; # Reduce from default 151
           table_open_cache = "32";
-          query_cache_size = "0"; # Disable query cache
           performance_schema = "OFF";
         };
       };
