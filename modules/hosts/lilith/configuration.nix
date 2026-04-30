@@ -46,12 +46,11 @@
           "rectangle"
           "tailscale-app"
         ];
+        greedyCasks = true;
         masApps = {
-          #"AdGuard Mini" = 1440147259;
-          #"WebSSH - Sysadmin Toolbox" = 497714887;
-          #"Windows App" = 1295203466;
-          #"Goodnotes: KI-Notizen, PDF" = 1444383602;
-          #"WhatsApp Messenger" = 310633997;
+          "AdGuard Mini" = 1440147259;
+          "Goodnotes: KI-Notizen, PDF" = 1444383602;
+          "WhatsApp Messenger" = 310633997;
         };
         onActivation.cleanup = "zap";
         onActivation.autoUpdate = true;
