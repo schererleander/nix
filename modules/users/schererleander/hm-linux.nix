@@ -13,6 +13,7 @@
         anki
         nextcloud-client
         vlc
+        ghostty
       ];
     };
 }
