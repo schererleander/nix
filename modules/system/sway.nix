@@ -9,13 +9,14 @@
         wrapperFeatures.gtk = true;
         extraPackages = with pkgs; [
           wl-clipboard
-          havoc
         ];
       };
 
       xdg.portal = {
         enable = true;
         wlr.enable = true;
+        extraPortals = [ pkgs.kdePackages.xdg-desktop-portal-kde ];
+        config.common.default = [ "wlr" "kde" ];
       };
 
       environment.sessionVariables = {
@@ -32,12 +33,41 @@
       };
     in
     {
+      gtk = {
+        enable = true;
+        theme = {
+          name = "Breeze-Dark";
+          package = pkgs.kdePackages.breeze-gtk;
+        };
+        iconTheme = {
+          name = "breeze-dark";
+          package = pkgs.kdePackages.breeze-icons;
+        };
+        cursorTheme = {
+          name = "breeze_cursors";
+          package = pkgs.kdePackages.breeze;
+          size = 24;
+        };
+      };
+
+      qt = {
+        enable = true;
+        platformTheme.name = "gtk";
+      };
+
+      home.pointerCursor = {
+        gtk.enable = true;
+        name = "breeze_cursors";
+        package = pkgs.kdePackages.breeze;
+        size = 24;
+      };
+
       wayland.windowManager.sway = {
         enable = true;
         wrapperFeatures.gtk = true;
         config = rec {
           modifier = "Mod4";
-          terminal = "${pkgs.havoc}/bin/havoc";
+          terminal = "ghostty";
 
           input = {
             "*" = {
@@ -49,7 +79,8 @@
             DP-1 = {
               resolution = "2560x1440@279.961HZ";
               render_bit_depth = "10";
-              adaptive_sync = "true";
+              # disabled as mo27q28g implementation sucks, a lot of brightness flicker
+              #adaptive_sync = "true";
               hdr = "on";
               bg = "${wallpaper} fill";
             };
@@ -78,7 +109,16 @@
             "XF86AudioRaiseVolume" = "exec ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_DEVICE@ +5%";
             "XF86AudioLowerVolume" = "exec ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_DEVICE@ -5%";
             "XF86AudioMute" = "exec ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_DEVICE@ toggle";
+            "${modifier}+Shift+s" =
+              "exec ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | tee ~/Pictures/screenshot-$(date +%Y%m%d_%H%M%S).png | ${pkgs.wl-clipboard}/bin/wl-copy";
+            "${modifier}+v" =
+              "exec ${pkgs.cliphist}/bin/cliphist list | ${pkgs.wmenu}/bin/wmenu | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy";
           };
+
+          startup = [
+            { command = "${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store"; }
+            { command = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1"; }
+          ];
 
           menu = "${pkgs.wmenu}/bin/wmenu-run -b";
           defaultWorkspace = "workspace number 1";
