@@ -37,12 +37,12 @@
 
           NewTabPage = false;
 
-          EnableTrackingProtection = {
-            Value = true;
-            Locked = true;
-            Cryptomining = true;
-            Fingerprinting = true;
-          };
+          #EnableTrackingProtection = {
+          #  Value = true;
+          #  Locked = true;
+          #  Cryptomining = true;
+          #  Fingerprinting = true;
+          #};
 
           EncryptedMediaExtensions = {
             Enabled = true;
@@ -105,6 +105,8 @@
               ublock-origin
               istilldontcareaboutcookies
               adaptive-tab-bar-colour
+              vimium
+
             ];
 
             force = true;
