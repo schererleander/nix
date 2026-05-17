@@ -14,6 +14,7 @@
       sway
       dns
       audio
+      font
       bluetooth
       mullvad-vpn
       steam
