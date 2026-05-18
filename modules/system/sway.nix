@@ -19,6 +19,11 @@
         config.common.default = [ "wlr" "kde" ];
       };
 
+      services.greetd = {
+        enable = true;
+        settings.default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
+      };
+
       environment.sessionVariables = {
         WLR_RENDERER = "vulkan";
       };
@@ -95,12 +100,7 @@
             border = 0;
           };
 
-          bars = [
-            {
-              statusCommand = "${pkgs.i3status}/bin/i3status";
-              trayOutput = "DP-1";
-            }
-          ];
+          bars = [ ];
 
           keybindings = lib.mkOptionDefault {
             "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
@@ -110,23 +110,40 @@
             "XF86AudioLowerVolume" = "exec ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_DEVICE@ -5%";
             "XF86AudioMute" = "exec ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_DEVICE@ toggle";
             "${modifier}+Shift+s" =
-              "exec ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | tee ~/Pictures/screenshot-$(date +%Y%m%d_%H%M%S).png | ${pkgs.wl-clipboard}/bin/wl-copy";
+              "exec ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.ffmpeg}/bin/ffmpeg -i - -vf \"zscale=primariesin=bt2020:transferin=smpte2084:primaries=bt709:transfer=bt709\" -f image2pipe -c:v png - | tee ~/Pictures/screenshot-$(date +%Y%m%d_%H%M%S).png | ${pkgs.wl-clipboard}/bin/wl-copy";
             "${modifier}+v" =
-              "exec ${pkgs.cliphist}/bin/cliphist list | ${pkgs.wmenu}/bin/wmenu | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy";
+              "exec ${pkgs.cliphist}/bin/cliphist list | ${pkgs.wmenu}/bin/wmenu -nb #000000 -nf #ffffff -sb #285577 -sf #ffffff | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy";
+            "${modifier}+l" = "exec ${pkgs.swaylock}/bin/swaylock -f -c 000000";
           };
 
           startup = [
             { command = "${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store"; }
             { command = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1"; }
+            {
+              command = "${pkgs.swayidle}/bin/swayidle -w"
+                + " timeout 600 'swaymsg \"output * dpms off\"'"
+                + " resume 'swaymsg \"output * dpms on\"'"
+                + " timeout 1800 '${pkgs.swaylock}/bin/swaylock -f -c 000000'"
+                + " before-sleep '${pkgs.swaylock}/bin/swaylock -f -c 000000'";
+            }
           ];
 
-          menu = "${pkgs.wmenu}/bin/wmenu-run -b";
+          menu = "${pkgs.wmenu}/bin/wmenu-run -b -nb #000000 -nf #ffffff -sb #285577 -sf #ffffff";
           defaultWorkspace = "workspace number 1";
         };
       };
 
-      home.sessionVariables = {
-        WLR_RENDERER = "vulkan";
+      services.mako = {
+        enable = true;
+        settings = {
+          background-color = "#000000FF";
+          text-color = "#FFFFFFFF";
+          border-color = "#285577FF";
+          border-size = 2;
+          border-radius = 0;
+          margin = "15";
+          default-timeout = 5000;
+        };
       };
 
     };
