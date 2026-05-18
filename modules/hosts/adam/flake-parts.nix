@@ -9,13 +9,14 @@
       adam
       home-manager
       plymouth
-      kde
       localization
+      kde
       sway
       dns
       audio
       font
       bluetooth
+      wifi
       mullvad-vpn
       steam
       sunshine
