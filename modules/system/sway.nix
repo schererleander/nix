@@ -16,12 +16,15 @@
         enable = true;
         wlr.enable = true;
         extraPortals = [ pkgs.kdePackages.xdg-desktop-portal-kde ];
-        config.common.default = [ "wlr" "kde" ];
+        config.common.default = [
+          "wlr"
+          "kde"
+        ];
       };
 
       services.greetd = {
         enable = true;
-        settings.default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
+        settings.default_session.command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd sway";
       };
 
       environment.sessionVariables = {
@@ -31,12 +34,6 @@
 
   flake.modules.homeManager.sway =
     { lib, pkgs, ... }:
-    let
-      wallpaper = pkgs.fetchurl {
-        url = "https://cloud.schererleander.de/s/BgqELb7xBXna4iX/download";
-        sha256 = "0r9jcsn188yygnp6i8x03h75hqwd5g79f07lym165xd33xhgls5x";
-      };
-    in
     {
       gtk = {
         enable = true;
@@ -67,6 +64,12 @@
         size = 24;
       };
 
+      home.packages = with pkgs; [
+        kdePackages.dolphin
+        kdePackages.kdegraphics-thumbnailers
+        kdePackages.ffmpegthumbs
+      ];
+
       wayland.windowManager.sway = {
         enable = true;
         wrapperFeatures.gtk = true;
@@ -87,7 +90,7 @@
               # disabled as mo27q28g implementation sucks, a lot of brightness flicker
               #adaptive_sync = "true";
               hdr = "on";
-              bg = "${wallpaper} fill";
+              bg = "#000000 solid_color";
             };
           };
 
@@ -98,6 +101,20 @@
           window = {
             titlebar = false;
             border = 0;
+            commands = [
+              {
+                command = "floating enable, resize set width 400px height 500px, move position cursor, move down 32";
+                criteria = { app_id = "com.nextcloud.desktopclient.nextcloud"; title = "Nextcloud"; };
+              }
+              {
+                command = "floating enable, resize set width 400px height 500px, move position cursor, move down 32";
+                criteria = { app_id = "nextcloud"; title = "Nextcloud"; };
+              }
+              {
+                command = "floating enable, resize set width 400px height 500px, move position cursor, move down 32";
+                criteria = { class = "Nextcloud"; title = "Nextcloud"; };
+              }
+            ];
           };
 
           bars = [ ];
@@ -113,36 +130,24 @@
               "exec ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.ffmpeg}/bin/ffmpeg -i - -vf \"zscale=primariesin=bt2020:transferin=smpte2084:primaries=bt709:transfer=bt709\" -f image2pipe -c:v png - | tee ~/Pictures/screenshot-$(date +%Y%m%d_%H%M%S).png | ${pkgs.wl-clipboard}/bin/wl-copy";
             "${modifier}+v" =
               "exec ${pkgs.cliphist}/bin/cliphist list | ${pkgs.wmenu}/bin/wmenu -nb #000000 -nf #ffffff -sb #285577 -sf #ffffff | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy";
-            "${modifier}+l" = "exec ${pkgs.swaylock}/bin/swaylock -f -c 000000";
+            "${modifier}+l" = "exec quickshell -c bar ipc call bar lock";
+            "${modifier}+space" = "exec quickshell -c bar ipc call bar toggleLauncher";
           };
 
           startup = [
             { command = "${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store"; }
-            { command = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1"; }
             {
-              command = "${pkgs.swayidle}/bin/swayidle -w"
+              command =
+                "${pkgs.swayidle}/bin/swayidle -w"
                 + " timeout 600 'swaymsg \"output * dpms off\"'"
                 + " resume 'swaymsg \"output * dpms on\"'"
-                + " timeout 1800 '${pkgs.swaylock}/bin/swaylock -f -c 000000'"
-                + " before-sleep '${pkgs.swaylock}/bin/swaylock -f -c 000000'";
+                + " timeout 800 'quickshell -c bar ipc call bar lock'"
+                + " before-sleep 'quickshell -c bar ipc call bar lock'";
             }
           ];
 
-          menu = "${pkgs.wmenu}/bin/wmenu-run -b -nb #000000 -nf #ffffff -sb #285577 -sf #ffffff";
+          menu = "quickshell -c bar ipc call bar toggleLauncher";
           defaultWorkspace = "workspace number 1";
-        };
-      };
-
-      services.mako = {
-        enable = true;
-        settings = {
-          background-color = "#000000FF";
-          text-color = "#FFFFFFFF";
-          border-color = "#285577FF";
-          border-size = 2;
-          border-radius = 0;
-          margin = "15";
-          default-timeout = 5000;
         };
       };
 

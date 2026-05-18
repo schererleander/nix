@@ -1,10 +1,11 @@
 {
   flake.modules.homeManager.schererleander-linux =
-    { inputs, pkgs, ... }:
+    { inputs, ... }:
     {
       imports = with inputs.self.modules.homeManager; [
         schererleander-base
         sway
+        quickshell
         firefox
         anki
         nextcloud-client
