@@ -7,6 +7,7 @@
         General = {
           Experimental = true;
           FastConnectable = true;
+          Privacy = "device";
         };
         Policy = {
           AutoEnable = true;
