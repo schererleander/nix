@@ -17,6 +17,10 @@
             keyFile = "/run/secrets/anki_syncKey";
           };
         };
+        addons = with pkgs.ankiAddons; [
+          recolor
+          review-heatmap
+        ];
       };
     };
 }
