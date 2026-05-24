@@ -12,6 +12,7 @@
         sioyek
         spicetify
         nixcord
+        latex
       ];
 
       # Allow search or installation for unfree packages as a user
