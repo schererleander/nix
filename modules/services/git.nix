@@ -82,14 +82,15 @@
             config.sops.secrets."borgbase_ssh_key".path
           } -o StrictHostKeyChecking=accept-new";
         };
+        extraCreateArgs = [ "--info" "--stats" ];
         compression = "auto,lzma";
         startAt = "daily";
         preHook = ''
           set -euo pipefail
-
-          # Exporting the specific Git repo secret
           export BORG_REPO="$(cat ${config.sops.secrets."borg_git_repo".path})"
         '';
       };
+
+      systemd.services."borgbackup-job-git".unitConfig.OnFailure = [ "notify-backup-failure@%n.service" ];
     };
 }
