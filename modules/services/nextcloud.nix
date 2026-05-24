@@ -29,8 +29,10 @@
           log_type = "file";
           # NixOS already provides its own integrity check and the nix store is read-only, therefore Nextcloud does not need to do its own integrity checks.
           "integrity.check.disabled" = true;
-          # Disable mail functionality for single-user instance
-          mail_smtpmode = "null";
+          mail_smtpmode = "sendmail";
+          mail_sendmailmode = "pipe";
+          mail_from_address = "noreply";
+          mail_domain = "cloud.schererleander.de";
         };
         phpOptions."opcache.interned_strings_buffer" = "32";
       };
