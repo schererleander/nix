@@ -11,7 +11,6 @@
       plymouth
       localization
       kde
-      sway
       dns
       audio
       font
