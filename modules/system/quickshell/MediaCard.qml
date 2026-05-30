@@ -8,13 +8,16 @@ Item {
 
     property QtObject player: null
     property bool isExpanded: false
-    signal clicked()
+    signal clicked
 
     Layout.fillWidth: true
     implicitHeight: layout.implicitHeight
 
     Behavior on implicitHeight {
-        NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
+        NumberAnimation {
+            duration: 200
+            easing.type: Easing.OutCubic
+        }
     }
 
     MouseArea {
@@ -24,9 +27,9 @@ Item {
     }
 
     function formatTime(s) {
-        const mins = Math.floor(s / 60)
-        const secs = Math.floor(s % 60)
-        return `${mins}:${secs.toString().padStart(2, '0')}`
+        const mins = Math.floor(s / 60);
+        const secs = Math.floor(s % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
     }
 
     ColumnLayout {
@@ -35,7 +38,6 @@ Item {
         anchors.right: parent.right
         spacing: 16
 
-        // Top Row: Minimal view and header for expanded view
         RowLayout {
             Layout.fillWidth: true
             spacing: 12
@@ -47,9 +49,21 @@ Item {
                 fillColor: root.player ? Theme.transparent : Theme.surface
                 clip: true
 
-                Behavior on width { NumberAnimation { duration: 200 } }
-                Behavior on height { NumberAnimation { duration: 200 } }
-                Behavior on cornerRadius { NumberAnimation { duration: 200 } }
+                Behavior on width {
+                    NumberAnimation {
+                        duration: 200
+                    }
+                }
+                Behavior on height {
+                    NumberAnimation {
+                        duration: 200
+                    }
+                }
+                Behavior on cornerRadius {
+                    NumberAnimation {
+                        duration: 200
+                    }
+                }
 
                 Image {
                     anchors.fill: parent
@@ -101,14 +115,14 @@ Item {
                 }
             }
 
-            // Minimal Controls: Only visible when not expanded
             Row {
                 visible: !root.isExpanded
                 spacing: 12
                 Layout.alignment: Qt.AlignVCenter
 
                 Item {
-                    width: 24; height: 24
+                    width: 24
+                    height: 24
                     Image {
                         anchors.centerIn: parent
                         source: Quickshell.iconPath(root.player?.playbackState === MprisPlaybackState.Playing ? "media-playback-pause-symbolic" : "media-playback-start-symbolic")
@@ -119,12 +133,14 @@ Item {
                         id: minPlayMouse
                         anchors.fill: parent
                         enabled: root.player?.canTogglePlaying ?? false
-                        onClicked: if (root.player) root.player.togglePlaying()
+                        onClicked: if (root.player)
+                            root.player.togglePlaying()
                     }
                 }
 
                 Item {
-                    width: 24; height: 24
+                    width: 24
+                    height: 24
                     Image {
                         anchors.centerIn: parent
                         source: Quickshell.iconPath("media-skip-forward-symbolic")
@@ -135,13 +151,13 @@ Item {
                         id: minNextMouse
                         anchors.fill: parent
                         enabled: root.player?.canGoNext ?? false
-                        onClicked: if (root.player) root.player.next()
+                        onClicked: if (root.player)
+                            root.player.next()
                     }
                 }
             }
         }
 
-        // Expanded Controls: Only visible when expanded and a player exists
         ColumnLayout {
             visible: root.isExpanded && root.player !== null
             Layout.fillWidth: true
@@ -159,7 +175,8 @@ Item {
                     value: root.player?.position || 0
                     enabled: root.player?.canSeek ?? false
 
-                    onMoved: if (root.player) root.player.position = value
+                    onMoved: if (root.player)
+                        root.player.position = value
 
                     Timer {
                         running: root.player?.playbackState === MprisPlaybackState.Playing && root.isExpanded
@@ -177,7 +194,9 @@ Item {
                         font.pixelSize: 9
                         font.weight: Font.Medium
                     }
-                    Item { Layout.fillWidth: true }
+                    Item {
+                        Layout.fillWidth: true
+                    }
                     Text {
                         text: root.formatTime(root.player?.length || 0)
                         color: Theme.textPlaceholder
@@ -192,7 +211,8 @@ Item {
                 spacing: 32
 
                 Item {
-                    width: 24; height: 24
+                    width: 24
+                    height: 24
                     Image {
                         anchors.centerIn: parent
                         source: Quickshell.iconPath("media-skip-backward-symbolic")
@@ -203,12 +223,14 @@ Item {
                         id: prevMouse
                         anchors.fill: parent
                         enabled: root.player?.canGoPrevious ?? false
-                        onClicked: if (root.player) root.player.previous()
+                        onClicked: if (root.player)
+                            root.player.previous()
                     }
                 }
 
                 Item {
-                    width: 32; height: 32
+                    width: 32
+                    height: 32
                     Image {
                         anchors.centerIn: parent
                         source: Quickshell.iconPath(root.player?.playbackState === MprisPlaybackState.Playing ? "media-playback-pause-symbolic" : "media-playback-start-symbolic")
@@ -219,12 +241,14 @@ Item {
                         id: maxPlayMouse
                         anchors.fill: parent
                         enabled: root.player?.canTogglePlaying ?? false
-                        onClicked: if (root.player) root.player.togglePlaying()
+                        onClicked: if (root.player)
+                            root.player.togglePlaying()
                     }
                 }
 
                 Item {
-                    width: 24; height: 24
+                    width: 24
+                    height: 24
                     Image {
                         anchors.centerIn: parent
                         source: Quickshell.iconPath("media-skip-forward-symbolic")
@@ -235,7 +259,8 @@ Item {
                         id: maxNextMouse
                         anchors.fill: parent
                         enabled: root.player?.canGoNext ?? false
-                        onClicked: if (root.player) root.player.next()
+                        onClicked: if (root.player)
+                            root.player.next()
                     }
                 }
             }

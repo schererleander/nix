@@ -1,23 +1,32 @@
+pragma Singleton
 import QtQuick
 
-pragma Singleton
-
-// Shared state to coordinate which popup is currently open.
-// Ensures only one menu is visible at a time.
 QtObject {
     property string activePopup: ""
+    property var notificationHistory: []
 
     function open(name) {
-        activePopup = ""
-        activePopup = name
+        activePopup = "";
+        activePopup = name;
     }
 
     function close() {
-        activePopup = ""
+        activePopup = "";
     }
 
     function toggle(name) {
-        if (activePopup === name) activePopup = ""
-        else activePopup = name
+        if (activePopup === name)
+            activePopup = "";
+        else
+            activePopup = name;
+    }
+
+    function addNotification(data) {
+        const entry = Object.assign({}, data);
+        notificationHistory = [entry].concat(notificationHistory).slice(0, 50);
+    }
+
+    function clearNotificationHistory() {
+        notificationHistory = [];
     }
 }

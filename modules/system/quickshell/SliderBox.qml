@@ -7,7 +7,9 @@ Squircle {
     property string label: ""
     property string icon: ""
     property real value: 0
+    property bool clickable: false
     signal moved(real val)
+    signal clicked
 
     Layout.fillWidth: true
     height: 64
@@ -18,7 +20,9 @@ Squircle {
         id: hoverArea
         anchors.fill: parent
         hoverEnabled: true
-        acceptedButtons: Qt.NoButton
+        acceptedButtons: root.clickable ? Qt.LeftButton : Qt.NoButton
+        cursorShape: root.clickable ? Qt.PointingHandCursor : Qt.ArrowCursor
+        onClicked: root.clicked()
     }
 
     ColumnLayout {
@@ -38,7 +42,9 @@ Squircle {
                 }
                 Layout.leftMargin: 2
             }
-            Item { Layout.fillWidth: true }
+            Item {
+                Layout.fillWidth: true
+            }
         }
 
         PillSlider {

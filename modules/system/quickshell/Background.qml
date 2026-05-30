@@ -5,7 +5,7 @@ import QtQuick
 PanelWindow {
     WlrLayershell.layer: WlrLayer.Background
     WlrLayershell.exclusiveZone: -1
-    
+
     anchors {
         top: true
         bottom: true

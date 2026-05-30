@@ -6,9 +6,9 @@ import Quickshell.Wayland
 
 ShellRoot {
     Component.onCompleted: {
-        Qt.application.font.family = "Inter"
-        Qt.application.font.hintingPreference = Font.PreferNoHinting
-        Qt.application.font.styleStrategy = Font.NoSubpixelAntialias
+        Qt.application.font.family = "Inter";
+        Qt.application.font.hintingPreference = Font.PreferNoHinting;
+        Qt.application.font.styleStrategy = Font.NoSubpixelAntialias;
     }
 
     Variants {
@@ -44,7 +44,7 @@ ShellRoot {
 
     WlSessionLock {
         id: sessionLock
-        
+
         WlSessionLockSurface {
             LockSurface {
                 anchors.fill: parent
@@ -56,13 +56,12 @@ ShellRoot {
     IpcHandler {
         target: "bar"
         function toggleLauncher() {
-            GlobalState.toggle("Launcher")
+            GlobalState.toggle("Launcher");
         }
 
         function lock() {
             lockContext.reset();
-            sessionLock.locked = true
+            sessionLock.locked = true;
         }
     }
 }
-

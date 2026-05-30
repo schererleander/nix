@@ -4,7 +4,6 @@ import Quickshell
 import Quickshell.Services.Pipewire
 import Quickshell.Wayland
 
-// Volume OSD that appears on volume change, styled to match the system menus.
 Scope {
     id: root
 
@@ -18,14 +17,14 @@ Scope {
     Connections {
         target: root.sink && root.sink.audio ? root.sink.audio : null
         ignoreUnknownSignals: true
-        
+
         function onVolumeChanged() {
-            root.visible = true
-            hideTimer.restart()
+            root.visible = true;
+            hideTimer.restart();
         }
         function onMutedChanged() {
-            root.visible = true
-            hideTimer.restart()
+            root.visible = true;
+            hideTimer.restart();
         }
     }
 
@@ -37,19 +36,18 @@ Scope {
 
     PanelWindow {
         visible: root.visible
-        
-        // Compositor centers horizontally if only bottom anchor is set
+
         anchors.bottom: true
         margins.bottom: 100
         exclusiveZone: 0
 
         implicitWidth: 240
         implicitHeight: 64
-        
+
         WlrLayershell.layer: WlrLayer.Overlay
         exclusionMode: ExclusionMode.Ignore
         color: Theme.transparent
-        mask: Region {} // Pass-through clicks
+        mask: Region {}
 
         Squircle {
             id: card
@@ -69,12 +67,16 @@ Scope {
                 IconCircle {
                     size: 32
                     source: {
-                        if (root.sink?.audio?.muted) return "audio-volume-muted"
-                        const vol = root.sink?.audio?.volume ?? 0
-                        if (vol <= 0) return "audio-volume-low"
-                        if (vol <= 0.33) return "audio-volume-low"
-                        if (vol <= 0.66) return "audio-volume-medium"
-                        return "audio-volume-high"
+                        if (root.sink?.audio?.muted)
+                            return "audio-volume-muted";
+                        const vol = root.sink?.audio?.volume ?? 0;
+                        if (vol <= 0)
+                            return "audio-volume-low";
+                        if (vol <= 0.33)
+                            return "audio-volume-low";
+                        if (vol <= 0.66)
+                            return "audio-volume-medium";
+                        return "audio-volume-high";
                     }
                     active: !(root.sink?.audio?.muted ?? true)
                 }
@@ -82,7 +84,7 @@ Scope {
                 PillSlider {
                     Layout.fillWidth: true
                     value: root.sink?.audio?.volume ?? 0
-                    enabled: false // OSD is for display only
+                    enabled: false
                 }
             }
         }

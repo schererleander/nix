@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Bluetooth
 import Quickshell.Widgets
-import QtQuick.Effects // Required for icon tinting
+import QtQuick.Effects
 
 Item {
     id: root
@@ -13,21 +13,23 @@ Item {
         readonly property BluetoothAdapter adapter: Bluetooth.defaultAdapter
 
         readonly property var allDevices: adapter ? adapter.devices.values : []
+        readonly property bool hasPaired: hasPairedDevice()
+        readonly property bool hasNewVisible: hasNewVisibleDevice()
 
-        property bool hasPaired: false
-        property bool hasNewVisible: false
-
-        function updateState() {
-            let paired = false
-            let newVisible = false
-
+        function hasPairedDevice() {
             for (const d of internal.allDevices) {
-                if (d?.paired) paired = true
-                if (d && !d.paired && d.name) newVisible = true
+                if (d?.paired)
+                    return true;
             }
+            return false;
+        }
 
-            internal.hasPaired = paired
-            internal.hasNewVisible = newVisible
+        function hasNewVisibleDevice() {
+            for (const d of internal.allDevices) {
+                if (d && !d.paired && d.name)
+                    return true;
+            }
+            return false;
         }
     }
 
@@ -54,48 +56,25 @@ Item {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onClicked: mouse => {
             if (mouse.button === Qt.LeftButton) {
-                GlobalState.toggle("Bluetooth")
+                GlobalState.toggle("Bluetooth");
             } else if (mouse.button === Qt.RightButton && internal.adapter) {
-                internal.adapter.enabled = !internal.adapter.enabled
+                internal.adapter.enabled = !internal.adapter.enabled;
             }
         }
     }
 
-    PopupWindow {
-        id: popup
-        visible: GlobalState.activePopup === "Bluetooth"
-        grabFocus: true
-        implicitWidth: card.width
-        implicitHeight: card.height
-
-        anchor {
-            window: barWindow
-            item: root
-            edges: Edges.Bottom
-            gravity: Edges.Bottom
-            margins.top: Theme.popupGap
-        }
-
-        color: Theme.transparent
-
-        onVisibleChanged: {
-            if (visible) {
-                anchor.updateAnchor()
-                if (internal.adapter) internal.adapter.discovering = true
-            } else if (internal.adapter?.discovering) {
-                internal.adapter.discovering = false
-            }
-        }
-
-        Connections {
-            target: internal.adapter ? internal.adapter.devices : null
-            function onValuesChanged() { internal.updateState() }
-        }
+    AnchoredPopup {
+        popupName: "Bluetooth"
+        anchorWindow: barWindow
+        anchorItem: root
+        onOpened: if (internal.adapter)
+            internal.adapter.discovering = true
+        onClosed: if (internal.adapter?.discovering)
+            internal.adapter.discovering = false
 
         PopupCard {
             id: card
 
-            // Main Toggle Header
             RowLayout {
                 Layout.fillWidth: true
                 spacing: 8
@@ -110,7 +89,9 @@ Item {
                     }
                 }
 
-                Item { Layout.fillWidth: true }
+                Item {
+                    Layout.fillWidth: true
+                }
 
                 Toggle {
                     checked: internal.adapter?.enabled ?? false
@@ -125,10 +106,9 @@ Item {
                 color: Theme.border
             }
 
-            // Paired Devices Header
             Text {
                 visible: internal.hasPaired
-                text: "My Devices" // macOS typically labels this "My Devices"
+                text: "My Devices"
                 color: Theme.textMuted
                 font {
                     family: Theme.mainFont
@@ -137,7 +117,6 @@ Item {
                 }
             }
 
-            // Paired Devices List
             ColumnLayout {
                 Layout.fillWidth: true
                 spacing: 2
@@ -156,23 +135,16 @@ Item {
                         fillColor: hovered ? Theme.surface : Theme.transparent
                         cornerRadius: 6
 
-                        Connections {
-                            target: pairedItem.modelData
-                            function onPairedChanged() { internal.updateState() }
-                            function onConnectedChanged() { internal.updateState() }
-                            function onNameChanged() { internal.updateState() }
-                        }
-                        Component.onCompleted: internal.updateState()
-                        Component.onDestruction: internal.updateState()
-
                         MouseArea {
                             id: pairedArea
                             anchors.fill: parent
                             hoverEnabled: true
                             onClicked: {
-                                const d = pairedItem.modelData
-                                if (d.connected) d.disconnect()
-                                else d.connect()
+                                const d = pairedItem.modelData;
+                                if (d.connected)
+                                    d.disconnect();
+                                else
+                                    d.connect();
                             }
                         }
 
@@ -183,19 +155,18 @@ Item {
                             }
                             spacing: 10
 
-                            // macOS uses bare icons in the list, tinted accent color when connected
                             Item {
                                 Layout.preferredWidth: 20
                                 Layout.preferredHeight: 20
-                                
+
                                 Image {
                                     id: deviceIcon
                                     anchors.fill: parent
                                     source: Quickshell.iconPath("bluetooth-active-symbolic")
                                     sourceSize: Qt.size(20, 20)
-                                    visible: false 
+                                    visible: false
                                 }
-                                
+
                                 MultiEffect {
                                     anchors.fill: deviceIcon
                                     source: deviceIcon
@@ -215,7 +186,6 @@ Item {
                                 elide: Text.ElideRight
                             }
 
-                            // macOS displays connection status text instead of a toggle/button
                             Text {
                                 text: (pairedItem.modelData?.connected ?? false) ? "Connected" : "Not Connected"
                                 color: Theme.textMuted
@@ -236,7 +206,6 @@ Item {
                 visible: internal.hasPaired
             }
 
-            // Other Devices Header
             RowLayout {
                 Layout.fillWidth: true
 
@@ -251,7 +220,6 @@ Item {
                     Layout.fillWidth: true
                 }
 
-                // Passive scanning indicator instead of interactive refresh button
                 Image {
                     width: 14
                     height: 14
@@ -272,7 +240,6 @@ Item {
                 }
             }
 
-            // Unpaired Devices List
             ColumnLayout {
                 Layout.fillWidth: true
                 spacing: 2
@@ -289,14 +256,6 @@ Item {
                         Layout.preferredHeight: visible ? 36 : 0
                         fillColor: newArea.containsMouse ? Theme.surface : Theme.transparent
                         cornerRadius: 6
-
-                        Connections {
-                            target: newItem.modelData
-                            function onPairedChanged() { internal.updateState() }
-                            function onNameChanged() { internal.updateState() }
-                        }
-                        Component.onCompleted: internal.updateState()
-                        Component.onDestruction: internal.updateState()
 
                         MouseArea {
                             id: newArea
@@ -332,8 +291,7 @@ Item {
                                 }
                                 elide: Text.ElideRight
                             }
-                            
-                            // Replace + icon with "Connecting..." text when pairing
+
                             Text {
                                 visible: newItem.modelData?.pairing ?? false
                                 text: "Connecting..."

@@ -14,19 +14,23 @@ Squircle {
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: 12
-        spacing: 0 // Using spacers for better control
+        spacing: 0
 
-        // WiFi Row
         Item {
             Layout.fillWidth: true
             height: 50
             scale: wifiArea.pressed ? 0.96 : 1.0
-            Behavior on scale { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
+            Behavior on scale {
+                NumberAnimation {
+                    duration: 150
+                    easing.type: Easing.OutCubic
+                }
+            }
 
             RowLayout {
                 anchors.fill: parent
                 spacing: 12
-                
+
                 IconCircle {
                     source: "network-wireless"
                     active: Networking.wifiEnabled
@@ -46,14 +50,16 @@ Squircle {
                     }
                     Text {
                         text: {
-                            const vs = Networking.devices?.values || []
+                            const vs = Networking.devices?.values || [];
                             for (const device of vs) {
                                 if (device.scannerEnabled !== undefined) {
-                                    const nets = device.networks?.values || []
-                                    for (const n of nets) if (n.connected) return n.name
+                                    const nets = device.networks?.values || [];
+                                    for (const n of nets)
+                                        if (n.connected)
+                                            return n.name;
                                 }
                             }
-                            return Networking.wifiEnabled ? "On" : "Off"
+                            return Networking.wifiEnabled ? "On" : "Off";
                         }
                         color: Theme.textMuted
                         font.pixelSize: 12
@@ -71,19 +77,23 @@ Squircle {
             }
         }
 
-        Item { Layout.fillHeight: true } // Spacer
+        //Item { Layout.fillHeight: true }
 
-        // Bluetooth Row
         Item {
             Layout.fillWidth: true
             height: 50
             scale: btArea.pressed ? 0.96 : 1.0
-            Behavior on scale { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
+            Behavior on scale {
+                NumberAnimation {
+                    duration: 150
+                    easing.type: Easing.OutCubic
+                }
+            }
 
             RowLayout {
                 anchors.fill: parent
                 spacing: 12
-                
+
                 IconCircle {
                     source: "bluetooth-active"
                     active: Bluetooth.defaultAdapter?.enabled ?? false

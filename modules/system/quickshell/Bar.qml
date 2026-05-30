@@ -61,7 +61,7 @@ PanelWindow {
                                     trayMenu.open(trayIcon);
                                 }
                             } else {
-                                modelData.activate()
+                                modelData.activate();
                             }
                         }
                     }
@@ -73,36 +73,37 @@ PanelWindow {
                 parentWindow: barWindow
             }
 
-            Bluetooth { anchors.verticalCenter: parent.verticalCenter }
-            
-            Wifi { anchors.verticalCenter: parent.verticalCenter }
-            
-            Volume { anchors.verticalCenter: parent.verticalCenter }
-            
-            Media { anchors.verticalCenter: parent.verticalCenter }
-            
-            ControlCenter { anchors.verticalCenter: parent.verticalCenter }
-
-            Text {
-                id: clock
+            Bluetooth {
                 anchors.verticalCenter: parent.verticalCenter
-                color: Theme.text
-                font {
-                    family: Theme.mainFont
-                    pixelSize: 13
-                    weight: Font.Medium
-                }
+            }
 
-                Timer {
-                    interval: 1000
-                    running: true
-                    repeat: true
-                    onTriggered: parent.text = Qt.formatDateTime(new Date(), "ddd d MMM  HH:mm:ss")
-                }
+            Wifi {
+                anchors.verticalCenter: parent.verticalCenter
+            }
 
-                Component.onCompleted: text = Qt.formatDateTime(new Date(), "ddd d MMM  HH:mm:ss")
+            Volume {
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            ScreenRecordIndicator {
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            MicInput {
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            Media {
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            ControlCenter {
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            Clock {
+                anchors.verticalCenter: parent.verticalCenter
             }
         }
     }
 }
-

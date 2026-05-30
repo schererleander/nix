@@ -9,12 +9,10 @@ Item {
     width: childrenRect.width
     height: parent.height
 
-    // Properties bound directly to the Pipewire service
     readonly property PwNode sink: Pipewire.defaultAudioSink
     readonly property bool muted: sink && sink.audio ? sink.audio.muted : true
     readonly property real volume: sink && sink.audio ? sink.audio.volume : 0
 
-    // Pipewire nodes only emit property updates while tracked.
     PwObjectTracker {
         objects: root.sink ? [root.sink] : []
     }
@@ -24,7 +22,6 @@ Item {
             sink.audio.muted = false;
             sink.audio.volume = value;
         } else {
-            // Fallback for unbound nodes
             Quickshell.execDetached(["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", value.toFixed(2)]);
         }
     }
@@ -38,7 +35,7 @@ Item {
     }
 
     function getDeviceIcon(node) {
-        return node?.properties?.["device.icon-name"] ?? "audio-card"
+        return node?.properties?.["device.icon-name"] ?? "audio-card";
     }
 
     Row {
@@ -64,39 +61,23 @@ Item {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onClicked: mouse => {
             if (mouse.button === Qt.LeftButton) {
-                GlobalState.toggle("Volume")
+                GlobalState.toggle("Volume");
             } else if (mouse.button === Qt.RightButton) {
-                root.toggleMute()
+                root.toggleMute();
             }
         }
         onWheel: wheel => {
-            const step = 0.05
-            const next = wheel.angleDelta.y > 0 ? root.volume + step : root.volume - step
-            root.setVolume(Math.max(0.0, Math.min(1.0, next)))
+            const step = 0.05;
+            const next = wheel.angleDelta.y > 0 ? root.volume + step : root.volume - step;
+            root.setVolume(Math.max(0.0, Math.min(1.0, next)));
         }
     }
 
-    PopupWindow {
-        id: popup
-        visible: GlobalState.activePopup === "Volume"
-        grabFocus: true
-        implicitWidth: bgRect.width
-        implicitHeight: bgRect.height
-        
-        anchor {
-            window: barWindow
-            item: root
-            edges: Edges.Bottom
-            gravity: Edges.Bottom
-            margins.top: Theme.popupGap
-        }
-        
-        color: "transparent"
-        
-        onVisibleChanged: {
-            if (visible) anchor.updateAnchor()
-        }
-        
+    AnchoredPopup {
+        popupName: "Volume"
+        anchorWindow: barWindow
+        anchorItem: root
+
         Squircle {
             id: bgRect
             width: 260
@@ -140,7 +121,11 @@ Item {
                     }
                 }
 
-                Rectangle { width: parent.width; height: 1; color: Theme.border }
+                Rectangle {
+                    width: parent.width
+                    height: 1
+                    color: Theme.border
+                }
 
                 Text {
                     text: "Output Devices"
@@ -160,23 +145,23 @@ Item {
                         property bool isOutput: modelData && modelData.isSink && !modelData.isStream && modelData.name !== "Dummy-Driver"
                         visible: isOutput
                         height: isOutput ? 40 : 0
-                        
+
                         Squircle {
                             anchors.fill: parent
                             fillColor: mouseArea.containsMouse ? Theme.surfaceLighter : Theme.transparent
                             cornerRadius: 6
-                            
+
                             RowLayout {
                                 anchors.fill: parent
                                 anchors.margins: 8
                                 spacing: 12
-                                
+
                                 IconCircle {
                                     size: 24
                                     source: root.getDeviceIcon(modelData)
                                     active: root.sink && root.sink.id === modelData.id
                                 }
-                                
+
                                 Text {
                                     Layout.fillWidth: true
                                     text: modelData.description || modelData.nickname || modelData.name
@@ -188,13 +173,13 @@ Item {
                                     elide: Text.ElideRight
                                 }
                             }
-                            
+
                             MouseArea {
                                 id: mouseArea
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 onClicked: {
-                                    Quickshell.execDetached(["wpctl", "set-default", modelData.id.toString()])
+                                    Quickshell.execDetached(["wpctl", "set-default", modelData.id.toString()]);
                                 }
                             }
                         }

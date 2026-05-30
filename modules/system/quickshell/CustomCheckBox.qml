@@ -3,7 +3,7 @@ import QtQuick.Controls
 
 CheckBox {
     id: control
-    
+
     contentItem: Text {
         text: control.text
         color: Theme.text
@@ -12,7 +12,7 @@ CheckBox {
         verticalAlignment: Text.AlignVCenter
         leftPadding: control.indicator.width + control.spacing
     }
-    
+
     indicator: Rectangle {
         implicitWidth: 14
         implicitHeight: 14

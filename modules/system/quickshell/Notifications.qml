@@ -11,68 +11,72 @@ Scope {
     property int nextId: 0
     property var liveNotifs: ({})
 
-    ListModel { id: popupModel }
+    ListModel {
+        id: popupModel
+    }
 
     function removeNotificationData(id) {
         for (let i = 0; i < popupModel.count; i++) {
             if (popupModel.get(i).nId === id) {
-                popupModel.remove(i)
-                break
+                popupModel.remove(i);
+                break;
             }
         }
-        delete liveNotifs[id]
+        delete liveNotifs[id];
     }
 
     function dismissExplicitly(id) {
-        const n = liveNotifs[id]
-        if (n) n.dismiss()
-        removeNotificationData(id)
+        const n = liveNotifs[id];
+        if (n)
+            n.dismiss();
+        removeNotificationData(id);
     }
 
     function hidePopup(id) {
         for (let i = 0; i < popupModel.count; i++) {
             if (popupModel.get(i).nId === id) {
-                popupModel.remove(i)
-                break
+                popupModel.remove(i);
+                break;
             }
         }
     }
 
     function activateById(id) {
-        const n = liveNotifs[id]
-        if (!n) return
-
-        let invoked = false
+        const n = liveNotifs[id];
+        if (!n)
+            return;
+        let invoked = false;
         for (const action of n.actions) {
             if (action.identifier === "default") {
-                action.invoke()
-                invoked = true
-                break
+                action.invoke();
+                invoked = true;
+                break;
             }
         }
         if (!invoked && n.desktopEntry) {
-            Quickshell.execDetached(["gtk-launch", n.desktopEntry])
+            Quickshell.execDetached(["gtk-launch", n.desktopEntry]);
         }
-        dismissExplicitly(id)
+        dismissExplicitly(id);
     }
 
     function invokeAction(id, identifier) {
-        const n = liveNotifs[id]
+        const n = liveNotifs[id];
         if (n) {
             for (const action of n.actions) {
                 if (action.identifier === identifier) {
-                    action.invoke()
-                    break
+                    action.invoke();
+                    break;
                 }
             }
         }
-        dismissExplicitly(id)
+        dismissExplicitly(id);
     }
 
     function sendReply(id, text) {
-        const n = liveNotifs[id]
-        if (n && n.hasInlineReply) n.sendInlineReply(text)
-        dismissExplicitly(id)
+        const n = liveNotifs[id];
+        if (n && n.hasInlineReply)
+            n.sendInlineReply(text);
+        dismissExplicitly(id);
     }
 
     NotificationServer {
@@ -87,34 +91,38 @@ Scope {
         persistenceSupported: true
 
         onNotification: notif => {
-            notif.tracked = true
+            notif.tracked = true;
 
-            const id = nextId
-            nextId = nextId + 1
-            liveNotifs[id] = notif
+            const id = nextId;
+            nextId = nextId + 1;
+            liveNotifs[id] = notif;
 
-            const acts = []
-            let hasDefault = false
+            const acts = [];
+            let hasDefault = false;
             for (const a of notif.actions) {
-                if (a.identifier === "default") hasDefault = true
-                else acts.push({ identifier: a.identifier, text: a.text })
+                if (a.identifier === "default")
+                    hasDefault = true;
+                else
+                    acts.push({
+                        identifier: a.identifier,
+                        text: a.text
+                    });
             }
 
-            notif.closed.connect(() => removeNotificationData(id))
+            notif.closed.connect(() => removeNotificationData(id));
 
-            let formattedAppIcon = notif.appIcon || ""
+            let formattedAppIcon = notif.appIcon || "";
             if (formattedAppIcon !== "") {
-                if (formattedAppIcon.startsWith("file://")) {
-                } else if (formattedAppIcon.startsWith("/")) {
-                    formattedAppIcon = "file://" + formattedAppIcon
+                if (formattedAppIcon.startsWith("file://")) {} else if (formattedAppIcon.startsWith("/")) {
+                    formattedAppIcon = "file://" + formattedAppIcon;
                 } else {
-                    formattedAppIcon = `image://icon/${formattedAppIcon}`
+                    formattedAppIcon = `image://icon/${formattedAppIcon}`;
                 }
             }
 
-            let formattedImage = notif.image || ""
+            let formattedImage = notif.image || "";
             if (formattedImage !== "" && formattedImage.startsWith("/")) {
-                formattedImage = "file://" + formattedImage
+                formattedImage = "file://" + formattedImage;
             }
 
             const data = {
@@ -131,9 +139,10 @@ Scope {
                 nHasInlineReply: notif.hasInlineReply || false,
                 nReplyPlaceholder: notif.inlineReplyPlaceholder || "Reply",
                 nResident: notif.resident || false
-            }
+            };
 
-            popupModel.insert(0, data)
+            GlobalState.addNotification(data);
+            popupModel.insert(0, data);
         }
     }
 
@@ -146,4 +155,3 @@ Scope {
         onHideRequested: id => scope.hidePopup(id)
     }
 }
-

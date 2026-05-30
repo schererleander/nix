@@ -5,7 +5,7 @@ import QtQuick.Layouts
 Squircle {
     id: root
 
-    readonly property int maxHeight: 440
+    property int maxHeight: 440
     property int margins: 16
     default property alias content: contentCol.data
 
@@ -13,7 +13,10 @@ Squircle {
     height: Math.min(Math.max(contentCol.implicitHeight + 2 * margins, 80), maxHeight)
 
     Behavior on height {
-        SpringAnimation { spring: 3; damping: 0.25 }
+        SpringAnimation {
+            spring: 3
+            damping: 0.25
+        }
     }
 
     fillColor: Theme.bg
@@ -29,9 +32,7 @@ Squircle {
         }
         clip: true
         contentWidth: availableWidth
-        ScrollBar.vertical.policy: contentCol.implicitHeight > height
-            ? ScrollBar.AsNeeded
-            : ScrollBar.AlwaysOff
+        ScrollBar.vertical.policy: contentCol.implicitHeight > height ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
 
         ColumnLayout {
             id: contentCol

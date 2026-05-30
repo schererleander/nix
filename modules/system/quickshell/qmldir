@@ -1,7 +1,9 @@
 Bar Bar.qml
+AnchoredPopup AnchoredPopup.qml
 Background Background.qml
 Bluetooth Bluetooth.qml
 BrightnessService BrightnessService.qml
+Clock Clock.qml
 ControlCenter ControlCenter.qml
 singleton GlobalState GlobalState.qml
 IconCircle IconCircle.qml
@@ -25,6 +27,8 @@ WifiPasswordPrompt WifiPasswordPrompt.qml
 Workspaces Workspaces.qml
 CustomCheckBox CustomCheckBox.qml
 MediaCard MediaCard.qml
+MicInput MicInput.qml
+ScreenRecordIndicator ScreenRecordIndicator.qml
 ConnectivityBox ConnectivityBox.qml
 ControlTile ControlTile.qml
 SliderBox SliderBox.qml

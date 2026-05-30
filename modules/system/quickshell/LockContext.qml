@@ -4,8 +4,8 @@ import Quickshell.Services.Pam
 
 Scope {
     id: root
-    signal unlocked()
-    signal failed()
+    signal unlocked
+    signal failed
 
     property string currentText: ""
     property bool unlockInProgress: false
@@ -18,7 +18,8 @@ Scope {
     }
 
     function tryUnlock() {
-        if (currentText === "" || unlockInProgress) return;
+        if (currentText === "" || unlockInProgress)
+            return;
         unlockInProgress = true;
         pam.start();
     }

@@ -4,7 +4,7 @@ import Quickshell
 
 Rectangle {
     id: root
-    
+
     property string source: ""
     property bool active: false
     property real size: 24
@@ -23,8 +23,8 @@ Rectangle {
         sourceSize: Qt.size(width, height)
         smooth: true
         mipmap: true
-        
-        visible: false 
+
+        visible: false
     }
 
     MultiEffect {
@@ -32,7 +32,7 @@ Rectangle {
         source: iconImage
         colorizationColor: "#FFFFFF"
         colorization: 1.0
-        
+
         opacity: root.active ? 1.0 : 0.6
     }
 }

@@ -1,7 +1,5 @@
 import QtQuick
 
-// iOS-style animated music visualizer bars.
-// Simulates audio reactivity by randomly changing bar heights when active.
 Row {
     id: root
     property bool active: false
@@ -23,12 +21,15 @@ Row {
                 interval: 100 + Math.random() * 200
                 repeat: true
                 onTriggered: {
-                    bar.height = 4 + Math.random() * (root.height - 4)
+                    bar.height = 4 + Math.random() * (root.height - 4);
                 }
             }
 
             Behavior on height {
-                NumberAnimation { duration: 150; easing.type: Easing.OutCubic }
+                NumberAnimation {
+                    duration: 150
+                    easing.type: Easing.OutCubic
+                }
             }
         }
     }

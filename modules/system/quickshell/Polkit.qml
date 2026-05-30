@@ -10,12 +10,12 @@ PanelWindow {
 
     PolkitAgent {
         id: agent
-        
+
         Component.onCompleted: console.log("PolkitAgent status: " + (isRegistered ? "Registered" : "Not Registered"))
         onIsRegisteredChanged: console.log("PolkitAgent registration changed: " + isRegistered)
-        
+
         onIsActiveChanged: {
-            console.log("PolkitAgent active state: " + isActive)
+            console.log("PolkitAgent active state: " + isActive);
             if (isActive) {
                 root.visible = true;
                 passwordInput.text = "";
@@ -35,14 +35,14 @@ PanelWindow {
         right: true
     }
     exclusiveZone: 0
-    
+
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: visible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
     Rectangle {
         anchors.fill: parent
         color: Theme.scrim
-        MouseArea { 
+        MouseArea {
             anchors.fill: parent
             onClicked: {
                 if (agent.flow) {
@@ -64,7 +64,7 @@ PanelWindow {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: (mouse) => mouse.accepted = true
+            onClicked: mouse => mouse.accepted = true
         }
 
         RowLayout {
@@ -77,7 +77,7 @@ PanelWindow {
                 Layout.alignment: Qt.AlignTop
                 Layout.preferredWidth: 64
                 Layout.preferredHeight: 64
-                
+
                 Image {
                     anchors.fill: parent
                     source: agent.flow ? Quickshell.iconPath(agent.flow.iconName || "dialog-password-symbolic") : ""
@@ -136,7 +136,7 @@ PanelWindow {
                         font.pixelSize: 12
                         color: Theme.text
                         echoMode: (agent.flow && agent.flow.responseVisible) ? TextInput.Normal : TextInput.Password
-                        
+
                         background: Rectangle {
                             color: Theme.surface
                             radius: 4
@@ -153,17 +153,21 @@ PanelWindow {
                     }
                 }
 
-                Item { Layout.preferredHeight: 4 } 
+                Item {
+                    Layout.preferredHeight: 4
+                }
 
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
 
-                    Item { Layout.fillWidth: true } 
+                    Item {
+                        Layout.fillWidth: true
+                    }
 
                     Button {
                         text: "Cancel"
-                        
+
                         contentItem: Text {
                             text: parent.text
                             color: Theme.text
@@ -172,7 +176,7 @@ PanelWindow {
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                         }
-                        
+
                         background: Rectangle {
                             implicitWidth: 80
                             implicitHeight: 28
@@ -181,7 +185,7 @@ PanelWindow {
                             border.color: Theme.border
                             border.width: 1
                         }
-                        
+
                         onClicked: {
                             if (agent.flow) {
                                 agent.flow.cancelAuthenticationRequest();
@@ -192,7 +196,7 @@ PanelWindow {
                     Button {
                         enabled: agent.flow && (!agent.flow.isResponseRequired || passwordInput.text !== "")
                         text: "Authenticate"
-                        
+
                         contentItem: Text {
                             text: parent.text
                             color: enabled ? Theme.text : Theme.textDisabled
@@ -200,14 +204,14 @@ PanelWindow {
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                         }
-                        
+
                         background: Rectangle {
                             implicitWidth: 100
                             implicitHeight: 28
                             color: parent.enabled ? (parent.hovered ? Theme.accentHover : Theme.accent) : Theme.surface
                             radius: 6
                         }
-                        
+
                         onClicked: {
                             if (agent.flow) {
                                 agent.flow.submit(passwordInput.text);

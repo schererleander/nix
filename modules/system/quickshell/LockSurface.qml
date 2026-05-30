@@ -19,19 +19,18 @@ Item {
         running: true
         stdout: SplitParser {
             onRead: line => {
-                root.realName = line.trim()
+                root.realName = line.trim();
             }
         }
     }
 
-    // Capture keyboard input to reveal the text field
-    Keys.onPressed: (event) => {
+    Keys.onPressed: event => {
         if (!showInput && event.key !== Qt.Key_Escape) {
-            showInput = true
-            passwordInput.forceActiveFocus()
+            showInput = true;
+            passwordInput.forceActiveFocus();
             if (event.text !== "") {
-                passwordInput.text = event.text
-                root.context.currentText = event.text
+                passwordInput.text = event.text;
+                root.context.currentText = event.text;
             }
         }
     }
@@ -39,8 +38,8 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            root.showInput = true
-            passwordInput.forceActiveFocus()
+            root.showInput = true;
+            passwordInput.forceActiveFocus();
         }
     }
 
@@ -50,7 +49,6 @@ Item {
         fillMode: Image.PreserveAspectCrop
     }
 
-    // Main Content (Clock)
     Column {
         anchors {
             top: parent.top
@@ -79,9 +77,9 @@ Item {
                 weight: Font.DemiBold
                 letterSpacing: -8
             }
-        }    }
+        }
+    }
 
-    // Profile and Password Area (Bottom Center)
     ColumnLayout {
         id: passwordContainer
         anchors {
@@ -93,13 +91,55 @@ Item {
 
         SequentialAnimation {
             id: shakeAnimation
-            NumberAnimation { target: passwordContainer; property: "anchors.horizontalCenterOffset"; to: -6; duration: 30; easing.type: Easing.OutQuad }
-            NumberAnimation { target: passwordContainer; property: "anchors.horizontalCenterOffset"; to: 6; duration: 60; easing.type: Easing.InOutQuad }
-            NumberAnimation { target: passwordContainer; property: "anchors.horizontalCenterOffset"; to: -6; duration: 60; easing.type: Easing.InOutQuad }
-            NumberAnimation { target: passwordContainer; property: "anchors.horizontalCenterOffset"; to: 6; duration: 60; easing.type: Easing.InOutQuad }
-            NumberAnimation { target: passwordContainer; property: "anchors.horizontalCenterOffset"; to: -6; duration: 60; easing.type: Easing.InOutQuad }
-            NumberAnimation { target: passwordContainer; property: "anchors.horizontalCenterOffset"; to: 6; duration: 60; easing.type: Easing.InOutQuad }
-            NumberAnimation { target: passwordContainer; property: "anchors.horizontalCenterOffset"; to: 0; duration: 30; easing.type: Easing.InQuad }
+            NumberAnimation {
+                target: passwordContainer
+                property: "anchors.horizontalCenterOffset"
+                to: -6
+                duration: 30
+                easing.type: Easing.OutQuad
+            }
+            NumberAnimation {
+                target: passwordContainer
+                property: "anchors.horizontalCenterOffset"
+                to: 6
+                duration: 60
+                easing.type: Easing.InOutQuad
+            }
+            NumberAnimation {
+                target: passwordContainer
+                property: "anchors.horizontalCenterOffset"
+                to: -6
+                duration: 60
+                easing.type: Easing.InOutQuad
+            }
+            NumberAnimation {
+                target: passwordContainer
+                property: "anchors.horizontalCenterOffset"
+                to: 6
+                duration: 60
+                easing.type: Easing.InOutQuad
+            }
+            NumberAnimation {
+                target: passwordContainer
+                property: "anchors.horizontalCenterOffset"
+                to: -6
+                duration: 60
+                easing.type: Easing.InOutQuad
+            }
+            NumberAnimation {
+                target: passwordContainer
+                property: "anchors.horizontalCenterOffset"
+                to: 6
+                duration: 60
+                easing.type: Easing.InOutQuad
+            }
+            NumberAnimation {
+                target: passwordContainer
+                property: "anchors.horizontalCenterOffset"
+                to: 0
+                duration: 30
+                easing.type: Easing.InQuad
+            }
         }
 
         Connections {
@@ -109,7 +149,6 @@ Item {
             }
         }
 
-        // Avatar Placeholder
         Rectangle {
             Layout.alignment: Qt.AlignHCenter
             width: 60
@@ -118,7 +157,6 @@ Item {
             color: "#b0b0b0"
         }
 
-        // User Name
         Text {
             Layout.alignment: Qt.AlignHCenter
             text: root.realName || "User"
@@ -131,7 +169,6 @@ Item {
             visible: !root.showInput
         }
 
-        // Prompt Text
         Text {
             Layout.alignment: Qt.AlignHCenter
             text: "Enter Password"
@@ -144,24 +181,20 @@ Item {
             visible: !root.showInput
         }
 
-        // Password Input Field
         TextField {
             id: passwordInput
             Layout.preferredWidth: 220
             Layout.preferredHeight: 32
             Layout.alignment: Qt.AlignHCenter
             visible: root.showInput
-            
+
             placeholderText: root.context.pamMessage || "Enter Password"
             placeholderTextColor: Theme.textPlaceholder
             echoMode: TextInput.Password
             inputMethodHints: Qt.ImhSensitiveData
             enabled: !root.context.unlockInProgress
-            
-            // Update context when text is changed directly in this field
             onTextChanged: root.context.currentText = this.text
-            
-            // Sync text from context to support multi-monitor mirroring securely
+
             Connections {
                 target: root.context
                 function onCurrentTextChanged() {
@@ -170,7 +203,7 @@ Item {
                     }
                 }
             }
-            
+
             background: Rectangle {
                 radius: height / 2
                 color: Theme.surface
@@ -184,13 +217,13 @@ Item {
             verticalAlignment: TextInput.AlignVCenter
 
             onAccepted: {
-                root.context.tryUnlock()
+                root.context.tryUnlock();
             }
 
             Keys.onEscapePressed: {
-                root.showInput = false
-                root.context.currentText = ""
-                root.forceActiveFocus()
+                root.showInput = false;
+                root.context.currentText = "";
+                root.forceActiveFocus();
             }
         }
     }

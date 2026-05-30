@@ -8,17 +8,19 @@ Item {
     implicitWidth: row.implicitWidth
     implicitHeight: 32
 
-    ListModel { id: workspaceModel }
+    ListModel {
+        id: workspaceModel
+    }
 
     function updateWorkspaces(json) {
         try {
-            const ws = JSON.parse(json)
-            workspaceModel.clear()
+            const ws = JSON.parse(json);
+            workspaceModel.clear();
             ws.forEach(w => workspaceModel.append({
-                wsNum: w.num,
-                wsName: w.name,
-                wsFocused: w.focused
-            }))
+                    wsNum: w.num,
+                    wsName: w.name,
+                    wsFocused: w.focused
+                }));
         } catch (_) {}
     }
 
@@ -29,7 +31,8 @@ Item {
 
         stdout: SplitParser {
             onRead: _ => {
-                if (!refresher.running) refresher.running = true
+                if (!refresher.running)
+                    refresher.running = true;
             }
         }
     }
@@ -46,8 +49,8 @@ Item {
 
         onRunningChanged: {
             if (!running && buf !== "") {
-                root.updateWorkspaces(buf)
-                buf = ""
+                root.updateWorkspaces(buf);
+                buf = "";
             }
         }
 
@@ -89,8 +92,8 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        switcher.running = false
-                        switcher.running = true
+                        switcher.running = false;
+                        switcher.running = true;
                     }
                 }
             }

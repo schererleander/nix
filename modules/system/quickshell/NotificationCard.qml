@@ -22,7 +22,7 @@ Item {
 
     property bool hovered: cardHover.containsMouse || closeHover.containsMouse || (replyInput && replyInput.activeFocus)
 
-    readonly property bool hasBottom: (nActions ? nActions.count > 0 : false) || nHasInlineReply
+    readonly property bool hasBottom: (nActions ? nActions.length > 0 : false) || nHasInlineReply
 
     signal actionInvoked(int id, string identifier)
     signal replySent(int id, string text)
@@ -36,15 +36,23 @@ Item {
         const diffMins = Math.floor(diffMs / 60000);
         const diffHours = Math.floor(diffMs / 3600000);
 
-        if (diffMins < 1) return "Just now";
-        if (diffMins < 60) return diffMins + "m ago";
-        if (diffHours < 24) return diffHours + "h ago";
+        if (diffMins < 1)
+            return "Just now";
+        if (diffMins < 60)
+            return diffMins + "m ago";
+        if (diffHours < 24)
+            return diffHours + "h ago";
         return Qt.formatTime(timestamp, "h:mm p");
     }
 
     width: ListView.view ? ListView.view.width : 400
     height: contentColumn.implicitHeight + 32
-    Behavior on height { NumberAnimation { duration: 200; easing.type: Easing.OutSine } }
+    Behavior on height {
+        NumberAnimation {
+            duration: 200
+            easing.type: Easing.OutSine
+        }
+    }
 
     Squircle {
         anchors.fill: parent
@@ -60,7 +68,8 @@ Item {
         hoverEnabled: true
         cursorShape: nClickable ? Qt.PointingHandCursor : Qt.ArrowCursor
         onClicked: {
-            if (nClickable) card.activated(nId)
+            if (nClickable)
+                card.activated(nId);
         }
     }
 
@@ -79,7 +88,6 @@ Item {
             spacing: 12
             Layout.alignment: Qt.AlignTop
 
-            // LEFT: Icon
             Item {
                 width: 44
                 height: 44
@@ -94,14 +102,14 @@ Item {
                 Image {
                     visible: nAppIcon !== ""
                     anchors.centerIn: parent
-                    width: 30; height: 30
+                    width: 30
+                    height: 30
                     source: nAppIcon
                     fillMode: Image.PreserveAspectFit
                     smooth: true
                 }
             }
 
-            // MIDDLE: Text
             ColumnLayout {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
@@ -171,7 +179,6 @@ Item {
                 }
             }
 
-            // RIGHT: Image
             Item {
                 visible: nImage !== ""
                 width: visible ? 44 : 0
@@ -209,10 +216,10 @@ Item {
             Layout.fillWidth: true
             visible: card.hasBottom
             spacing: 8
-            Layout.leftMargin: 56 // Align with text
+            Layout.leftMargin: 56
 
             RowLayout {
-                visible: nActions && nActions.count > 0
+                visible: nActions && nActions.length > 0
                 Layout.fillWidth: true
                 spacing: 8
 
@@ -232,7 +239,12 @@ Item {
                             cornerRadius: 6
                             fillColor: actionHover.containsMouse ? Theme.surfaceHover : Theme.surfaceLighter
                             scale: actionHover.pressed ? 0.95 : 1.0
-                            Behavior on scale { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
+                            Behavior on scale {
+                                NumberAnimation {
+                                    duration: 150
+                                    easing.type: Easing.OutCubic
+                                }
+                            }
                         }
 
                         Text {
@@ -271,9 +283,12 @@ Item {
                 TextInput {
                     id: replyInput
                     anchors {
-                        left: parent.left; leftMargin: 10
-                        right: sendBtn.left; rightMargin: 6
-                        top: parent.top; bottom: parent.bottom
+                        left: parent.left
+                        leftMargin: 10
+                        right: sendBtn.left
+                        rightMargin: 6
+                        top: parent.top
+                        bottom: parent.bottom
                     }
                     verticalAlignment: TextInput.AlignVCenter
                     color: Theme.text
@@ -294,17 +309,25 @@ Item {
                         font: replyInput.font
                     }
 
-                    Keys.onReturnPressed: if (text.length > 0) { card.replySent(card.nId, text); text = "" }
-                    Keys.onEnterPressed:  if (text.length > 0) { card.replySent(card.nId, text); text = "" }
+                    Keys.onReturnPressed: if (text.length > 0) {
+                        card.replySent(card.nId, text);
+                        text = "";
+                    }
+                    Keys.onEnterPressed: if (text.length > 0) {
+                        card.replySent(card.nId, text);
+                        text = "";
+                    }
                 }
 
                 Item {
                     id: sendBtn
                     anchors {
-                        right: parent.right; rightMargin: 4
+                        right: parent.right
+                        rightMargin: 4
                         verticalCenter: parent.verticalCenter
                     }
-                    width: 22; height: 22
+                    width: 22
+                    height: 22
                     opacity: replyInput.text.length > 0 ? 1.0 : 0.4
 
                     Rectangle {
@@ -326,8 +349,8 @@ Item {
                         enabled: replyInput.text.length > 0
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-                            card.replySent(card.nId, replyInput.text)
-                            replyInput.text = ""
+                            card.replySent(card.nId, replyInput.text);
+                            replyInput.text = "";
                         }
                     }
                 }
@@ -335,7 +358,6 @@ Item {
         }
     }
 
-    // Close button — top-left, visible on hover
     Rectangle {
         width: 20
         height: 20
@@ -350,7 +372,11 @@ Item {
         border.color: Theme.border
         border.width: 1
         opacity: card.hovered ? 1.0 : 0.0
-        Behavior on opacity { NumberAnimation { duration: 150 } }
+        Behavior on opacity {
+            NumberAnimation {
+                duration: 150
+            }
+        }
 
         Item {
             anchors.centerIn: parent
@@ -397,8 +423,10 @@ Item {
         target: card
         function onHoveredChanged() {
             if (!nResident) {
-                if (card.hovered) hideTimer.stop()
-                else hideTimer.restart()
+                if (card.hovered)
+                    hideTimer.stop();
+                else
+                    hideTimer.restart();
             }
         }
     }

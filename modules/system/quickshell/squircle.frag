@@ -27,13 +27,11 @@ void main() {
     vec2 halfSize = vec2(ubuf.width, ubuf.height) * 0.5;
     vec2 p = (qt_TexCoord0 * vec2(ubuf.width, ubuf.height)) - halfSize;
     
-    // Applied the scaling factor mentioned in the original comment
     float r = ubuf.cornerRadius * 1.5286;
     
     float dist = squircleSDF(p, halfSize, r);
     float fwidth_dist = fwidth(dist);
     
-    // Corrected edge parameter order to avoid undefined behavior
     float alpha = 1.0 - smoothstep(-fwidth_dist, fwidth_dist, dist);
     
     if (ubuf.strokeWidth > 0.0) {

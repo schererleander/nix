@@ -3,42 +3,38 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
 import Quickshell.Wayland
-import Quickshell.Hyprland 
+import Quickshell.Hyprland
 
 PanelWindow {
     id: root
 
-    // Properties
     property string networkName: ""
     property string title: "The Wi-Fi network \"" + networkName + "\" requires a password."
     property string submitLabel: "Join"
     property string iconSource: "network-wireless-symbolic"
-    
-    signal submitted(string text, bool remember)
-    signal cancelled()
 
-    // Methods
+    signal submitted(string text)
+    signal cancelled
+
     function open(name) {
-        networkName = name
-        passwordInput.text = ""
-        showPasswordCheck.checked = false
-        rememberNetworkCheck.checked = true
-        visible = true
-        Qt.callLater(() => passwordInput.forceActiveFocus())
+        networkName = name;
+        passwordInput.text = "";
+        showPasswordCheck.checked = false;
+        visible = true;
+        Qt.callLater(() => passwordInput.forceActiveFocus());
     }
 
-    // Window Configuration
     visible: false
     color: Theme.transparent
     exclusiveZone: 0
-    
+
     anchors {
         top: true
         bottom: true
         left: true
         right: true
     }
-    
+
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
 
@@ -48,12 +44,11 @@ PanelWindow {
         active: root.visible
     }
 
-    // UI Layout
     Rectangle {
         anchors.fill: parent
         color: Theme.scrim
-        MouseArea { 
-            anchors.fill: parent 
+        MouseArea {
+            anchors.fill: parent
             acceptedButtons: Qt.AllButtons
             hoverEnabled: true
             onWheel: wheel => wheel.accepted = true
@@ -71,8 +66,8 @@ PanelWindow {
         cornerRadius: 12
 
         Keys.onEscapePressed: {
-            root.visible = false
-            root.cancelled()
+            root.visible = false;
+            root.cancelled();
         }
 
         RowLayout {
@@ -85,7 +80,7 @@ PanelWindow {
                 Layout.alignment: Qt.AlignTop
                 Layout.preferredWidth: 64
                 Layout.preferredHeight: 64
-                
+
                 Image {
                     anchors.fill: parent
                     source: Quickshell.iconPath(root.iconSource)
@@ -133,7 +128,7 @@ PanelWindow {
                             font.pixelSize: 12
                             color: Theme.text
                             echoMode: showPasswordCheck.checked ? TextInput.Normal : TextInput.Password
-                            
+
                             background: Rectangle {
                                 color: Theme.surface
                                 radius: 4
@@ -142,8 +137,8 @@ PanelWindow {
                             }
 
                             onAccepted: {
-                                root.submitted(passwordInput.text, rememberNetworkCheck.checked)
-                                root.visible = false
+                                root.submitted(passwordInput.text);
+                                root.visible = false;
                             }
                         }
 
@@ -152,27 +147,24 @@ PanelWindow {
                             text: "Show password"
                             Layout.fillWidth: true
                         }
-
-                        CustomCheckBox {
-                            id: rememberNetworkCheck
-                            text: "Remember this network"
-                            checked: true
-                            Layout.fillWidth: true
-                        }
                     }
                 }
 
-                Item { Layout.preferredHeight: 4 } 
+                Item {
+                    Layout.preferredHeight: 4
+                }
 
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
 
-                    Item { Layout.fillWidth: true } 
+                    Item {
+                        Layout.fillWidth: true
+                    }
 
                     Button {
                         text: "Cancel"
-                        
+
                         contentItem: Text {
                             text: parent.text
                             color: Theme.text
@@ -180,7 +172,7 @@ PanelWindow {
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                         }
-                        
+
                         background: Rectangle {
                             implicitWidth: 80
                             implicitHeight: 28
@@ -189,16 +181,16 @@ PanelWindow {
                             border.color: Theme.border
                             border.width: 1
                         }
-                        
+
                         onClicked: {
-                            root.visible = false
-                            root.cancelled()
+                            root.visible = false;
+                            root.cancelled();
                         }
                     }
 
                     Button {
                         text: root.submitLabel
-                        
+
                         contentItem: Text {
                             text: parent.text
                             color: Theme.text
@@ -206,17 +198,17 @@ PanelWindow {
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                         }
-                        
+
                         background: Rectangle {
                             implicitWidth: 80
                             implicitHeight: 28
                             color: parent.hovered ? Theme.accentHover : Theme.accent
                             radius: 6
                         }
-                        
+
                         onClicked: {
-                            root.submitted(passwordInput.text, rememberNetworkCheck.checked)
-                            root.visible = false
+                            root.submitted(passwordInput.text);
+                            root.visible = false;
                         }
                     }
                 }

@@ -16,12 +16,13 @@ Item {
         anchors.fill: parent
         cornerRadius: 16
         fillColor: root.active ? Theme.accent : Theme.surface
-        
+
         MouseArea {
             anchors.fill: parent
             hoverEnabled: true
             onClicked: {
-                if (root.clickHandler) root.clickHandler()
+                if (root.clickHandler)
+                    root.clickHandler();
             }
         }
 

@@ -11,19 +11,21 @@ Item {
     width: childrenRect.width
     height: parent.height
 
-    BrightnessService { id: brightnessService }
+    BrightnessService {
+        id: brightnessService
+    }
 
     MouseArea {
         anchors.fill: parent
         onClicked: GlobalState.toggle("ControlCenter")
     }
 
-    // Indicator in bar
     Row {
         anchors.verticalCenter: parent.verticalCenter
         spacing: 4
         Image {
-            width: 20; height: 20
+            width: 20
+            height: 20
             source: Quickshell.iconPath("emblem-system-symbolic")
             sourceSize: Qt.size(width, height)
             smooth: true
@@ -31,33 +33,16 @@ Item {
         }
     }
 
-    PopupWindow {
-        id: popup
-        visible: GlobalState.activePopup === "ControlCenter"
-        grabFocus: true
-        implicitWidth: card.width
-        implicitHeight: card.height
-
-        anchor {
-            window: barWindow
-            item: root
-            edges: Edges.Bottom
-            gravity: Edges.Bottom
-            margins.top: Theme.popupGap
-        }
-
-        color: "transparent"
-
-        onVisibleChanged: {
-            if (visible) anchor.updateAnchor()
-        }
+    AnchoredPopup {
+        popupName: "ControlCenter"
+        anchorWindow: barWindow
+        anchorItem: root
 
         PopupCard {
             id: card
             width: 320
             margins: 16
 
-            // TOP SECTION: Connectivity & Quick Actions
             RowLayout {
                 Layout.fillWidth: true
                 spacing: 12
@@ -78,7 +63,6 @@ Item {
                 }
             }
 
-            // MIDDLE SECTION: Sliders
             SliderBox {
                 label: "Display"
                 icon: "display-brightness"
@@ -90,16 +74,17 @@ Item {
                 label: "Sound"
                 icon: "audio-volume-high"
                 value: Pipewire.defaultAudioSink?.audio?.volume ?? 0
+                clickable: true
+                onClicked: Qt.callLater(() => GlobalState.open("Volume"))
                 onMoved: val => {
-                    const sink = Pipewire.defaultAudioSink
+                    const sink = Pipewire.defaultAudioSink;
                     if (sink?.audio) {
-                        sink.audio.muted = false
-                        sink.audio.volume = val
+                        sink.audio.muted = false;
+                        sink.audio.volume = val;
                     }
                 }
             }
 
-            // NOW PLAYING BOX
             Squircle {
                 Layout.fillWidth: true
                 height: 64
@@ -120,22 +105,22 @@ Item {
                     anchors.right: parent.right
                     anchors.leftMargin: 12
                     anchors.rightMargin: 12
-                    
+
                     isExpanded: false
 
                     readonly property var activePlayer: {
-                        const ps = Mpris.players?.values || []
-                        for (const p of ps) if (p.playbackState === MprisPlaybackState.Playing) return p
-                        return ps[0]
+                        const ps = Mpris.players?.values || [];
+                        for (const p of ps)
+                            if (p.playbackState === MprisPlaybackState.Playing)
+                                return p;
+                        return ps[0] ?? null;
                     }
 
                     player: activePlayer
-                    
+
                     onClicked: Qt.callLater(() => GlobalState.open("Media"))
                 }
             }
         }
     }
 }
-
-

@@ -11,71 +11,84 @@ Item {
         id: internal
 
         readonly property var device: {
-            if (!Networking.devices) return null
+            if (!Networking.devices)
+                return null;
             for (const d of Networking.devices.values || []) {
-                if (d && d.scannerEnabled !== undefined) return d
+                if (d && d.scannerEnabled !== undefined)
+                    return d;
             }
-            return null
+            return null;
         }
 
         readonly property var allNetworks: device?.networks ? device.networks.values : []
+        readonly property bool hasKnown: hasKnownNetwork()
+        readonly property bool hasOther: hasOtherNetwork()
+        readonly property var activeNetwork: findActiveNetwork()
 
-        property bool hasKnown: false
-        property bool hasOther: false
-        property var activeNetwork: null
-
-        function updateState() {
-            let known = false
-            let other = false
-            let active = null
-            
+        function hasKnownNetwork() {
             for (const n of internal.allNetworks) {
-                if (n?.connected) active = n
-                if (n?.known) known = true
-                if (n && !n.known && n.name) other = true
+                if (n?.known)
+                    return true;
             }
-            
-            internal.hasKnown = known
-            internal.hasOther = other
-            internal.activeNetwork = active
+            return false;
         }
 
-        Connections {
-            target: internal.device ? internal.device.networks : null
-            function onValuesChanged() { internal.updateState() }
+        function hasOtherNetwork() {
+            for (const n of internal.allNetworks) {
+                if (n && !n.known && n.name)
+                    return true;
+            }
+            return false;
+        }
+
+        function findActiveNetwork() {
+            for (const n of internal.allNetworks) {
+                if (n?.connected)
+                    return n;
+            }
+            return null;
         }
     }
 
     function _getWifiIcon(strength) {
-        if (!Networking.wifiEnabled) return "network-wireless-offline-symbolic"
-        if (!internal.activeNetwork && !internal.device?.enabled) return "network-wireless-offline-symbolic"
-        
-        const s = strength ?? 0
-        if (s >= 0.75) return "network-wireless-signal-excellent-symbolic"
-        if (s >= 0.50) return "network-wireless-signal-good-symbolic"
-        if (s >= 0.25) return "network-wireless-signal-ok-symbolic"
-        if (s > 0) return "network-wireless-signal-weak-symbolic"
-        return "network-wireless-signal-none-symbolic"
+        if (!Networking.wifiEnabled)
+            return "network-wireless-offline-symbolic";
+        if (!internal.activeNetwork && !internal.device?.enabled)
+            return "network-wireless-offline-symbolic";
+
+        const s = strength ?? 0;
+        if (s >= 0.75)
+            return "network-wireless-signal-excellent-symbolic";
+        if (s >= 0.50)
+            return "network-wireless-signal-good-symbolic";
+        if (s >= 0.25)
+            return "network-wireless-signal-ok-symbolic";
+        if (s > 0)
+            return "network-wireless-signal-weak-symbolic";
+        return "network-wireless-signal-none-symbolic";
     }
 
     function _onNetworkClick(net) {
-        if (!net) return
-        if (net.connected) { net.disconnect(); return }
-        if (net.stateChanging) return
+        if (!net)
+            return;
+        if (net.connected) {
+            net.disconnect();
+            return;
+        }
+        if (net.stateChanging)
+            return;
         if (net.known) {
-            net.connect()
+            net.connect();
         } else if ((net.security ?? 0) === 0) {
-            net.connect()
+            net.connect();
         } else {
-            pskPrompt.network = net
-            pskPrompt.open(net.name ?? "")
+            pskPrompt.network = net;
+            pskPrompt.open(net.name ?? "");
         }
     }
 
     width: childrenRect.width
     height: parent.height
-
-    Component.onCompleted: internal.updateState()
 
     Row {
         anchors {
@@ -98,44 +111,26 @@ Item {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onClicked: mouse => {
             if (mouse.button === Qt.LeftButton) {
-                GlobalState.toggle("Wifi")
+                GlobalState.toggle("Wifi");
             } else if (mouse.button === Qt.RightButton) {
-                Networking.wifiEnabled = !Networking.wifiEnabled
+                Networking.wifiEnabled = !Networking.wifiEnabled;
             }
         }
     }
 
-    PopupWindow {
-        id: popup
-        visible: GlobalState.activePopup === "Wifi"
-        grabFocus: true
-        implicitWidth: card.width
-        implicitHeight: card.height
-
-        anchor {
-            window: barWindow
-            item: root
-            edges: Edges.Bottom
-            gravity: Edges.Bottom
-            margins.top: Theme.popupGap
-        }
-
-        color: Theme.transparent
-
-        onVisibleChanged: {
-            if (visible) {
-                anchor.updateAnchor()
-                if (internal.device) internal.device.scannerEnabled = true
-            } else if (internal.device?.scannerEnabled) {
-                internal.device.scannerEnabled = false
-            }
-        }
+    AnchoredPopup {
+        popupName: "Wifi"
+        anchorWindow: barWindow
+        anchorItem: root
+        onOpened: if (internal.device)
+            internal.device.scannerEnabled = true
+        onClosed: if (internal.device?.scannerEnabled)
+            internal.device.scannerEnabled = false
 
         PopupCard {
             id: card
             margins: 16
 
-            // Wi-Fi { Toggle }
             RowLayout {
                 Layout.fillWidth: true
                 Layout.topMargin: 4
@@ -154,7 +149,9 @@ Item {
                     }
                 }
 
-                Item { Layout.fillWidth: true }
+                Item {
+                    Layout.fillWidth: true
+                }
 
                 Toggle {
                     checked: Networking.wifiEnabled
@@ -171,7 +168,6 @@ Item {
                 Layout.bottomMargin: 4
             }
 
-            // Known Network Header
             Text {
                 visible: internal.hasKnown
                 text: "Known Network"
@@ -186,7 +182,6 @@ Item {
                 Layout.bottomMargin: 2
             }
 
-            // Known networks
             ColumnLayout {
                 Layout.fillWidth: true
                 spacing: 2
@@ -204,14 +199,6 @@ Item {
                         Layout.preferredHeight: visible ? 36 : 0
                         fillColor: knownArea.containsMouse ? Theme.surface : Theme.transparent
                         cornerRadius: 6
-
-                        Connections {
-                            target: knownItem.modelData
-                            function onKnownChanged() { internal.updateState() }
-                            function onConnectedChanged() { internal.updateState() }
-                            function onNameChanged() { internal.updateState() }
-                            function onSignalStrengthChanged() { internal.updateState() }
-                        }
 
                         MouseArea {
                             id: knownArea
@@ -265,7 +252,6 @@ Item {
                 Layout.bottomMargin: 4
             }
 
-            // Other Networks Header
             RowLayout {
                 Layout.fillWidth: true
                 Layout.leftMargin: 8
@@ -307,14 +293,13 @@ Item {
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
                             if (internal.device) {
-                                internal.device.scannerEnabled = !internal.device.scannerEnabled
+                                internal.device.scannerEnabled = !internal.device.scannerEnabled;
                             }
                         }
                     }
                 }
             }
 
-            // Other networks list
             ColumnLayout {
                 Layout.fillWidth: true
                 spacing: 2
@@ -331,13 +316,6 @@ Item {
                         Layout.preferredHeight: visible ? 36 : 0
                         fillColor: otherArea.containsMouse ? Theme.surface : Theme.transparent
                         cornerRadius: 6
-
-                        Connections {
-                            target: otherItem.modelData
-                            function onKnownChanged() { internal.updateState() }
-                            function onNameChanged() { internal.updateState() }
-                            function onSignalStrengthChanged() { internal.updateState() }
-                        }
 
                         MouseArea {
                             id: otherArea
@@ -390,8 +368,9 @@ Item {
     WifiPasswordPrompt {
         id: pskPrompt
         property var network: null
-        onSubmitted: (text, remember) => {
-            if (network) network.connectWithPsk(text)
+        onSubmitted: text => {
+            if (network)
+                network.connectWithPsk(text);
         }
     }
 }

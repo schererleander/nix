@@ -12,15 +12,15 @@ Slider {
     property color colorHandle: "#FFFFFF"
     property color iconColor: Theme.iconDefault
 
-    implicitHeight: 24 
-    padding: 0 
+    implicitHeight: 24
+    padding: 0
 
     background: Rectangle {
         width: root.width
         height: root.height
         radius: height / 2
         color: root.colorTrack
-        
+
         clip: true
 
         Rectangle {
@@ -35,7 +35,7 @@ Slider {
             anchors.left: parent.left
             anchors.leftMargin: 6
             anchors.verticalCenter: parent.verticalCenter
-            source: Quickshell.iconPath(root.icon)
+            source: root.icon !== "" ? Quickshell.iconPath(root.icon) : ""
             sourceSize: Qt.size(14, 14)
             width: 14
             height: 14
@@ -52,7 +52,7 @@ Slider {
     handle: Item {
         x: root.visualPosition * (root.availableWidth - width)
         y: root.topPadding + root.availableHeight / 2 - height / 2
-        
+
         width: root.height
         height: root.height
 
@@ -62,7 +62,7 @@ Slider {
             radius: width / 2
             color: root.colorHandle
             border.width: 1
-            border.color: "#1A000000" 
+            border.color: "#1A000000"
         }
 
         MultiEffect {

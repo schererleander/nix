@@ -42,22 +42,10 @@ Item {
         onClicked: GlobalState.toggle("Media")
     }
 
-    PopupWindow {
-        id: popup
-        visible: GlobalState.activePopup === "Media"
-        grabFocus: true
-        implicitWidth: card.width
-        implicitHeight: card.height
-
-        anchor {
-            window: barWindow
-            item: root
-            edges: Edges.Bottom
-            gravity: Edges.Bottom
-            margins.top: Theme.popupGap
-        }
-
-        color: Theme.transparent
+    AnchoredPopup {
+        popupName: "Media"
+        anchorWindow: barWindow
+        anchorItem: root
 
         PopupCard {
             id: card
