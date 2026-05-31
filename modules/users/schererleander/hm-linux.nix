@@ -9,6 +9,7 @@
         nextcloud-client
         vlc
         jellyfin-mpv-shim
+        libreoffice
       ];
     };
 }
