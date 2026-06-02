@@ -14,6 +14,7 @@
       dns
       audio
       font
+      printer
       bluetooth
       wifi
       mullvad-vpn

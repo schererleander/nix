@@ -10,6 +10,7 @@
         vlc
         jellyfin-mpv-shim
         libreoffice
+        wine
       ];
     };
 }
