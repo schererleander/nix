@@ -19,7 +19,7 @@
       wifi
       mullvad-vpn
       steam
-      sunshine
+      tailscale
       wooting
     ];
   };
