@@ -105,8 +105,6 @@
               ublock-origin
               istilldontcareaboutcookies
               adaptive-tab-bar-colour
-              vimium
-
             ];
 
             force = true;
@@ -123,7 +121,7 @@
           };
 
           search = {
-            default = "ddg";
+            default = "g";
             engines = {
               nix-packages = {
                 name = "Nix Packages";
