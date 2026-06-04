@@ -8,7 +8,7 @@
         anki
         nextcloud-client
         vlc
-        jellyfin-mpv-shim
+        jellyfin-desktop
         libreoffice
         wine
       ];
