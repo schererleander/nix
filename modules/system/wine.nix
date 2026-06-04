@@ -9,5 +9,9 @@
         cabextract
         wineWow64Packages.waylandFull
       ];
+      home.sessionVariables = {
+        WINEARCH = "win64";
+        WINEPREFIX = "$HOME/.wine";
+      };
     };
 }
