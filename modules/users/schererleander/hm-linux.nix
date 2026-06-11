@@ -11,6 +11,8 @@
         jellyfin-desktop
         libreoffice
         wine
+        mcp
+        fluffy-mod-manager
       ];
     };
 }
