@@ -20,6 +20,12 @@
       };
 
       environment.systemPackages = with pkgs.kdePackages; [
+        (spectacle.override {
+          tesseractLanguages = [
+            "eng"
+            "deu"
+          ];
+        })
         partitionmanager
         filelight
         isoimagewriter
