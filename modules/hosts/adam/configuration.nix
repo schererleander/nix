@@ -9,8 +9,6 @@
         kernelPackages = pkgs.linuxPackages_latest;
         kernelParams = [ "amd_pstate=active" ];
         kernelModules = [ "amdgpu" ];
-        initrd.luks.devices."luks-803851e9-7fa8-4367-a927-0bb76d0fe830".device =
-          "/dev/disk/by-uuid/803851e9-7fa8-4367-a927-0bb76d0fe830";
         loader = {
           timeout = 0;
           systemd-boot.enable = true;
