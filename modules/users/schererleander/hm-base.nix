@@ -23,6 +23,7 @@
         stateVersion = "26.05";
         packages = with pkgs; [
           obsidian
+          codex
           claude-code
           gemini-cli
         ];
