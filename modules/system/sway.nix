@@ -75,7 +75,7 @@
         wrapperFeatures.gtk = true;
         config = rec {
           modifier = "Mod4";
-          terminal = "ghostty";
+          terminal = "foot";
 
           input = {
             "*" = {

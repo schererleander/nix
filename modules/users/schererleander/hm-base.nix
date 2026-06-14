@@ -11,7 +11,7 @@
         lsp
         sioyek
         spicetify
-        nixcord
+        discord
         latex
       ];
 

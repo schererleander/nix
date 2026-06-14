@@ -6,13 +6,12 @@
         schererleander-base
         firefox
         anki
+        mpv
         nextcloud-client
-        vlc
         jellyfin-desktop
         libreoffice
         wine
         mcp
-        fluffy-mod-manager
       ];
     };
 }
