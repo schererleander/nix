@@ -24,8 +24,7 @@
         packages = with pkgs; [
           obsidian
           codex
-          claude-code
-          gemini-cli
+          antigravity-cli
         ];
       };
     };
