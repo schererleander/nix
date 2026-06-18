@@ -45,6 +45,7 @@
           "iterm2"
           "rectangle"
           "tailscale-app"
+          "chatgpt"
         ];
         greedyCasks = true;
         masApps = {
@@ -52,7 +53,6 @@
           "Goodnotes: KI-Notizen, PDF" = 1444383602;
           "WhatsApp Messenger" = 310633997;
         };
-        onActivation.cleanup = "zap";
         onActivation.autoUpdate = true;
         onActivation.upgrade = true;
       };
