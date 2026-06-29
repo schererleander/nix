@@ -16,17 +16,11 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
-    nixpkgs-wayland.inputs.nixpkgs.follows = "nixpkgs";
-
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
     firefox-addons.inputs.nixpkgs.follows = "nixpkgs";
-
-    quickshell.url = "git+https://git.outfoxxed.me/quickshell/quickshell";
-    quickshell.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
