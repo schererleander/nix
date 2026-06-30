@@ -7,12 +7,10 @@
         nixpkgs.overlays = [
           inputs.self.overlays.ida-pro
           inputs.self.overlays.ida-pro-mcp
-          inputs.self.overlays.hcli
         ];
       }
       adam
       ida-pro
-      hcli
       home-manager
       plymouth
       localization
