@@ -1,12 +1,13 @@
 {
   flake.modules.homeManager.mcp =
-    { pkgs, ... }:
+    { pkgs, inputs, ... }:
     let
-      pluginRoot = "${pkgs.ida-pro-mcp}/${pkgs.python313.sitePackages}/ida_pro_mcp";
+      ida-pro-mcp = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.ida-pro-mcp;
+      pluginRoot = "${ida-pro-mcp}/${pkgs.python313.sitePackages}/ida_pro_mcp";
     in
     {
       home = {
-        packages = [ pkgs.ida-pro-mcp ];
+        packages = [ ida-pro-mcp ];
         file = {
           ".idapro/plugins/ida_mcp.py".source = "${pluginRoot}/ida_mcp.py";
           ".idapro/plugins/ida_mcp".source = "${pluginRoot}/ida_mcp";

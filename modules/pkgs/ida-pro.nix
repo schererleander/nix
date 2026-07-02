@@ -1,7 +1,12 @@
-{ ... }:
+{ inputs, ... }:
 {
-  flake.overlays.ida-pro = final: prev: {
-    ida-pro = final.callPackage (
+  perSystem = { system, ... }: let
+    pkgs = import inputs.nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+    };
+  in {
+    packages.ida-pro = pkgs.callPackage (
       {
         autoPatchelfHook,
         cairo,
@@ -187,12 +192,12 @@
   flake.modules.nixos.ida-pro =
     { pkgs, ... }:
     {
-      environment.systemPackages = [ pkgs.ida-pro ];
+      environment.systemPackages = [ inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.ida-pro ];
     };
 
   flake.modules.homeManager.ida-pro =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.ida-pro ];
+      home.packages = [ inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.ida-pro ];
     };
 }

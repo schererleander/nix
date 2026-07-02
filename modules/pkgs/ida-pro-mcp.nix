@@ -1,50 +1,51 @@
 { ... }:
 {
-  flake.overlays.ida-pro-mcp = final: prev: {
-    idapro = final.python313.pkgs.buildPythonPackage rec {
+  perSystem = { pkgs, ... }:
+  let
+    idapro = pkgs.python313.pkgs.buildPythonPackage rec {
       pname = "idapro";
       version = "0.0.9";
 
       pyproject = true;
 
-      src = final.fetchPypi {
+      src = pkgs.fetchPypi {
         inherit pname version;
         hash = "sha256-igQ6ic5QdTPlAuj2WBpPtYut4l6PpgSVRbeexjZ5LjU=";
       };
 
       build-system = [
-        final.python313.pkgs.setuptools
+        pkgs.python313.pkgs.setuptools
       ];
 
       doCheck = false;
 
-      meta = with final.lib; {
+      meta = with pkgs.lib; {
         description = "IDA Library Python module";
         license = licenses.mit;
         platforms = platforms.all;
       };
     };
-
-    ida-pro-mcp = final.python313.pkgs.buildPythonApplication rec {
+  in {
+    packages.ida-pro-mcp = pkgs.python313.pkgs.buildPythonApplication rec {
       pname = "ida-pro-mcp";
       version = "2.0.0";
 
       pyproject = true;
 
-      src = final.fetchFromGitHub {
+      src = pkgs.fetchFromGitHub {
         owner = "mrexodia";
         repo = "ida-pro-mcp";
         rev = "main";
-        hash = "sha256-NkZVtKj4zvUSdEpQxH+/2k2LZrqK322G64jSVAroHaE=";
+        hash = "sha256-U/+l/HQBUk5Pfu5AnC+dsicQ+CnPAdJkm6mxNyL2Q0w=";
       };
 
       build-system = [
-        final.python313.pkgs.setuptools
+        pkgs.python313.pkgs.setuptools
       ];
 
       dependencies = [
-        final.idapro
-        final.python313.pkgs.tomli-w
+        idapro
+        pkgs.python313.pkgs.tomli-w
       ];
 
       pythonImportsCheck = [
@@ -53,7 +54,7 @@
 
       doCheck = false;
 
-      meta = with final.lib; {
+      meta = with pkgs.lib; {
         description = "IDA Pro MCP server";
         homepage = "https://github.com/mrexodia/ida-pro-mcp";
         license = licenses.mit;
