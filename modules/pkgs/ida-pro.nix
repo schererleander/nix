@@ -170,7 +170,8 @@
             --prefix QT_PLUGIN_PATH : "$IDADIR/plugins/platforms" \
             --prefix PYTHONPATH : "$out/bin/idalib/python" \
             --prefix PATH : "${pythonForIDA}/bin:$IDADIR" \
-            --prefix LD_LIBRARY_PATH : "$out/lib"
+            --prefix LD_LIBRARY_PATH : "$out/lib" \
+            --set QT_QPA_PLATFORM xcb
 
           ln -s "$IDADIR/ida" "$out/bin/ida"
 
