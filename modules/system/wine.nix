@@ -4,7 +4,7 @@
     let
       wine = pkgs.wineWow64Packages.waylandFull;
 
-      wineForWinetricks = pkgs.runCommand "wine-for-winetricks" {} ''
+      wineForWinetricks = pkgs.runCommand "wine-for-winetricks" { } ''
         mkdir -p $out/bin
 
         ln -s ${wine}/bin/wine $out/bin/wine

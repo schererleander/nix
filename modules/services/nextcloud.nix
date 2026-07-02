@@ -85,7 +85,10 @@
           } -o StrictHostKeyChecking=accept-new";
           TMPDIR = "/var/tmp";
         };
-        extraCreateArgs = [ "--info" "--stats" ];
+        extraCreateArgs = [
+          "--info"
+          "--stats"
+        ];
         compression = "auto,lzma";
         startAt = "daily";
         readWritePaths = [
@@ -95,7 +98,7 @@
         preHook = ''
           set -euo pipefail
           export BORG_REPO="$(cat ${config.sops.secrets."borg_nextcloud_repo".path})"
-          
+
           INSTALL="${pkgs.coreutils}/bin/install"
           FIND="${pkgs.findutils}/bin/find"
           MYSQLDUMP="${pkgs.mariadb.client}/bin/mariadb-dump"
@@ -122,7 +125,9 @@
         '';
       };
 
-      systemd.services."borgbackup-job-nextcloud".unitConfig.OnFailure = [ "notify-backup-failure@%n.service" ];
+      systemd.services."borgbackup-job-nextcloud".unitConfig.OnFailure = [
+        "notify-backup-failure@%n.service"
+      ];
 
       services.fail2ban = {
         enable = true;

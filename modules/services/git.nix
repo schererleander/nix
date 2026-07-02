@@ -82,7 +82,10 @@
             config.sops.secrets."borgbase_ssh_key".path
           } -o StrictHostKeyChecking=accept-new";
         };
-        extraCreateArgs = [ "--info" "--stats" ];
+        extraCreateArgs = [
+          "--info"
+          "--stats"
+        ];
         compression = "auto,lzma";
         startAt = "daily";
         preHook = ''
