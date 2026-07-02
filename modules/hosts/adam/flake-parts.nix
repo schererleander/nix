@@ -21,6 +21,7 @@
       steam
       tailscale
       wooting
+      sunshine
     ];
   };
 }
