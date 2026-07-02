@@ -3,12 +3,8 @@
   flake.nixosConfigurations."adam" = inputs.nixpkgs.lib.nixosSystem {
     specialArgs = { inherit inputs; };
     modules = with inputs.self.modules.nixos; [
-      {
-        nixpkgs.overlays = [
-          inputs.self.overlays.ida-pro
-          inputs.self.overlays.ida-pro-mcp
-        ];
-      }
+      inputs.self.modules.nixos.nixpkgs
+      inputs.lanzaboote.nixosModules.lanzaboote
       adam
       ida-pro
       home-manager

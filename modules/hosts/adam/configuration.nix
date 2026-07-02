@@ -11,8 +11,12 @@
         kernelModules = [ "amdgpu" ];
         loader = {
           timeout = 0;
-          systemd-boot.enable = true;
+          systemd-boot.enable = pkgs.lib.mkForce false;
           efi.canTouchEfiVariables = true;
+        };
+        lanzaboote = {
+          enable = true;
+          pkiBundle = "/var/lib/sbctl";
         };
       };
 
@@ -37,6 +41,10 @@
           "input"
         ];
       };
+
+      environment.systemPackages = [
+        pkgs.sbctl
+      ];
 
       nix.settings.experimental-features = [
         "nix-command"
