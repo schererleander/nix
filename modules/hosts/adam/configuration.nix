@@ -2,9 +2,13 @@
   flake.modules.nixos.adam =
     {
       pkgs,
+      inputs,
       ...
     }:
     {
+      home-manager.users.schererleander = {
+        imports = [ inputs.self.modules.homeManager.vlc ];
+      };
       boot = {
         kernelPackages = pkgs.linuxPackages_latest;
         kernelParams = [ "amd_pstate=active" ];
