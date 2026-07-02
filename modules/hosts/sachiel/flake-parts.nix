@@ -3,6 +3,7 @@
   flake.nixosConfigurations."sachiel" = inputs.nixpkgs.lib.nixosSystem {
     specialArgs = { inherit inputs; };
     modules = [
+      inputs.self.modules.nixos.nixpkgs
       inputs.self.modules.nixos.sachiel
       inputs.self.modules.nixos.openssh
       inputs.self.modules.nixos.nginx
