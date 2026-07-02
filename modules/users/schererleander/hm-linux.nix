@@ -13,6 +13,7 @@
         wine
         mcp
         minecraft
+        emulators
       ];
     };
 }
