@@ -37,13 +37,6 @@
 
           NewTabPage = false;
 
-          #EnableTrackingProtection = {
-          #  Value = true;
-          #  Locked = true;
-          #  Cryptomining = true;
-          #  Fingerprinting = true;
-          #};
-
           EncryptedMediaExtensions = {
             Enabled = true;
             Locked = true;
