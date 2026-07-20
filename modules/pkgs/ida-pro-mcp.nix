@@ -37,8 +37,8 @@
         src = pkgs.fetchFromGitHub {
           owner = "mrexodia";
           repo = "ida-pro-mcp";
-          rev = "main";
-          hash = "sha256-U/+l/HQBUk5Pfu5AnC+dsicQ+CnPAdJkm6mxNyL2Q0w=";
+          rev = "8a0820cf29a90ed82dbafd7f63b3bdac8722741c";
+          hash = "sha256-Cm1xognadqF7/aUx5rmulc/nXUX3LPMJFhwfapaiQ0A=";
         };
 
         build-system = [
