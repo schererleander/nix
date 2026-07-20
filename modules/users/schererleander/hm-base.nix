@@ -10,7 +10,7 @@
         zed
         lsp
         sioyek
-        spicetify
+        spotify
         discord
         latex
       ];
