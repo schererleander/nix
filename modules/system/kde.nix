@@ -34,7 +34,7 @@
           partitionmanager
           filelight
           isoimagewriter
-          kcalc
+          kalk
           kcolorchooser
           kolourpaint
           skanpage
