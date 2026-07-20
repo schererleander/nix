@@ -18,7 +18,6 @@
           };
         };
         addons = with pkgs.ankiAddons; [
-          recolor
           review-heatmap
         ];
       };
