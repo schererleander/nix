@@ -2,6 +2,7 @@
   flake.modules.nixos.adam =
     {
       pkgs,
+      config,
       inputs,
       ...
     }:
@@ -43,6 +44,7 @@
           "networkmanager"
           "video"
           "input"
+          "fuse"
         ];
       };
 

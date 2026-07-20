@@ -22,6 +22,7 @@
       tailscale
       wooting
       sunshine
+      openssh
     ];
   };
 }

@@ -32,6 +32,12 @@
             group = "users";
             mode = "0600";
           };
+          "ssh_authorized_keys" = {
+            owner = "schererleander";
+            group = "users";
+            mode = "0644";
+            path = "/etc/ssh/authorized_keys.d/schererleander";
+          };
 
         };
       };
