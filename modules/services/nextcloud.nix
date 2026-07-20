@@ -9,7 +9,7 @@
     {
       services.nextcloud = {
         enable = true;
-        package = pkgs.nextcloud33;
+        package = pkgs.nextcloud34;
         hostName = "cloud.schererleander.de";
         https = true;
         database.createLocally = true;
