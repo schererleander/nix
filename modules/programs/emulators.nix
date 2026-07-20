@@ -5,6 +5,8 @@
       pcsx2
       rpcs3
       ryubing
+      shipwright
+      dusklight
     ];
   };
 }
