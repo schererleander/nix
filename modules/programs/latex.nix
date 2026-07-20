@@ -5,21 +5,15 @@
       ...
     }:
     {
-      programs.texlive = {
-        enable = true;
-        # See https://mynixos.com/search?q=texlivepackages.collection for more collections
-        # and https://mynixos.com/search?q=texlivepackages for more individual packages.
-        extraPackages = tpkgs: {
-          inherit (tpkgs)
+      home.packages = with pkgs; [
+        (texliveSmall.withPackages (
+          tpkgs: with tpkgs; [
             collection-basic
             collection-latex
             collection-latexrecommended
             biblatex
-            ;
-        };
-      };
-
-      home.packages = with pkgs; [
+          ]
+        ))
         biber
       ];
 
