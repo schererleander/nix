@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.sunshine = {
+  flake.modules.nixos.sunshine = { config, ... }: {
     services.sunshine = {
       enable = true;
       autoStart = true;
@@ -7,8 +7,10 @@
       openFirewall = true;
 
       settings = {
-        sunshine_name = "Adam-Sunshine";
-        # Force hardware encoding for AMD
+        sunshine_name = config.networking.hostName;
+        controller = "disabled";
+        stream_audio = "disabled";
+        vk_rc_mode = 0;
         encoder = "vaapi";
       };
 
