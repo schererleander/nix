@@ -12,6 +12,7 @@
         libreoffice
         wine
         mcp
+        opencode
         minecraft
         emulators
       ];
