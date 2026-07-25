@@ -1,6 +1,7 @@
 {
   flake.modules.nixos.cgit =
     {
+      config,
       lib,
       pkgs,
       ...
@@ -49,7 +50,8 @@
 
       services.nginx.virtualHosts."git.schererleander.de" = {
         forceSSL = true;
-        useACMEHost = "schererleander.de";
+        sslCertificate = config.sops.secrets."cert_fullchain".path;
+        sslCertificateKey = config.sops.secrets."cert_private".path;
       };
     };
 }
