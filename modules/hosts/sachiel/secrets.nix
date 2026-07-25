@@ -34,13 +34,10 @@
             mode = "0400";
             path = "/var/lib/git-server/.ssh/authorized_keys";
           };
-          "cert_fullchain" = {
-            owner = "nginx";
-            group = "nginx";
-          };
-          "cert_private" = {
-            owner = "nginx";
-            group = "nginx";
+          "ionos-acme-env" = {
+            owner = "acme";
+            group = "acme";
+            mode = "0400";
           };
         };
       };
