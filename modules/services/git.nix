@@ -2,7 +2,6 @@
   flake.modules.nixos.git =
     {
       config,
-      lib,
       pkgs,
       ...
     }:
@@ -17,53 +16,73 @@
       users.groups.git = { };
 
       systemd.services.github-mirror = {
-        description = "Mirror GitHub repositories for schererleander";
+        description = "Mirror GitHub repositories";
         after = [ "network-online.target" ];
         wants = [ "network-online.target" ];
         script = ''
           set -euo pipefail
 
-          echo "Fetching repository list for schererleander..."
-
           cd /var/lib/git-server
 
-          DEFAULT_DESC="Unnamed repository; edit this file 'description' to name the repository."
+          API_DATA="$(${pkgs.coreutils}/bin/mktemp)"
+          REPO_NAMES="$(${pkgs.coreutils}/bin/mktemp)"
+          trap '${pkgs.coreutils}/bin/rm -f "$API_DATA" "$REPO_NAMES"' EXIT
 
-          ${pkgs.curl}/bin/curl -s "https://api.github.com/users/schererleander/repos?per_page=100" \
-            | ${pkgs.jq}/bin/jq -r --arg def "$DEFAULT_DESC" \
-              '.[] | "\(.clone_url)\t\(.description | if . == null or . == "" then $def else . end | gsub("[\n\t]"; " "))"' \
-            | while IFS=$'\t' read -r REPO_URL REPO_DESC; do
-            
-            REPO_NAME=$(basename -s .git "$REPO_URL")
+          ${pkgs.curl}/bin/curl -fsS \
+            "https://api.github.com/users/schererleander/repos?per_page=100" \
+            > "$API_DATA"
+
+          ${pkgs.jq}/bin/jq -r '.[].name' "$API_DATA" > "$REPO_NAMES"
+
+          ${pkgs.jq}/bin/jq -r '
+            .[]
+            | [
+                .clone_url,
+                (.description // "Unnamed repository")
+              ]
+            | @tsv
+          ' "$API_DATA" |
+          while IFS=$'\t' read -r REPO_URL REPO_DESC; do
+            REPO_NAME="$(${pkgs.coreutils}/bin/basename -s .git "$REPO_URL")"
             TARGET_DIR="$REPO_NAME.git"
 
-            if [ ! -d "$TARGET_DIR" ]; then
-              echo "Cloning $REPO_NAME..."
-              ${pkgs.git}/bin/git clone --mirror "$REPO_URL" "$TARGET_DIR"
-            else
-              echo "Updating $REPO_NAME..."
+            if [ -d "$TARGET_DIR" ]; then
+              echo "Updating $REPO_NAME"
               ${pkgs.git}/bin/git -C "$TARGET_DIR" fetch --prune origin
+            else
+              echo "Cloning $REPO_NAME"
+              ${pkgs.git}/bin/git clone --mirror "$REPO_URL" "$TARGET_DIR"
             fi
-            
+
             echo "$REPO_DESC" > "$TARGET_DIR/description"
           done
-        '';
 
+          for TARGET_DIR in *.git; do
+            [ -d "$TARGET_DIR" ] || continue
+
+            REPO_NAME="''${TARGET_DIR%.git}"
+
+            if ! ${pkgs.gnugrep}/bin/grep -Fxq "$REPO_NAME" "$REPO_NAMES"; then
+              echo "Deleting $REPO_NAME"
+              ${pkgs.coreutils}/bin/rm -rf -- "$TARGET_DIR"
+            fi
+          done
+        '';
         serviceConfig = {
           Type = "oneshot";
           User = "git";
           Group = "git";
 
-          # Security hardening
           CapabilityBoundingSet = "";
           ProtectSystem = "strict";
           ProtectHome = true;
+          PrivateTmp = true;
           ReadWritePaths = "/var/lib/git-server";
         };
       };
 
       systemd.timers.github-mirror = {
-        description = "Timer to mirror GitHub repositories for schererleander";
+        description = "Timer to mirror GitHub repositories";
         wantedBy = [ "timers.target" ];
         timerConfig = {
           OnCalendar = "hourly";

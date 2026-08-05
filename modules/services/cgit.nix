@@ -2,7 +2,6 @@
   flake.modules.nixos.cgit =
     {
       config,
-      lib,
       pkgs,
       ...
     }:
@@ -24,7 +23,7 @@
 
         settings = {
           "root-title" = "My Git Repositories";
-          "root-desc" = "Self-hosted NixOS Git server";
+          "root-desc" = "Mirror of all my public github repos";
           "clone-url" =
             "https://git.schererleander.de/$CGIT_REPO_URL ssh://git@git.schererleander.de/$CGIT_REPO_URL";
           "enable-http-clone" = 1;
