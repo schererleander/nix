@@ -13,9 +13,7 @@
       };
       # Ignore the DualSense touchpad in libinput to prevent it from acting as a mouse
       services.udev.extraRules = ''
-        ACTION=="add|change", KERNEL=="event[0-9]*", ATTRS{name}=="DualSense Wireless Controller", ENV{LIBINPUT_IGNORE_DEVICE}="1"
-        ACTION=="add|change", KERNEL=="event[0-9]*", ATTRS{name}=="DualSense Wireless Controller Motion Sensors", ENV{LIBINPUT_IGNORE_DEVICE}="1"
-        ACTION=="add|change", KERNEL=="event[0-9]*", ATTRS{name}=="DualSense Wireless Controller Touchpad", ENV{LIBINPUT_IGNORE_DEVICE}="1"
+        ACTION!="remove", SUBSYSTEM=="input", KERNEL=="event[0-9]*", ATTRS{id/vendor}=="054c", ATTRS{id/product}=="0ce6", ENV{ID_INPUT_TOUCHPAD}=="1", ENV{LIBINPUT_IGNORE_DEVICE}="1"
       '';
     };
 }
