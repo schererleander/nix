@@ -19,7 +19,7 @@
       ];
 
       environment.variables = {
-        XCURSOR_THEME = "Breeze_Snow";
+        XCURSOR_THEME = "breeze_cursors";
         XCURSOR_SIZE = "24";
       };
 
