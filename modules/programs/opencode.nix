@@ -9,9 +9,6 @@
       programs.opencode = {
         enable = true;
         enableMcpIntegration = true;
-        settings = {
-          plugin = [ "opencode-antigravity-auth@latest" ];
-        };
       };
     };
 }
