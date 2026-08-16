@@ -32,7 +32,7 @@
           Homepage = {
             URL = "about:blank";
             Locked = true;
-            StartPage = "homepage";
+            StartPage = "previous-session";
           };
 
           NewTabPage = false;
