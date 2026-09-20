@@ -1,28 +1,17 @@
 {
   flake.modules.homeManager.wine =
-    { pkgs, config, ... }:
+    { pkgs, ... }:
     let
-      wine = pkgs.wineWow64Packages.waylandFull;
-
-      wineForWinetricks = pkgs.runCommand "wine-for-winetricks" { } ''
-        mkdir -p $out/bin
-
-        ln -s ${wine}/bin/wine $out/bin/wine
-        ln -s ${wine}/bin/wine $out/bin/wine64
-        ln -s ${wine}/bin/wineserver $out/bin/wineserver
-      '';
+      wine = pkgs.wineWow64Packages.stagingFull;
 
       winetricksFixed = pkgs.writeShellScriptBin "winetricks" ''
-        export WINE="${wineForWinetricks}/bin/wine"
-        export WINELOADER="${wineForWinetricks}/bin/wine"
-        export WINESERVER="${wineForWinetricks}/bin/wineserver"
+        export WINE="${wine}/bin/wine"
+        export WINESERVER="${wine}/bin/wineserver"
 
-        # NixOS WoW64 wrapper fix.
+        # Winetricks architecture detection must inspect the real ELF
+        # binaries rather than Nixpkgs' Wine wrapper.
         export WINE_BIN="${wine}/bin/.wine"
         export WINESERVER_BIN="${wine}/bin/wineserver"
-
-        export WINEPREFIX="${config.home.homeDirectory}/.wine"
-        export PATH="${wineForWinetricks}/bin:$PATH"
 
         exec ${pkgs.winetricks}/bin/winetricks "$@"
       '';
@@ -36,6 +25,7 @@
         wine
         q4wineFixed
         winetricksFixed
+
         pkgs.unzip
         pkgs.cabextract
       ];
