@@ -3,9 +3,7 @@
   flake.modules.nixos.nixpkgs =
     { ... }:
     {
-      nixpkgs.overlays = [
-        inputs.self.overlays.rpcs3
-      ];
+      nixpkgs.overlays = [ inputs.self.overlays.codex ];
       nixpkgs.config.allowUnfree = true;
     };
 }

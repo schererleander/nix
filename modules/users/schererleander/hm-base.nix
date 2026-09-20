@@ -13,6 +13,7 @@
         spotify
         discord
         latex
+        codex
       ];
 
       # Allow search or installation for unfree packages as a user
