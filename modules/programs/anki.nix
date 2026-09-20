@@ -18,7 +18,7 @@
           };
         };
         addons = with pkgs.ankiAddons; [
-          review-heatmap
+          # review-heatmap disabled: PyQt5 fails to build (sip ABI mismatch) after nixpkgs bump
         ];
       };
     };
