@@ -12,7 +12,6 @@
         libreoffice
         wine
         mcp
-        opencode
         open-goal-launcher
         minecraft
         emulators
