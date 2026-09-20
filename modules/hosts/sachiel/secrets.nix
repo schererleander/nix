@@ -42,6 +42,11 @@
             owner = "nginx";
             group = "nginx";
           };
+          "ionos-acme-env" = {
+            owner = "acme";
+            group = "acme";
+            mode = "0400";
+          };
         };
       };
     };
