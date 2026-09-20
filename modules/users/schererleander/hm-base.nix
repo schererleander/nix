@@ -24,7 +24,6 @@
         stateVersion = "26.05";
         packages = with pkgs; [
           obsidian
-          antigravity-cli
         ];
       };
     };
