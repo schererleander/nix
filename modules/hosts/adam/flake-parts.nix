@@ -1,9 +1,9 @@
 { inputs, ... }:
 {
-  flake.nixosConfigurations."adam" = inputs.nixpkgs.lib.nixosSystem {
+  flake.nixosConfigurations.adam = inputs.nixpkgs.lib.nixosSystem {
     specialArgs = { inherit inputs; };
     modules = with inputs.self.modules.nixos; [
-      inputs.self.modules.nixos.nixpkgs
+      nixpkgs
       inputs.lanzaboote.nixosModules.lanzaboote
       adam
       ida-pro

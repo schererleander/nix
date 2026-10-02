@@ -1,9 +1,5 @@
 {
   flake.modules.darwin.lilith =
-    {
-      ...
-    }:
-
     let
       username = "schererleander";
     in

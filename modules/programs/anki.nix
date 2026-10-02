@@ -1,25 +1,18 @@
 {
-  flake.modules.homeManager.anki =
-    {
-      pkgs,
-      ...
-    }:
-    {
-      programs.anki = {
-        enable = true;
-        style = "native";
-        theme = "followSystem";
-        profiles."User 1" = {
-          sync = {
-            autoSync = true;
-            syncMedia = true;
-            usernameFile = "/run/secrets/anki_username";
-            keyFile = "/run/secrets/anki_syncKey";
-          };
+  flake.modules.homeManager.anki = {
+    programs.anki = {
+      enable = true;
+      style = "native";
+      theme = "followSystem";
+      profiles."User 1" = {
+        sync = {
+          autoSync = true;
+          syncMedia = true;
+          usernameFile = "/run/secrets/anki_username";
+          keyFile = "/run/secrets/anki_syncKey";
         };
-        addons = with pkgs.ankiAddons; [
-          # review-heatmap disabled: PyQt5 fails to build (sip ABI mismatch) after nixpkgs bump
-        ];
       };
+      # TODO: Re-enable review-heatmap once the PyQt5 build's SIP ABI mismatch is fixed.
     };
+  };
 }
