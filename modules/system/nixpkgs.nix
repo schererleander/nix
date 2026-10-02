@@ -3,6 +3,7 @@ let
   nixpkgs = {
     overlays = with inputs.self.overlays; [
       armorpaint
+      claude-code
       codex
     ];
     config = {

@@ -14,6 +14,7 @@
         discord
         latex
         codex
+        claude-code
       ];
 
       # Allow search or installation for unfree packages as a user
