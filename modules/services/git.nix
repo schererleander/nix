@@ -24,13 +24,26 @@
 
           cd /var/lib/git-server
 
-          API_DATA="$(${pkgs.coreutils}/bin/mktemp)"
-          REPO_NAMES="$(${pkgs.coreutils}/bin/mktemp)"
-          trap '${pkgs.coreutils}/bin/rm -f "$API_DATA" "$REPO_NAMES"' EXIT
+          WORK_DIR="$(${pkgs.coreutils}/bin/mktemp -d)"
+          API_DATA="$WORK_DIR/repos.json"
+          REPO_NAMES="$WORK_DIR/names"
+          trap '${pkgs.coreutils}/bin/rm -rf -- "$WORK_DIR"' EXIT
 
-          ${pkgs.curl}/bin/curl -fsS \
-            "https://api.github.com/users/schererleander/repos?per_page=100" \
-            > "$API_DATA"
+          # Collect every page before updating or deleting any mirrors.
+          for ((PAGE = 1; ; PAGE++)); do
+            PAGE_DATA="$WORK_DIR/page-$PAGE.json"
+            ${pkgs.curl}/bin/curl -fsS \
+              "https://api.github.com/users/schererleander/repos?per_page=100&page=$PAGE" \
+              > "$PAGE_DATA"
+
+            PAGE_SIZE="$(${pkgs.jq}/bin/jq -er '
+              if type == "array" then length
+              else error("Expected a GitHub repository array") end
+            ' "$PAGE_DATA")"
+            [ "$PAGE_SIZE" -eq 100 ] || break
+          done
+
+          ${pkgs.jq}/bin/jq -s 'add' "$WORK_DIR"/page-*.json > "$API_DATA"
 
           ${pkgs.jq}/bin/jq -r '.[].name' "$API_DATA" > "$REPO_NAMES"
 
@@ -109,7 +122,8 @@
         startAt = "daily";
         preHook = ''
           set -euo pipefail
-          export BORG_REPO="$(cat ${config.sops.secrets."borg_git_repo".path})"
+          BORG_REPO="$(cat ${config.sops.secrets."borg_git_repo".path})"
+          export BORG_REPO
         '';
       };
 
