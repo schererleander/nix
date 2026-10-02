@@ -5,5 +5,7 @@
       imports = with inputs.self.modules.homeManager; [
         schererleander-base
       ];
+
+      home.homeDirectory = "/Users/schererleander";
     };
 }

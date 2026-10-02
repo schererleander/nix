@@ -17,9 +17,12 @@
         emulators
       ];
 
-      home.packages = with pkgs; [
-        renderdoc
-        armorpaint
-      ];
+      home = {
+        homeDirectory = "/home/schererleander";
+        packages = with pkgs; [
+          renderdoc
+          armorpaint
+        ];
+      };
     };
 }
