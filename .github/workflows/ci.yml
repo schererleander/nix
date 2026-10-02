@@ -8,3 +8,8 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@main
       - uses: DeterminateSystems/magic-nix-cache-action@main
       - run: nix flake check --all-systems
+      - name: Evaluate Home Manager and Darwin configurations
+        run: |
+          nix eval --raw '.#homeConfigurations."schererleander@adam".activationPackage.drvPath' > /dev/null
+          nix eval --raw '.#homeConfigurations."schererleander@lilith".activationPackage.drvPath' > /dev/null
+          nix eval --raw '.#darwinConfigurations.lilith.system.drvPath' > /dev/null
