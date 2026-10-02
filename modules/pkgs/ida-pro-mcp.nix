@@ -3,66 +3,72 @@
   perSystem =
     { pkgs, ... }:
     let
-      idapro = pkgs.python313.pkgs.buildPythonPackage rec {
+      python = pkgs.python313;
+      pythonPackages = python.pkgs;
+
+      idapro = pythonPackages.buildPythonPackage (finalAttrs: {
         pname = "idapro";
         version = "0.0.9";
 
         pyproject = true;
 
         src = pkgs.fetchPypi {
-          inherit pname version;
+          inherit (finalAttrs) pname version;
           hash = "sha256-igQ6ic5QdTPlAuj2WBpPtYut4l6PpgSVRbeexjZ5LjU=";
         };
 
         build-system = [
-          pkgs.python313.pkgs.setuptools
+          pythonPackages.setuptools
         ];
 
         doCheck = false;
 
-        meta = with pkgs.lib; {
+        meta = {
           description = "IDA Library Python module";
-          license = licenses.mit;
-          platforms = platforms.all;
+          license = pkgs.lib.licenses.mit;
+          platforms = pkgs.lib.platforms.all;
         };
-      };
+      });
     in
     {
-      packages.ida-pro-mcp = pkgs.python313.pkgs.buildPythonApplication rec {
-        pname = "ida-pro-mcp";
-        version = "2.0.0";
+      packages.ida-pro-mcp =
+        pythonPackages.buildPythonApplication (finalAttrs: {
+          pname = "ida-pro-mcp";
+          version = "2.0.0";
 
-        pyproject = true;
+          pyproject = true;
 
-        src = pkgs.fetchFromGitHub {
-          owner = "mrexodia";
-          repo = "ida-pro-mcp";
-          rev = "8a0820cf29a90ed82dbafd7f63b3bdac8722741c";
-          hash = "sha256-Cm1xognadqF7/aUx5rmulc/nXUX3LPMJFhwfapaiQ0A=";
-        };
+          src = pkgs.fetchFromGitHub {
+            owner = "mrexodia";
+            repo = "ida-pro-mcp";
+            rev = "8a0820cf29a90ed82dbafd7f63b3bdac8722741c";
+            hash = "sha256-Cm1xognadqF7/aUx5rmulc/nXUX3LPMJFhwfapaiQ0A=";
+          };
 
-        build-system = [
-          pkgs.python313.pkgs.setuptools
-        ];
+          build-system = [
+            pythonPackages.setuptools
+          ];
 
-        dependencies = [
-          idapro
-          pkgs.python313.pkgs.tomli-w
-        ];
+          dependencies = [
+            idapro
+            pythonPackages.tomli-w
+          ];
 
-        pythonImportsCheck = [
-          "ida_pro_mcp"
-        ];
+          pythonImportsCheck = [
+            "ida_pro_mcp"
+          ];
 
-        doCheck = false;
+          doCheck = false;
 
-        meta = with pkgs.lib; {
-          description = "IDA Pro MCP server";
-          homepage = "https://github.com/mrexodia/ida-pro-mcp";
-          license = licenses.mit;
-          mainProgram = "ida-pro-mcp";
-          platforms = platforms.all;
-        };
-      };
+          passthru.idaPlugin = "${finalAttrs.finalPackage}/${python.sitePackages}/ida_pro_mcp";
+
+          meta = {
+            description = "IDA Pro MCP server";
+            homepage = "https://github.com/mrexodia/ida-pro-mcp";
+            license = pkgs.lib.licenses.mit;
+            mainProgram = "ida-pro-mcp";
+            platforms = pkgs.lib.platforms.all;
+          };
+        });
     };
 }
