@@ -9,7 +9,8 @@
         neovim
         zed
         lsp
-        # sioyek  # TODO: re-enable once upstream nixpkgs fixes darwin build (mupdf linker path bug)
+        # TODO: Re-enable sioyek once nixpkgs fixes the Darwin mupdf linker path.
+        # sioyek
         spotify
         discord
         latex
