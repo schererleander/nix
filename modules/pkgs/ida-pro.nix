@@ -7,6 +7,7 @@
         inherit system;
         config.allowUnfree = true;
       };
+      pythonForIDA = inputs.self.packages.${system}.ida-pro-mcp.pythonEnvironment;
     in
     {
       packages.ida-pro = pkgs.callPackage (
@@ -45,31 +46,28 @@
           openssl,
           patchelf,
           perl,
-          python313,
           qt6,
           requireFile,
           stdenv,
           zlib,
         }:
         let
-          pythonForIDA = python313.withPackages (ps: with ps; [ rpyc ]);
-
           src = requireFile {
-            name = "ida-pro_93_x64linux.run";
+            name = "ida-pro_94_x64linux.run";
             url = "https://my.hex-rays.com/";
-            sha256 = "a64e6589feeca0f4e1bfb962d1a283761fb38c5158f5f82c8f1e7ddf32f69850";
+            sha256 = "eabb64c3c849d3858759558359e9cebcf17e2a91bcc60523533df8b84462aa54";
           };
 
           libida = requireFile {
             name = "libida.so";
             url = "https://my.hex-rays.com/";
-            sha256 = "86cff5a0dbf26eb56076313181e9ca8e7db48212d60d00588217cfac36060531";
+            sha256 = "d16dffb4515157c7b2baef8c68d6df4055c1ddc4c6bc3f9da4cbadcb53aa3430";
           };
 
           libida32 = requireFile {
             name = "libida32.so";
             url = "https://my.hex-rays.com/";
-            sha256 = "55afb0edcec85139b99cb36c80d460ab7679c87e50bf4d5b111f7910935e69c2";
+            sha256 = "b9695790c93a3ceaa282f6e1cdcbe58471ec532e304118803e7510a1c7e9c364";
           };
 
           runtimeDependencies = [
@@ -109,7 +107,7 @@
         in
         stdenv.mkDerivation rec {
           pname = "ida-pro";
-          version = "9.3";
+          version = "9.4.260714";
 
           inherit src;
 
@@ -169,9 +167,9 @@
             fi
 
             wrapProgram "$IDADIR/ida" \
-              --prefix IDADIR : "$IDADIR" \
+              --set IDADIR "$IDADIR" \
               --prefix QT_PLUGIN_PATH : "$IDADIR/plugins/platforms" \
-              --prefix PYTHONPATH : "$out/bin/idalib/python" \
+              --prefix PYTHONPATH : "$IDADIR/idalib/python:${pythonForIDA}/${pkgs.python313.sitePackages}" \
               --prefix PATH : "${pythonForIDA}/bin:$IDADIR" \
               --prefix LD_LIBRARY_PATH : "$out/lib" \
 
