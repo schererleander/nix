@@ -8,6 +8,7 @@
     specialArgs = { inherit inputs; };
     system = "aarch64-darwin";
     modules = with inputs.self.modules.darwin; [
+      nixpkgs
       lilith
       dns
       home-manager

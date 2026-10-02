@@ -1,9 +1,9 @@
-{ inputs, ... }:
+{ inputs, withSystem, ... }:
 {
   flake.homeConfigurations = {
     # NixOS configuration for adam workstation
     "schererleander@adam" = inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
+      pkgs = withSystem "x86_64-linux" ({ pkgs, ... }: pkgs);
       extraSpecialArgs = { inherit inputs; };
       modules = [
         inputs.self.modules.homeManager.schererleander-linux
@@ -15,7 +15,7 @@
 
     # Darwin configuration for lilith laptop
     "schererleander@lilith" = inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = inputs.nixpkgs.legacyPackages.aarch64-darwin;
+      pkgs = withSystem "aarch64-darwin" ({ pkgs, ... }: pkgs);
       extraSpecialArgs = { inherit inputs; };
       modules = [
         inputs.self.modules.homeManager.schererleander-darwin
