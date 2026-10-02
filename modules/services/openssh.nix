@@ -1,6 +1,6 @@
 {
   flake.modules.nixos.openssh =
-    { lib, pkgs, ... }:
+    { config, lib, ... }:
     {
       services.openssh = {
         enable = true;
@@ -14,15 +14,13 @@
         };
       };
 
-      networking.firewall.allowedTCPPorts = [ 8693 ];
-
       services.fail2ban = {
         enable = true;
         bantime = lib.mkDefault "1h";
         jails.sshd = {
           enabled = true;
           settings = {
-            port = 8693;
+            port = lib.concatMapStringsSep "," toString config.services.openssh.ports;
             backend = "systemd";
             maxretry = 4;
             findtime = "10m";

@@ -25,7 +25,7 @@
           "root-title" = "My Git Repositories";
           "root-desc" = "Mirror of all my public github repos";
           "clone-url" =
-            "https://git.schererleander.de/$CGIT_REPO_URL ssh://git@git.schererleander.de/$CGIT_REPO_URL";
+            "https://git.schererleander.de/$CGIT_REPO_URL ssh://git@git.schererleander.de:${toString (builtins.head config.services.openssh.ports)}${config.services.cgit.git-server.scanPath}/$CGIT_REPO_URL";
           "enable-http-clone" = 1;
           "enable-commit-graph" = 1;
           "enable-log-filecount" = 1;
