@@ -26,44 +26,38 @@
           overwriteProtocol = "https";
           trusted_domains = [ "cloud.schererleander.de" ];
           logtimezone = config.time.timeZone;
-          log_type = "file";
+          log_type = "syslog";
           # NixOS already provides its own integrity check and the nix store is read-only, therefore Nextcloud does not need to do its own integrity checks.
           "integrity.check.disabled" = true;
           mail_smtpmode = "null";
         };
-        phpOptions."opcache.interned_strings_buffer" = "32";
+        phpOptions = {
+          "opcache.interned_strings_buffer" = "32";
+          memory_limit = lib.mkForce "512M";
+        };
       };
 
       # Reduce memory usage
-      services.phpfpm.pools.nextcloud = {
-        settings = {
-          "pm" = lib.mkForce "ondemand";
-          "pm.max_children" = lib.mkForce "3";
-          "pm.process_idle_timeout" = lib.mkForce "10s";
-          "pm.max_requests" = lib.mkForce "500";
-        };
-      };
-      services.nextcloud.phpOptions = {
-        memory_limit = lib.mkForce "512M";
+      services.phpfpm.pools.nextcloud.settings = {
+        "pm" = lib.mkForce "ondemand";
+        "pm.max_children" = lib.mkForce "3";
+        "pm.process_idle_timeout" = lib.mkForce "10s";
+        "pm.max_requests" = lib.mkForce "500";
       };
 
       # Reduce memory usage
-      services.mysql.settings = {
-        mysqld = {
-          innodb_buffer_pool_size = "128M";
-          innodb_log_buffer_size = "8M";
-          key_buffer_size = "8M";
-          max_connections = "20"; # Reduce from default 151
-          table_open_cache = "32";
-          performance_schema = "OFF";
-        };
+      services.mysql.settings.mysqld = {
+        innodb_buffer_pool_size = "128M";
+        innodb_log_buffer_size = "8M";
+        key_buffer_size = "8M";
+        max_connections = "20"; # Reduce from default 151
+        table_open_cache = "32";
+        performance_schema = "OFF";
       };
 
-      services.nginx.virtualHosts = {
-        "cloud.schererleander.de" = {
-          forceSSL = true;
-          useACMEHost = "schererleander.de";
-        };
+      services.nginx.virtualHosts.${config.services.nextcloud.hostName} = {
+        forceSSL = true;
+        useACMEHost = "schererleander.de";
       };
 
       services.borgbackup.jobs.nextcloud = {
@@ -93,27 +87,20 @@
         ];
         preHook = ''
           set -euo pipefail
-          export BORG_REPO="$(cat ${config.sops.secrets."borg_nextcloud_repo".path})"
-
-          INSTALL="${pkgs.coreutils}/bin/install"
-          FIND="${pkgs.findutils}/bin/find"
-          MYSQLDUMP="${pkgs.mariadb.client}/bin/mariadb-dump"
-          GZIP="${pkgs.gzip}/bin/gzip"
-          OCC="${lib.getExe config.services.nextcloud.occ}"
+          BORG_REPO="$(cat ${config.sops.secrets."borg_nextcloud_repo".path})"
+          export BORG_REPO
 
           # This command requires write access to /var/lib/backup.
-          $INSTALL -d -m 0750 -o root -g root /var/lib/backup/nextcloud/db
+          ${pkgs.coreutils}/bin/install -d -m 0750 -o root -g root /var/lib/backup/nextcloud/db
 
-          trap "$OCC maintenance:mode --off >/dev/null 2>&1 || true" EXIT
-
-          $OCC maintenance:mode --on
+          ${lib.getExe config.services.nextcloud.occ} maintenance:mode --on
 
           # Make a consistent database dump without locking the site.
-          $MYSQLDUMP --single-transaction --quick --lock-tables=false --databases nextcloud \
-            | $GZIP -c > /var/lib/backup/nextcloud/db/nextcloud-$(date +%F-%H%M%S).sql.gz
+          ${pkgs.mariadb.client}/bin/mariadb-dump --single-transaction --quick --lock-tables=false --databases nextcloud \
+            | ${pkgs.gzip}/bin/gzip -c > "/var/lib/backup/nextcloud/db/nextcloud-$(date +%F-%H%M%S).sql.gz"
 
           # Delete local dump files older than 14 days.
-          $FIND /var/lib/backup/nextcloud/db -type f -name "*.sql.gz" -mtime +14 -delete || true
+          ${pkgs.findutils}/bin/find /var/lib/backup/nextcloud/db -type f -name "*.sql.gz" -mtime +14 -delete || true
         '';
         postHook = ''
           set -euo pipefail
@@ -128,34 +115,29 @@
       services.fail2ban = {
         enable = true;
         bantime = lib.mkDefault "1h";
-        jails = {
-          nextcloud = {
-            enabled = true;
-            settings = {
-              backend = "systemd";
-              journalmatch = "SYSLOG_IDENTIFIER=Nextcloud";
-              # END modification to work with syslog instead of logile
-              port = 443;
-              protocol = "tcp";
-              filter = "nextcloud";
-              maxretry = 3;
-              findtime = 43200;
-            };
+        jails.nextcloud = {
+          enabled = true;
+          settings = {
+            backend = "systemd";
+            journalmatch = "SYSLOG_IDENTIFIER=Nextcloud";
+            port = 443;
+            protocol = "tcp";
+            filter = "nextcloud";
+            maxretry = 3;
+            findtime = 43200;
           };
         };
       };
 
-      environment.etc = {
-        # Adapted failregex for syslogs
-        "fail2ban/filter.d/nextcloud.local".text = pkgs.lib.mkDefault (
-          pkgs.lib.mkAfter ''
-            [Definition]
-            _groupsre = (?:(?:,?\s*"\w+":(?:"[^"]+"|\w+))*)
-            failregex = ^\{%(_groupsre)s,?\s*"remoteAddr":"<HOST>"%(_groupsre)s,?\s*"message":"Login failed:
-                          ^\{%(_groupsre)s,?\s*"remoteAddr":"<HOST>"%(_groupsre)s,?\s*"message":"Trusted domain error.
-            datepattern = ,?\s*"time"\s*:\s*"%%Y-%%m-%%d[T ]%%H:%%M:%%S(%%z)?"
-          ''
-        );
-      };
+      # Adapted failregex for syslogs
+      environment.etc."fail2ban/filter.d/nextcloud.local".text = lib.mkDefault (
+        lib.mkAfter ''
+          [Definition]
+          _groupsre = (?:(?:,?\s*"\w+":(?:"[^"]+"|\w+))*)
+          failregex = ^\{%(_groupsre)s,?\s*"remoteAddr":"<HOST>"%(_groupsre)s,?\s*"message":"Login failed:
+                        ^\{%(_groupsre)s,?\s*"remoteAddr":"<HOST>"%(_groupsre)s,?\s*"message":"Trusted domain error.
+          datepattern = ,?\s*"time"\s*:\s*"%%Y-%%m-%%d[T ]%%H:%%M:%%S(%%z)?"
+        ''
+      );
     };
 }
