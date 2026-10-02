@@ -1,6 +1,6 @@
 {
   flake.modules.homeManager.zsh =
-    { ... }:
+    { pkgs, ... }:
     {
       programs.zoxide = {
         enable = true;
@@ -12,7 +12,17 @@
         enableCompletion = true;
         autosuggestion.enable = true;
         syntaxHighlighting.enable = true;
+        plugins = [
+          {
+            name = "pure";
+            src = "${pkgs.pure-prompt}/share/zsh/site-functions";
+          }
+        ];
         initContent = ''
+          autoload -U promptinit
+          promptinit
+          prompt pure
+
           # view man pages with nvim
           export MANPAGER="nvim +Man!"
 
@@ -32,28 +42,9 @@
 
           # Complete .. to ../ for directory navigation
           setopt AUTO_PARAM_SLASH
-
-          # zoxide smarter cmd command
-          eval "$(zoxide init zsh)"
         '';
         shellAliases = {
           ls = "ls --color=auto";
-        };
-
-        zplug = {
-          enable = true;
-          plugins = [
-            { name = "mafredri/zsh-async"; }
-            {
-              name = "sindresorhus/pure";
-              tags = [
-                "as:theme"
-                "use:pure.zsh"
-              ];
-            }
-            { name = "zdharma-continuum/fast-syntax-highlighting"; }
-            { name = "zsh-users/zsh-autosuggestions"; }
-          ];
         };
       };
     };
