@@ -1,45 +1,29 @@
 {
   flake.modules.nixos.adam =
-    { inputs, ... }:
+    { inputs, lib, ... }:
     {
-      imports = [ inputs.sops-nix.nixosModules.sops ];
-      sops = {
-        defaultSopsFile = inputs.self + /secrets/secrets.yaml;
-        age.keyFile = "/etc/sops/age_key";
-        secrets = {
-          "ssh_github_key" = {
+      imports = [ inputs.self.modules.nixos.sops ];
+      sops.secrets =
+        lib.genAttrs
+          [
+            "ssh_github_key"
+            "ssh_jonsbo_key"
+            "ssh_sachiel_key"
+            "anki_username"
+            "anki_syncKey"
+          ]
+          (_: {
             owner = "schererleander";
             group = "users";
             mode = "0600";
-          };
-          "ssh_jonsbo_key" = {
-            owner = "schererleander";
-            group = "users";
-            mode = "0600";
-          };
-          "ssh_sachiel_key" = {
-            owner = "schererleander";
-            group = "users";
-            mode = "0600";
-          };
-          "anki_username" = {
-            owner = "schererleander";
-            group = "users";
-            mode = "0600";
-          };
-          "anki_syncKey" = {
-            owner = "schererleander";
-            group = "users";
-            mode = "0600";
-          };
-          "ssh_authorized_keys" = {
+          })
+        // {
+          ssh_authorized_keys = {
             owner = "schererleander";
             group = "users";
             mode = "0644";
             path = "/etc/ssh/authorized_keys.d/schererleander";
           };
-
         };
-      };
     };
 }

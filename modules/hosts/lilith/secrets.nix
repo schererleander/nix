@@ -1,33 +1,20 @@
 {
   flake.modules.darwin.lilith =
-    { inputs, ... }:
+    { inputs, lib, ... }:
     {
-      imports = [ inputs.sops-nix.darwinModules.sops ];
-      sops = {
-        defaultSopsFile = inputs.self + /secrets/secrets.yaml;
-        age.keyFile = "/etc/sops/age_key";
-        secrets = {
-          "ssh_github_key" = {
+      imports = [ inputs.self.modules.darwin.sops ];
+      sops.secrets =
+        lib.genAttrs
+          [
+            "ssh_github_key"
+            "ssh_jonsbo_key"
+            "ssh_sachiel_key"
+            "anki_username"
+            "anki_syncKey"
+          ]
+          (_: {
             owner = "schererleander";
             mode = "0600";
-          };
-          "ssh_jonsbo_key" = {
-            owner = "schererleander";
-            mode = "0600";
-          };
-          "ssh_sachiel_key" = {
-            owner = "schererleander";
-            mode = "0600";
-          };
-          "anki_username" = {
-            owner = "schererleander";
-            mode = "0600";
-          };
-          "anki_syncKey" = {
-            owner = "schererleander";
-            mode = "0600";
-          };
-        };
-      };
+          });
     };
 }
