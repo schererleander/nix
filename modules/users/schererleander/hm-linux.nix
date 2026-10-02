@@ -1,6 +1,6 @@
 {
   flake.modules.homeManager.schererleander-linux =
-    { inputs, ... }:
+    { inputs, pkgs, ... }:
     {
       imports = with inputs.self.modules.homeManager; [
         schererleander-base
@@ -15,6 +15,10 @@
         open-goal-launcher
         minecraft
         emulators
+      ];
+
+      home.packages = with pkgs; [
+        armorpaint
       ];
     };
 }

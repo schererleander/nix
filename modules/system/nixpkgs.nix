@@ -2,6 +2,7 @@
 let
   nixpkgs = {
     overlays = with inputs.self.overlays; [
+      armorpaint
       codex
     ];
     config = {
