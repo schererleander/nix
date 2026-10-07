@@ -19,15 +19,18 @@
           renderdoc-mcp
         ];
 
-        file.".idapro/plugins/ida_mcp".source = "${ida-pro-mcp.idaPlugin}/ida_mcp";
-        file.".idapro/plugins/ida_mcp.py".source = "${ida-pro-mcp.idaPlugin}/ida_mcp.py";
+        file.".idapro/plugins/ida-mcp".source = ida-pro-mcp.idaPlugin;
       };
 
       programs.mcp = {
         enable = true;
 
         servers = {
-          ida-pro-mcp.url = "http://127.0.0.1:13337/mcp";
+          ida-pro-mcp = {
+            command = pkgs.lib.getExe ida-pro-mcp;
+            args = [ "stdio" ];
+            env.IDADIR = "${packages.ida-pro}/opt";
+          };
 
           ffdecmcp.command = pkgs.lib.getExe ffdecmcp;
 
