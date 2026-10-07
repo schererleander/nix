@@ -62,9 +62,6 @@
             # HDR on Linux/Wayland.
             "gfx.color_management.hdr" = true;
 
-            # Work around broken AMD AV1 hardware decoding with recent firmware.
-            "media.av1.enabled" = false;
-
             # Disable fullscreen notification.
             "full-screen-api.warning.timeout" = 0;
 
