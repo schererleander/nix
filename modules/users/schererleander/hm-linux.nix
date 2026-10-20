@@ -13,6 +13,7 @@
         wine
         mcp
         open-goal-launcher
+        armorpaint
         minecraft
         emulators
       ];
@@ -21,7 +22,6 @@
         homeDirectory = "/home/schererleander";
         packages = with pkgs; [
           renderdoc
-          armorpaint
         ];
       };
     };
