@@ -18,7 +18,6 @@
         claude-code
       ];
 
-      # Allow search or installation for unfree packages as a user
       home = {
         file.".config/nixpkgs/config.nix".text = "{ allowUnfree = true; }";
 
@@ -26,6 +25,10 @@
         stateVersion = "26.05";
         packages = with pkgs; [
           obsidian
+          jetbrains.datagrip
+          jetbrains.idea
+          jetbrains.clion
+          jetbrains.webstorm
         ];
       };
     };
