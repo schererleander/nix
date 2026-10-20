@@ -23,11 +23,5 @@
         };
       };
 
-      services.nginx.virtualHosts."schererleander.de" = {
-        forceSSL = true;
-        useACMEHost = "schererleander.de";
-
-        locations."/".return = "301 https://github.com/schererleander";
-      };
     };
 }

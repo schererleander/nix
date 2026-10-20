@@ -48,8 +48,9 @@
       };
 
       services.nginx.virtualHosts."git.schererleander.de" = {
-        forceSSL = true;
+        addSSL = true;
         useACMEHost = "schererleander.de";
+        quic = true;
       };
     };
 }

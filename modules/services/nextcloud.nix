@@ -56,8 +56,13 @@
       };
 
       services.nginx.virtualHosts.${config.services.nextcloud.hostName} = {
-        forceSSL = true;
+        addSSL = true;
         useACMEHost = "schererleander.de";
+        quic = true;
+        extraConfig = ''
+          add_header Strict-Transport-Security $hsts_header;
+          add_header Alt-Svc 'h3=":443"; ma=86400' always;
+        '';
       };
 
       services.borgbackup.jobs.nextcloud = {
@@ -117,7 +122,7 @@
             backend = "systemd";
             journalmatch = "SYSLOG_IDENTIFIER=Nextcloud";
             port = 443;
-            protocol = "tcp";
+            protocol = "tcp,udp";
             filter = "nextcloud";
             maxretry = 3;
             findtime = 43200;

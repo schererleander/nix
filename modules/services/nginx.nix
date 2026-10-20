@@ -11,13 +11,24 @@
             https   "max-age=31536000; includeSubdomains; preload";
         }
         add_header Strict-Transport-Security $hsts_header;
-        # TODO: Review and enable Content-Security-Policy for the hosted applications.
-        # add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self';" always;
       '';
     };
+
     networking.firewall.allowedTCPPorts = [
       80
       443
     ];
+
+    networking.firewall.allowedUDPPorts = [
+      443
+    ];
+
+    services.nginx.virtualHosts."schererleander.de" = {
+      forceSSL = true;
+      useACMEHost = "schererleander.de";
+      quic = true;
+
+      locations."/".return = "301 https://github.com/schererleander";
+    };
   };
 }
