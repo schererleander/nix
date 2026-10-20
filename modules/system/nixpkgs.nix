@@ -8,7 +8,6 @@ let
     ];
     config = {
       allowUnfree = true;
-      gitConfig.http.version = "HTTP/1.1";
     };
   };
 in
