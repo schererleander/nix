@@ -9,7 +9,6 @@
       nginx
       acme
       nextcloud
-      mail
       git
       cgit
     ];

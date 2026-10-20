@@ -108,10 +108,6 @@
         '';
       };
 
-      systemd.services."borgbackup-job-nextcloud".unitConfig.OnFailure = [
-        "notify-backup-failure@%n.service"
-      ];
-
       services.fail2ban = {
         enable = true;
         bantime = lib.mkDefault "1h";

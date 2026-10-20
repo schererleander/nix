@@ -126,7 +126,5 @@
           export BORG_REPO
         '';
       };
-
-      systemd.services."borgbackup-job-git".unitConfig.OnFailure = [ "notify-backup-failure@%n.service" ];
     };
 }
