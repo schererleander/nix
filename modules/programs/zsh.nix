@@ -23,7 +23,6 @@
           promptinit
           prompt pure
 
-          # view man pages with nvim
           export MANPAGER="nvim +Man!"
 
           # Directory completion with trailing slash
@@ -34,10 +33,8 @@
 
           # Case-insensitive completion
           zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-          # vim keybindings
           bindkey -v
 
-          # Auto cd - type directory name to cd into it
           setopt AUTO_CD
 
           # Complete .. to ../ for directory navigation

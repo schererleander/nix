@@ -50,7 +50,7 @@
         innodb_buffer_pool_size = "128M";
         innodb_log_buffer_size = "8M";
         key_buffer_size = "8M";
-        max_connections = "20"; # Reduce from default 151
+        max_connections = "20";
         table_open_cache = "32";
         performance_schema = "OFF";
       };
@@ -95,7 +95,6 @@
           BORG_REPO="$(cat ${config.sops.secrets."borg_nextcloud_repo".path})"
           export BORG_REPO
 
-          # This command requires write access to /var/lib/backup.
           ${pkgs.coreutils}/bin/install -d -m 0750 -o root -g root /var/lib/backup/nextcloud/db
 
           ${lib.getExe config.services.nextcloud.occ} maintenance:mode --on

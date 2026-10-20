@@ -24,16 +24,13 @@
         };
       };
 
-      # Disable waiting for network to be online
       systemd.services.NetworkManager-wait-online.enable = false;
 
-      # Graphics configuration
       hardware.graphics = {
         enable = true;
         enable32Bit = true;
       };
 
-      # User configuration
       users.users.schererleander = {
         isNormalUser = true;
         shell = pkgs.zsh;

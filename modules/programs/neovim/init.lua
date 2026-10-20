@@ -1,4 +1,3 @@
--- General settings
 vim.g.mapleader = " "
 vim.o.number = true
 vim.o.relativenumber = true
@@ -107,14 +106,12 @@ map('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
 map('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
 map('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
 
--- LSP Navigation Keymaps
 map('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to definition' })
 map('n', 'gD', vim.lsp.buf.declaration, { desc = 'Go to declaration' })
 map('n', 'gr', vim.lsp.buf.references, { desc = 'Go to references' })
 map('n', 'gi', vim.lsp.buf.implementation, { desc = 'Go to implementation' })
 map('n', 'K', vim.lsp.buf.hover, { desc = 'Hover documentation' })
 map('n', '<leader>rn', vim.lsp.buf.rename, { desc = 'Rename symbol' })
-
 
 local cmp = require("cmp")
 local ls = require("luasnip")
@@ -132,7 +129,6 @@ cmp.setup({
 		['<C-e>'] = cmp.mapping.abort(),
 		['<CR>'] = cmp.mapping.confirm({ select = true }),
 
-		-- Your new Super-Tab for jumping forward
 		['<Tab>'] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
@@ -143,7 +139,6 @@ cmp.setup({
 			end
 		end, { 'i', 's' }),
 
-		-- Shift-Tab for jumping backward through parameters
 		['<S-Tab>'] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_prev_item()
@@ -224,7 +219,7 @@ vim.lsp.config('clangd', {
 		"clangd",
 		"--background-index",
 		"--clang-tidy",
-		"--fallback-style=llvm", -- Options: llvm, google, chromium, mozilla, webkit
+		"--fallback-style=llvm",
 	}
 })
 

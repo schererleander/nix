@@ -1,14 +1,13 @@
 { inputs, ... }:
 {
   perSystem =
-    { system, ... }:
-    let
-      pkgs = import inputs.nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
-    in
     {
+      pkgs,
+      lib,
+      system,
+      ...
+    }:
+    lib.optionalAttrs (system == "x86_64-linux") {
       packages.open-goal-launcher = pkgs.callPackage (
         {
           cairo,

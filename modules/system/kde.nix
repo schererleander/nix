@@ -2,8 +2,6 @@
   flake.modules.nixos.kde =
     { pkgs, ... }:
     {
-      networking.networkmanager.enable = true;
-
       services.displayManager.sddm = {
         enable = true;
         wayland.enable = true;

@@ -9,7 +9,7 @@
       nginx
       acme
       nextcloud
-      git
+      git-server
       cgit
     ];
   };

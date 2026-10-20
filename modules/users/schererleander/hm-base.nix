@@ -10,7 +10,6 @@
         zed
         lsp
         # TODO: Re-enable sioyek once nixpkgs fixes the Darwin mupdf linker path.
-        # sioyek
         spotify
         discord
         latex

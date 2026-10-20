@@ -1,11 +1,14 @@
+{ inputs, ... }:
 {
-  flake.modules.nixos.git =
+  flake.modules.nixos.git-server =
     {
       config,
       pkgs,
       ...
     }:
     {
+      imports = [ inputs.self.modules.nixos.git ];
+
       users.users.git = {
         isSystemUser = true;
         group = "git";

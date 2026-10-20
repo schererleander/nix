@@ -1,15 +1,16 @@
 { inputs, ... }:
 {
   perSystem =
-    { system, ... }:
+    {
+      pkgs,
+      lib,
+      system,
+      ...
+    }:
     let
-      pkgs = import inputs.nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
       pythonForIDA = inputs.self.packages.${system}.ida-pro-mcp.pythonEnvironment;
     in
-    {
+    lib.optionalAttrs (system == "x86_64-linux") {
       packages.ida-pro = pkgs.callPackage (
         {
           autoPatchelfHook,

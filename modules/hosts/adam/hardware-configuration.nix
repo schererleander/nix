@@ -18,6 +18,9 @@
       boot.initrd.kernelModules = [ ];
       boot.kernelModules = [ "kvm-amd" ];
       boot.extraModulePackages = [ ];
+      boot.extraModprobeConfig = ''
+        options mt7921e disable_aspm=1
+      '';
 
       fileSystems."/" = {
         device = "/dev/mapper/luks-2e381c8d-394c-4027-953a-4dee645bdcc0";
