@@ -5,6 +5,7 @@
       imports = with inputs.self.modules.homeManager; [
         gpg
         git
+        github
         zsh
         neovim
         zed
