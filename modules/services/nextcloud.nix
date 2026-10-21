@@ -10,6 +10,7 @@
       services.nextcloud = {
         enable = true;
         package = pkgs.nextcloud35;
+        phpPackage = pkgs.php84;
         hostName = "cloud.schererleander.de";
         https = true;
         database.createLocally = true;

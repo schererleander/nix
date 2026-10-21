@@ -4,6 +4,7 @@ let
     overlays = with inputs.self.overlays; [
       claude-code
       codex
+      php
     ];
     config = {
       allowUnfree = true;
