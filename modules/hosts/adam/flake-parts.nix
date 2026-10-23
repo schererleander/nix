@@ -19,7 +19,6 @@
       wifi
       mullvad-vpn
       steam
-      tailscale
       wooting
       sunshine
       openssh

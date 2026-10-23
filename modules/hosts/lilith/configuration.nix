@@ -39,7 +39,6 @@
           "nextcloud"
           "iterm2"
           "rectangle"
-          "tailscale-app"
           "chatgpt"
         ];
         greedyCasks = true;
