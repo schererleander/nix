@@ -18,6 +18,26 @@
             mode = "0600";
           })
         // {
+          "nebula/ca.crt" = {
+            owner = "nebula-mesh";
+            group = "nebula-mesh";
+            mode = "0400";
+            restartUnits = [ "nebula@mesh.service" ];
+          };
+          "nebula/host.crt" = {
+            key = "nebula/adam/crt";
+            owner = "nebula-mesh";
+            group = "nebula-mesh";
+            mode = "0400";
+            restartUnits = [ "nebula@mesh.service" ];
+          };
+          "nebula/host.key" = {
+            key = "nebula/adam/key";
+            owner = "nebula-mesh";
+            group = "nebula-mesh";
+            mode = "0400";
+            restartUnits = [ "nebula@mesh.service" ];
+          };
           ssh_authorized_keys = {
             owner = "schererleander";
             group = "users";

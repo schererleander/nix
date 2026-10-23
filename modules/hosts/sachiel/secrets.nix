@@ -8,6 +8,26 @@
           owner = "root";
           mode = "0600";
         };
+        "nebula/ca.crt" = {
+          owner = "nebula-mesh";
+          group = "nebula-mesh";
+          mode = "0400";
+          restartUnits = [ "nebula@mesh.service" ];
+        };
+        "nebula/host.crt" = {
+          key = "nebula/sachiel/crt";
+          owner = "nebula-mesh";
+          group = "nebula-mesh";
+          mode = "0400";
+          restartUnits = [ "nebula@mesh.service" ];
+        };
+        "nebula/host.key" = {
+          key = "nebula/sachiel/key";
+          owner = "nebula-mesh";
+          group = "nebula-mesh";
+          mode = "0400";
+          restartUnits = [ "nebula@mesh.service" ];
+        };
         "nextcloud-secrets" = {
           owner = "nextcloud";
           group = "nextcloud";

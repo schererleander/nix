@@ -5,6 +5,7 @@
     modules = with inputs.self.modules.nixos; [
       nixpkgs
       sachiel
+      nebula-lighthouse
       openssh
       nginx
       acme

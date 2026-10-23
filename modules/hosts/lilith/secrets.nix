@@ -15,6 +15,22 @@
           (_: {
             owner = "schererleander";
             mode = "0600";
-          });
+          })
+        // {
+          "nebula/ca.crt" = {
+            owner = "root";
+            mode = "0400";
+          };
+          "nebula/host.crt" = {
+            key = "nebula/lilith/crt";
+            owner = "root";
+            mode = "0400";
+          };
+          "nebula/host.key" = {
+            key = "nebula/lilith/key";
+            owner = "root";
+            mode = "0400";
+          };
+        };
     };
 }
