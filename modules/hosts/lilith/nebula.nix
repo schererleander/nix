@@ -50,7 +50,11 @@ in
     {
       environment.systemPackages = [ pkgs.nebula ];
       launchd.daemons.nebula-mesh.serviceConfig = {
-        ProgramArguments = [ "${start}" ];
+        Disabled = false;
+        ProgramArguments = [
+          "/bin/sh"
+          "${start}"
+        ];
         RunAtLoad = true;
         KeepAlive = true;
         ThrottleInterval = 10;
