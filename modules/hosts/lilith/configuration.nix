@@ -47,8 +47,11 @@
           "Goodnotes: KI-Notizen, PDF" = 1444383602;
           "WhatsApp Messenger" = 310633997;
         };
-        onActivation.autoUpdate = true;
-        onActivation.upgrade = true;
+        onActivation = {
+          autoUpdate = true;
+          upgrade = true;
+          cleanup = "zap";
+        };
       };
 
       nix = {
