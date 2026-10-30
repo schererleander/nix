@@ -10,6 +10,7 @@
         protontricks.enable = true;
         gamescopeSession.enable = true;
         extraCompatPackages = [ pkgs.proton-ge-bin ];
+        extraPackages = [ pkgs.mangohud ];
       };
       # Ignore the DualSense touchpad in libinput to prevent it from acting as a mouse
       services.udev.extraRules = ''
