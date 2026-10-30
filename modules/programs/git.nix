@@ -4,6 +4,7 @@
     {
       programs.git = {
         enable = true;
+        lfs.enable = true;
         package = pkgs.git;
       };
     };
@@ -16,6 +17,8 @@
         key = "A3502B180BC1D41A";
         signByDefault = true;
       };
+
+      lfs.enable = true;
 
       ignores = [
         "*~"
