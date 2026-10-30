@@ -22,6 +22,12 @@
         options mt7921e disable_aspm=1
       '';
 
+      # The onboard I225-V loses its PCIe link intermittently. Disable ASPM
+      # L1 for this controller, including when it is rediscovered after a reset.
+      services.udev.extraRules = ''
+        ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x8086", ATTR{device}=="0x15f3", ATTR{subsystem_vendor}=="0x1043", ATTR{subsystem_device}=="0x87d2", TEST=="link/l1_aspm", ATTR{link/l1_aspm}="0"
+      '';
+
       fileSystems."/" = {
         device = "/dev/mapper/luks-2e381c8d-394c-4027-953a-4dee645bdcc0";
         fsType = "ext4";
