@@ -16,7 +16,6 @@
         hytale-launcher
         loot
         bodyslide
-        armorpaint
         minecraft
         emulators
       ];
