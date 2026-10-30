@@ -13,6 +13,7 @@
         wine
         mcp
         open-goal-launcher
+        hytale-launcher
         armorpaint
         minecraft
         emulators
