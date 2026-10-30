@@ -1,7 +1,11 @@
-{ ... }:
+{ inputs, ... }:
 {
+  flake.overlays.ida-pro-mcp = _final: prev: {
+    ida-pro-mcp = inputs.self.packages.${prev.stdenv.hostPlatform.system}.ida-pro-mcp;
+  };
+
   perSystem =
-    { pkgs, ... }:
+    { config, pkgs, ... }:
     let
       python = pkgs.python313;
       pythonPackages = python.pkgs;
@@ -139,6 +143,13 @@
           idaNexus
           zeromcp
           pythonPackages.packaging
+        ];
+
+        # Keep IDA tied to this package, even when clients retain an old IDADIR.
+        makeWrapperArgs = pkgs.lib.optionals (pkgs.stdenv.hostPlatform.system == "x86_64-linux") [
+          "--set"
+          "IDADIR"
+          "${config.packages.ida-pro}/opt"
         ];
 
         postInstall = ''

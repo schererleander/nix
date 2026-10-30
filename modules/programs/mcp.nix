@@ -7,7 +7,6 @@
 
       inherit (packages)
         ffdecmcp
-        ida-pro-mcp
         renderdoc-mcp
         ;
     in
@@ -15,11 +14,11 @@
       home = {
         packages = [
           ffdecmcp
-          ida-pro-mcp
+          pkgs.ida-pro-mcp
           renderdoc-mcp
         ];
 
-        file.".idapro/plugins/ida-mcp".source = ida-pro-mcp.idaPlugin;
+        file.".idapro/plugins/ida-mcp".source = pkgs.ida-pro-mcp.idaPlugin;
       };
 
       programs.mcp = {
@@ -27,9 +26,8 @@
 
         servers = {
           ida-pro-mcp = {
-            command = pkgs.lib.getExe ida-pro-mcp;
+            command = pkgs.lib.getExe pkgs.ida-pro-mcp;
             args = [ "stdio" ];
-            env.IDADIR = "${packages.ida-pro}/opt";
           };
 
           ffdecmcp.command = pkgs.lib.getExe ffdecmcp;

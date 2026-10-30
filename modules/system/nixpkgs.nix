@@ -4,6 +4,7 @@ let
     overlays = with inputs.self.overlays; [
       claude-code
       codex
+      ida-pro-mcp
     ];
     config = {
       allowUnfree = true;

@@ -175,6 +175,7 @@
               --prefix LD_LIBRARY_PATH : "$out/lib" \
 
             ln -s "$IDADIR/ida" "$out/bin/ida"
+            ln -s "$IDADIR/tools/teams/git-ida" "$out/bin/git-ida"
 
             runHook postInstall
           '';
