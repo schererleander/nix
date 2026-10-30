@@ -14,6 +14,8 @@
         mcp
         open-goal-launcher
         hytale-launcher
+        loot
+        bodyslide
         armorpaint
         minecraft
         emulators
