@@ -12,13 +12,7 @@
       pythonPackages = python.pkgs;
 
       renderdocWithPython = pkgs.renderdoc.overrideAttrs (old: {
-        cmakeFlags =
-          builtins.filter (flag: !(lib.hasPrefix "-DENABLE_PYRENDERDOC=" flag)) old.cmakeFlags
-          ++ [
-            (lib.cmakeBool "ENABLE_PYRENDERDOC" true)
-            (lib.cmakeFeature "FORCE_PY_VERSION" python.pythonVersion)
-          ];
-
+        # Stable RenderDoc already builds bindings for Python 3.12, but does not install them.
         postInstall = (old.postInstall or "") + ''
           install -Dm755 \
             lib/renderdoc.so \
@@ -68,23 +62,29 @@
               'floats'
         '';
 
-        nativeBuildInputs = [
-          pkgs.makeWrapper
+        makeWrapperArgs = [
+          "--set"
+          "RENDERDOC_MODULE_PATH"
+          "${renderdocWithPython}/lib"
+          "--prefix"
+          "LD_LIBRARY_PATH"
+          ":"
+          (lib.makeLibraryPath [
+            renderdocWithPython
+            pkgs.vulkan-loader
+          ])
         ];
 
-        postFixup = ''
-          wrapProgram $out/bin/renderdoc-mcp \
-            --set RENDERDOC_MODULE_PATH "${renderdocWithPython}/lib" \
-            --prefix LD_LIBRARY_PATH : "${
-              lib.makeLibraryPath [
-                renderdocWithPython
-                pkgs.vulkan-loader
-              ]
-            }"
+        env.RENDERDOC_MODULE_PATH = "${renderdocWithPython}/lib";
+        checkPhase = ''
+          runHook preCheck
+          PYTHONPATH="$PWD/src''${PYTHONPATH:+:$PYTHONPATH}" \
+            ${python.interpreter} -B -m unittest discover -s tests
+          runHook postCheck
         '';
-
         pythonImportsCheck = [
           "renderdoc_mcp"
+          "renderdoc_mcp.server"
         ];
 
         meta = {
