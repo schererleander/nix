@@ -19,7 +19,8 @@
           makeDesktopItem,
         }:
         let
-          version = "2026.10.23-53cde5e";
+          # Version and checksum: https://launcher.hytale.com/version/release/launcher.json
+          version = "2026.10.26-7b63bde";
 
           launcher = stdenvNoCC.mkDerivation {
             pname = "hytale-launcher-unwrapped";
@@ -27,7 +28,7 @@
 
             src = fetchurl {
               url = "https://launcher.hytale.com/builds/release/linux/amd64/hytale-launcher-${version}.zip";
-              hash = "sha256-ffE1GzimrgvPXZpoHBCRH+MFoO5wjt8/EyP7MkJ1XJ4=";
+              hash = "sha256-SAo4qVszye0PMDq/ScD62DY3ilbxaeRih87tqn5cAbE=";
             };
 
             icon = fetchurl {
