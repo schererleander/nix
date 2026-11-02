@@ -57,7 +57,7 @@
       };
 
       services.nginx.virtualHosts.${config.services.nextcloud.hostName} = {
-        addSSL = true;
+        forceSSL = true;
         useACMEHost = "schererleander.de";
         quic = true;
         extraConfig = ''
