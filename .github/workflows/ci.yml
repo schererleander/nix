@@ -7,7 +7,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
       - uses: DeterminateSystems/magic-nix-cache-action@main
-      - run: nix flake check --all-systems
+      - name: Evaluate all supported systems
+        run: nix flake check --all-systems --no-build
+      - name: Build packages and run checks for the runner platform
+        run: nix flake check --max-jobs 2 --cores 2 --print-build-logs
       - name: Evaluate Home Manager and Darwin configurations
         run: |
           nix eval --raw '.#homeConfigurations."schererleander@adam".activationPackage.drvPath' > /dev/null
