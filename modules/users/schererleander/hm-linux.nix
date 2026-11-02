@@ -7,6 +7,7 @@
         firefox
         anki
         mpv
+        vlc
         nextcloud-client
         jellyfin-desktop
         libreoffice

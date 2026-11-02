@@ -2,13 +2,10 @@
   flake.modules.nixos.adam =
     {
       pkgs,
-      inputs,
       ...
     }:
     {
-      home-manager.users.schererleander = {
-        imports = [ inputs.self.modules.homeManager.vlc ];
-      };
+      networking.hostName = "adam";
       boot = {
         kernelPackages = pkgs.linuxPackages_latest;
         kernelParams = [ "amd_pstate=active" ];
@@ -25,6 +22,7 @@
       };
 
       systemd.services.NetworkManager-wait-online.enable = false;
+      programs.zsh.enable = true;
 
       hardware.graphics = {
         enable = true;
@@ -34,7 +32,6 @@
       users.users.schererleander = {
         isNormalUser = true;
         shell = pkgs.zsh;
-        ignoreShellProgramCheck = true;
         extraGroups = [
           "wheel"
           "networkmanager"
