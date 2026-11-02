@@ -2,6 +2,18 @@
 {
   perSystem =
     { pkgs, ... }:
+    let
+      fastmcp = pkgs.python313.pkgs.fastmcp.overridePythonAttrs (old: {
+        # Backport the proxy teardown test exclusions from newer nixpkgs:
+        # https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/python-modules/fastmcp/default.nix
+        # RuntimeError: Attempted to exit a cancel scope that isn't the current task's current cancel scope.
+        disabledTests = (old.disabledTests or [ ]) ++ [
+          "test_stateful_proxy"
+          "test_concurrent_log_requests_no_mixing"
+          "test_multi_proxies_no_mixing"
+        ];
+      });
+    in
     {
       packages.ffdecmcp = pkgs.python313.pkgs.buildPythonApplication rec {
         pname = "ffdecmcp";
@@ -19,7 +31,7 @@
         ];
 
         dependencies = [
-          pkgs.python313.pkgs.fastmcp
+          fastmcp
           pkgs.python313.pkgs.python-dotenv
         ];
 
