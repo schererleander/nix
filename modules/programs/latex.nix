@@ -20,7 +20,7 @@
       programs.pandoc = {
         enable = true;
         defaults = {
-          pdf-engine = "pdfetex";
+          pdf-engine = "pdflatex";
         };
       };
     };
