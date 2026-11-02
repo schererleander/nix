@@ -87,6 +87,11 @@
         ];
         compression = "auto,lzma";
         startAt = "daily";
+        prune.keep = {
+          daily = 7;
+          weekly = 4;
+          monthly = 6;
+        };
         readWritePaths = [
           "/var/lib/backup"
           "/var/lib/nextcloud"

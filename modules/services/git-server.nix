@@ -123,6 +123,11 @@
         ];
         compression = "auto,lzma";
         startAt = "daily";
+        prune.keep = {
+          daily = 7;
+          weekly = 4;
+          monthly = 6;
+        };
         preHook = ''
           set -euo pipefail
           BORG_REPO="$(cat ${config.sops.secrets."borg_git_repo".path})"
