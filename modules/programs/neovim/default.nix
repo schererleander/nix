@@ -22,7 +22,34 @@
           telescope-nvim
           fidget-nvim
           plenary-nvim
-          nvim-treesitter.withAllGrammars
+          (nvim-treesitter.withPlugins (
+            parsers: with parsers; [
+              bash
+              c
+              cpp
+              css
+              go
+              html
+              javascript
+              json
+              latex
+              lua
+              markdown
+              markdown_inline
+              nix
+              python
+              regex
+              rust
+              toml
+              tsx
+              typescript
+              typst
+              vim
+              vimdoc
+              yaml
+            ]
+          ))
+          nvim-treesitter-textobjects
           nvim-lspconfig
           nvim-cmp
           cmp-nvim-lsp

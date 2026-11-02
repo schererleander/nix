@@ -19,23 +19,23 @@ vim.o.clipboard = "unnamedplus"
 local map = vim.keymap.set
 map('n', '<leader>o', '<CMD>update<BAR>source %<CR>', { desc = 'Save & reload init.lua' })
 map('n', '<leader>lf', function()
-	vim.lsp.buf.format({ async = true })
+  vim.lsp.buf.format({ async = true })
 end, { desc = 'Format buffer via LSP' })
 map('n', '<leader>w', '<CMD>write<CR>')
 map('n', '<leader>q', '<CMD>quit<CR>')
 
 require("mini.starter").setup({
-	header = table.concat({
-		"  ／l、     ",
-		"（ﾟ､ ｡ ７    ",
-		" l  ~ ヽ    ",
-		" じしf_,)ノ ",
-	}, "\n"),
-	footer = "",
-	content_hooks = {
-		require("mini.starter").gen_hook.adding_bullet("» "),
-		require("mini.starter").gen_hook.aligning("center", "center"),
-	},
+  header = table.concat({
+    "  ／l、     ",
+    "（ﾟ､ ｡ ７    ",
+    " l  ~ ヽ    ",
+    " じしf_,)ノ ",
+  }, "\n"),
+  footer = "",
+  content_hooks = {
+    require("mini.starter").gen_hook.adding_bullet("» "),
+    require("mini.starter").gen_hook.aligning("center", "center"),
+  },
 })
 
 require("gitsigns").setup()
@@ -60,44 +60,45 @@ hl(0, "Pmenu", { bg = "none" })
 hl(0, "PmenuSel", { bg = "none" })
 hl(0, "FloatBorder", { bg = "none" })
 
-local status_ok, configs = pcall(require, "nvim-treesitter.configs")
-if status_ok then
-	configs.setup({
-		highlight = { enable = true },
-		indent = { enable = true },
-		textobjects = {
-			select = {
-				enable = true,
-				lookahead = true,
-				keymaps = {
-					["af"] = { query = "@function.outer", desc = "Select outer part of a function" },
-					["if"] = { query = "@function.inner", desc = "Select inner part of a function" },
-					["ac"] = { query = "@class.outer", desc = "Select outer part of a class" },
-					["ic"] = { query = "@class.inner", desc = "Select inner part of a class" },
-				},
-			},
-			move = {
-				enable = true,
-				set_jumps = true,
-				goto_next_start = {
-					["äm"] = { query = "@function.outer", desc = "Next function start" },
-					["äc"] = { query = "@class.outer", desc = "Next class start" },
-				},
-				goto_next_end = {
-					["äM"] = { query = "@function.outer", desc = "Next function end" },
-					["äC"] = { query = "@class.outer", desc = "Next class end" },
-				},
-				goto_previous_start = {
-					["öm"] = { query = "@function.outer", desc = "Previous function start" },
-					["öc"] = { query = "@class.outer", desc = "Previous class start" },
-				},
-				goto_previous_end = {
-					["öM"] = { query = "@function.outer", desc = "Previous function end" },
-					["öC"] = { query = "@class.outer", desc = "Previous class end" },
-				},
-			},
-		},
-	})
+vim.api.nvim_create_autocmd('FileType', {
+  group = vim.api.nvim_create_augroup('Treesitter', { clear = true }),
+  callback = function(event)
+    -- Filetypes without an installed parser keep their normal syntax rules.
+    if pcall(vim.treesitter.start, event.buf) then
+      vim.bo[event.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end
+  end,
+})
+
+require('nvim-treesitter-textobjects').setup({
+  select = { lookahead = true },
+  move = { set_jumps = true },
+})
+
+local ts_select = require('nvim-treesitter-textobjects.select')
+for key, query in pairs({
+  af = '@function.outer',
+  ['if'] = '@function.inner',
+  ac = '@class.outer',
+  ic = '@class.inner',
+}) do
+  map({ 'x', 'o' }, key, function()
+    ts_select.select_textobject(query, 'textobjects')
+  end, { desc = 'Select ' .. query })
+end
+
+local ts_move = require('nvim-treesitter-textobjects.move')
+for method, keys in pairs({
+  goto_next_start = { ['äm'] = '@function.outer', ['äc'] = '@class.outer' },
+  goto_next_end = { ['äM'] = '@function.outer', ['äC'] = '@class.outer' },
+  goto_previous_start = { ['öm'] = '@function.outer', ['öc'] = '@class.outer' },
+  goto_previous_end = { ['öM'] = '@function.outer', ['öC'] = '@class.outer' },
+}) do
+  for key, query in pairs(keys) do
+    map({ 'n', 'x', 'o' }, key, function()
+      ts_move[method](query, 'textobjects')
+    end, { desc = method .. ' ' .. query })
+  end
 end
 
 local builtin = require('telescope.builtin')
@@ -117,130 +118,117 @@ local cmp = require("cmp")
 local ls = require("luasnip")
 
 cmp.setup({
-	snippet = {
-		expand = function(args)
-			ls.lsp_expand(args.body)
-		end,
-	},
-	mapping = cmp.mapping.preset.insert({
-		['<C-b>'] = cmp.mapping.scroll_docs(-4),
-		['<C-f>'] = cmp.mapping.scroll_docs(4),
-		['<C-Space>'] = cmp.mapping.complete(),
-		['<C-e>'] = cmp.mapping.abort(),
-		['<CR>'] = cmp.mapping.confirm({ select = true }),
+  snippet = {
+    expand = function(args)
+      ls.lsp_expand(args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
 
-		['<Tab>'] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_next_item()
-			elseif ls.expand_or_jumpable() then
-				ls.expand_or_jump()
-			else
-				fallback()
-			end
-		end, { 'i', 's' }),
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif ls.expand_or_jumpable() then
+        ls.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
 
-		['<S-Tab>'] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_prev_item()
-			elseif ls.jumpable(-1) then
-				ls.jump(-1)
-			else
-				fallback()
-			end
-		end, { 'i', 's' }),
-	}),
-	sources = cmp.config.sources({
-		{ name = 'nvim_lsp' },
-		{ name = 'luasnip' },
-	}, {
-		{ name = 'buffer' },
-	})
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif ls.jumpable(-1) then
+        ls.jump(-1)
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+  }),
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  }, {
+    { name = 'buffer' },
+  })
 })
 
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 cmp.event:on(
-	'confirm_done',
-	cmp_autopairs.on_confirm_done()
+  'confirm_done',
+  cmp_autopairs.on_confirm_done()
 )
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 vim.lsp.config('*', {
-	capabilities = capabilities,
+  capabilities = capabilities,
 })
 
 vim.lsp.config('nixd', {
-	settings = {
-		nixd = {
-			formatting = {
-				command = { "nixfmt" },
-			},
-		},
-	},
-})
-
-vim.lsp.config('nil_ls', {
-	settings = {
-		['nil'] = {
-			nix = {
-				flake = {
-					autoArchive = true,
-				},
-			},
-		},
-	},
+  settings = {
+    nixd = {
+      formatting = {
+        command = { "nixfmt" },
+      },
+    },
+  },
 })
 
 vim.lsp.config('lua_ls', {
-	settings = {
-		Lua = {
-			runtime = { version = 'LuaJIT' },
-			diagnostics = { globals = { 'vim', 'require' } },
-			workspace = { library = vim.api.nvim_get_runtime_file("", true) },
-			telemetry = { enable = false },
-		},
-	},
+  settings = {
+    Lua = {
+      runtime = { version = 'LuaJIT' },
+      diagnostics = { globals = { 'vim', 'require' } },
+      workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+      telemetry = { enable = false },
+    },
+  },
 })
 
 vim.lsp.config('gopls', {
-	settings = {
-		gopls = {
-			analyses = {
-				unusedparams = true,
-				unusedwrite = true,
-			},
-			staticcheck = true,
-		},
-	},
+  settings = {
+    gopls = {
+      analyses = {
+        unusedparams = true,
+        unusedwrite = true,
+      },
+      staticcheck = true,
+    },
+  },
 })
 
 vim.lsp.config('clangd', {
-	cmd = {
-		"clangd",
-		"--background-index",
-		"--clang-tidy",
-		"--fallback-style=llvm",
-	}
+  cmd = {
+    "clangd",
+    "--background-index",
+    "--clang-tidy",
+    "--fallback-style=llvm",
+  }
 })
 
 local servers = {
-	'nixd',
-	'nil_ls',
-	'lua_ls',
-	'gopls',
-	'clangd',
-	'pyright',
-	'tailwindcss',
-	'rust_analyzer',
-	'ts_ls'
+  'nixd',
+  'lua_ls',
+  'gopls',
+  'clangd',
+  'pyright',
+  'tailwindcss',
+  'rust_analyzer',
+  'ts_ls'
 }
 
 for _, lsp in ipairs(servers) do
-	vim.lsp.enable(lsp)
+  vim.lsp.enable(lsp)
 end
 
 vim.diagnostic.config({
-	virtual_text = { source = "if_many" },
-	underline = true,
-	severity_sort = true,
+  virtual_text = { source = "if_many" },
+  underline = true,
+  severity_sort = true,
 })
