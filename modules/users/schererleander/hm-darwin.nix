@@ -7,6 +7,8 @@
       ];
 
       home.packages = with pkgs; [
+        chatgpt
+        claude-desktop
         moonlight-qt
       ];
 

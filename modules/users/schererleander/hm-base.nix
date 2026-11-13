@@ -10,6 +10,7 @@
         neovim
         zed
         lsp
+        anki
         # TODO: Re-enable sioyek once nixpkgs fixes the Darwin mupdf linker path.
         spotify
         discord
