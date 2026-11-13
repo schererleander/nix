@@ -7,6 +7,7 @@
         git
         github
         zsh
+        tmux
         neovim
         zed
         lsp
