@@ -34,12 +34,12 @@
           "openjdk@21"
         ];
         casks = [
-          "anki"
           "mullvad-vpn"
           "nextcloud"
           "iterm2"
           "rectangle"
-          "chatgpt"
+          "wireshark-app"
+          "appcleaner"
         ];
         greedyCasks = true;
         masApps = {
