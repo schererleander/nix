@@ -42,6 +42,7 @@
       };
 
       environment.systemPackages = [
+        pkgs.ida-pro
         pkgs.sbctl
       ];
 

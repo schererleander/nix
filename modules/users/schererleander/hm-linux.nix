@@ -5,7 +5,6 @@
       imports = with inputs.self.modules.homeManager; [
         schererleander-base
         firefox
-        anki
         mpv
         vlc
         nextcloud-client
@@ -13,10 +12,6 @@
         libreoffice
         wine
         mcp
-        open-goal-launcher
-        hytale-launcher
-        loot
-        bodyslide
         minecraft
         emulators
       ];
@@ -24,6 +19,11 @@
       home = {
         homeDirectory = "/home/schererleander";
         packages = with pkgs; [
+          bodyslide
+          chatgpt
+          hytale-launcher
+          loot
+          open-goal-launcher
           renderdoc
         ];
       };

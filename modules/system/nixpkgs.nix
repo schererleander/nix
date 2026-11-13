@@ -2,9 +2,8 @@
 let
   nixpkgs = {
     overlays = with inputs.self.overlays; [
-      claude-code
-      codex
-      ida-pro-mcp
+      unstable
+      packages
     ];
     config = {
       allowUnfree = true;
