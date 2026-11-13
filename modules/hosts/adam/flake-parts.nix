@@ -6,7 +6,6 @@
       nixpkgs
       inputs.lanzaboote.nixosModules.lanzaboote
       adam
-      ida-pro
       home-manager
       plymouth
       localization

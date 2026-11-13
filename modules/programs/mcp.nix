@@ -1,25 +1,25 @@
 { ... }:
 {
   flake.modules.homeManager.mcp =
-    { pkgs, inputs, ... }:
+    { pkgs, ... }:
     let
-      packages = inputs.self.packages.${pkgs.stdenv.hostPlatform.system};
-
-      inherit (packages)
-        ffdecmcp
-        renderdoc-mcp
-        ;
+      idaPython = "${pkgs.ida-pro-mcp.pythonEnvironment}/bin/python3";
     in
     {
       home = {
-        packages = [
+        packages = with pkgs; [
           ffdecmcp
-          pkgs.ida-pro-mcp
+          ida-pro-mcp
           renderdoc-mcp
         ];
 
         file.".idapro/plugins/ida-mcp".source = pkgs.ida-pro-mcp.idaPlugin;
+        sessionVariables.IDAPYTHON_VENV_EXECUTABLE = idaPython;
       };
+
+      xdg.configFile."environment.d/50-hexrays-idapython.conf".text = ''
+        IDAPYTHON_VENV_EXECUTABLE=${idaPython}
+      '';
 
       programs.mcp = {
         enable = true;
@@ -30,9 +30,9 @@
             args = [ "stdio" ];
           };
 
-          ffdecmcp.command = pkgs.lib.getExe ffdecmcp;
+          ffdecmcp.command = pkgs.lib.getExe pkgs.ffdecmcp;
 
-          renderdoc.command = pkgs.lib.getExe renderdoc-mcp;
+          renderdoc.command = pkgs.lib.getExe pkgs.renderdoc-mcp;
         };
       };
     };
