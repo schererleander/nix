@@ -6,10 +6,19 @@
         schererleander-base
       ];
 
+      programs.java = {
+        enable = true;
+        package = pkgs.jdk21;
+      };
+
       home.packages = with pkgs; [
+        appcleaner
         chatgpt
         claude-desktop
+        iterm2
         moonlight-qt
+        rectangle
+        wireshark
       ];
 
       home.homeDirectory = "/Users/schererleander";

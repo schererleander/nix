@@ -30,16 +30,9 @@
 
       homebrew = {
         enable = true;
-        brews = [
-          "openjdk@21"
-        ];
         casks = [
           "mullvad-vpn"
           "nextcloud"
-          "iterm2"
-          "rectangle"
-          "wireshark-app"
-          "appcleaner"
         ];
         greedyCasks = true;
         masApps = {
