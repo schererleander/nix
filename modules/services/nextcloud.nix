@@ -25,25 +25,22 @@
           maintenance_window_start = 2; # 02:00
           default_phone_region = "de";
           overwriteProtocol = "https";
-          trusted_domains = [ "cloud.schererleander.de" ];
           logtimezone = config.time.timeZone;
           log_type = "syslog";
-          # NixOS already provides its own integrity check and the nix store is read-only, therefore Nextcloud does not need to do its own integrity checks.
-          "integrity.check.disabled" = true;
           mail_smtpmode = "null";
         };
         phpOptions = {
           "opcache.interned_strings_buffer" = "32";
           memory_limit = lib.mkForce "512M";
         };
-      };
-
-      # Reduce memory usage
-      services.phpfpm.pools.nextcloud.settings = {
-        "pm" = lib.mkForce "ondemand";
-        "pm.max_children" = lib.mkForce "3";
-        "pm.process_idle_timeout" = lib.mkForce "10s";
-        "pm.max_requests" = lib.mkForce "500";
+        # Reduce memory usage using Nextcloud's PHP-FPM pool options.
+        poolSettings = {
+          "pm" = "ondemand";
+          "pm.max_children" = "3";
+          "pm.process_idle_timeout" = "10s";
+          "pm.max_requests" = "500";
+          "pm.status_path" = "/status";
+        };
       };
 
       # Reduce memory usage
