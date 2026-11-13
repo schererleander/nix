@@ -7,7 +7,10 @@
         enableZshIntegration = true;
       };
 
+      home.sessionVariables.MANPAGER = "nvim +Man!";
+
       programs.zsh = {
+        autocd = true;
         enable = true;
         enableCompletion = true;
         autosuggestion.enable = true;
@@ -23,8 +26,6 @@
           promptinit
           prompt pure
 
-          export MANPAGER="nvim +Man!"
-
           # Directory completion with trailing slash
           zstyle ':completion:*' list-dirs-first true
           zstyle ':completion:*' special-dirs true
@@ -33,9 +34,6 @@
 
           # Case-insensitive completion
           zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-          bindkey -v
-
-          setopt AUTO_CD
 
           # Complete .. to ../ for directory navigation
           setopt AUTO_PARAM_SLASH
