@@ -4,6 +4,7 @@
     {
       imports = with inputs.self.modules.homeManager; [
         schererleander-base
+        iterm2
       ];
 
       programs.java = {
@@ -15,7 +16,6 @@
         appcleaner
         chatgpt
         claude-desktop
-        iterm2
         moonlight-qt
         rectangle
         wireshark
