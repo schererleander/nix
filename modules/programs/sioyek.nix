@@ -3,13 +3,13 @@
     programs.sioyek = {
       enable = true;
       config = {
-        # dark monochrome background
+        # dark background
         "background_color" = "0.0 0.0 0.0";
         "dark_mode_background_color" = "0.0 0.0 0.0";
         "custom_background_color" = "0.0 0.0 0.0";
         "custom_text_color" = "0.9 0.9 0.9";
 
-        # ui chrome
+        # ui
         "ui_background_color" = "0.05 0.05 0.05";
         "ui_selected_background_color" = "0.15 0.15 0.15";
         "ui_text_color" = "0.85 0.85 0.85";

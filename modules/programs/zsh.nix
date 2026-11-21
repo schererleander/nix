@@ -35,7 +35,6 @@
           # Case-insensitive completion
           zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-          # Complete .. to ../ for directory navigation
           setopt AUTO_PARAM_SLASH
         '';
         shellAliases = {

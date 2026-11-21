@@ -7,9 +7,6 @@
       winetricksFixed = pkgs.writeShellScriptBin "winetricks" ''
         export WINE="${wine}/bin/wine"
         export WINESERVER="${wine}/bin/wineserver"
-
-        # Winetricks architecture detection must inspect the real ELF
-        # binaries rather than Nixpkgs' Wine wrapper.
         export WINE_BIN="${wine}/bin/.wine"
         export WINESERVER_BIN="${wine}/bin/wineserver"
 

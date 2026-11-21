@@ -27,7 +27,6 @@
       settings.punchy.punch = true;
     };
 
-    # Nebula authenticates peers before packets reach this interface.
     networking.firewall.trustedInterfaces = [ "nebula-mesh" ];
   };
 }
