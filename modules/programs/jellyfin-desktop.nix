@@ -1,24 +1,20 @@
 {
   flake.modules.homeManager.jellyfin-desktop =
     { pkgs, ... }:
-
-    # Fix no video https://github.com/nixos/nixpkgs/issues/519073
-    let
-      jellyfin-desktop-gbm-off = pkgs.symlinkJoin {
-        name = "jellyfin-desktop-gbm-off";
-        paths = [ pkgs.jellyfin-desktop ];
-
-        nativeBuildInputs = [ pkgs.makeWrapper ];
-
-        postBuild = ''
-          wrapProgram $out/bin/jellyfin-desktop \
-            --set QTWEBENGINE_FORCE_USE_GBM 0
-        '';
-      };
-    in
     {
       home.packages = [
-        jellyfin-desktop-gbm-off
+        (pkgs.jellyfin-desktop.overrideAttrs (
+          finalAttrs: _: {
+            version = "2.1.0-pre2";
+            src = pkgs.fetchFromGitHub {
+              owner = "jellyfin";
+              repo = "jellyfin-desktop";
+              tag = "v${finalAttrs.version}";
+              fetchSubmodules = true;
+              hash = "sha256-yBp9C0y2r8jbkV43Wxph4obJPst6033NAJ2H82cax58=";
+            };
+          }
+        ))
       ];
     };
 }
