@@ -1,55 +1,75 @@
+{ ... }:
+let
+  byName = ../../pkgs/by-name;
+  pythonModules = ../../pkgs/python-modules;
+in
 {
   flake.overlays.packages =
     final: prev:
-    let
-      inherit (prev) lib;
-      system = prev.stdenv.hostPlatform.system;
-    in
-    {
-      ffdecmcp = final.callPackage ../../pkgs/ffdecmcp.nix { };
+    prev.lib.packagesFromDirectoryRecursive {
+      inherit (final) callPackage;
+      directory = byName;
     }
-    // lib.optionalAttrs (system == "x86_64-linux") {
-      bodyslide = final.callPackage ../../pkgs/bodyslide.nix { };
-      hytale-launcher = final.callPackage ../../pkgs/hytale-launcher.nix { };
-      ida-pro = final.callPackage ../../pkgs/ida-pro.nix { };
-      ida-pro-mcp = final.callPackage ../../pkgs/ida-pro-mcp.nix { };
-      loot = final.callPackage ../../pkgs/loot.nix { };
-      open-goal-launcher = final.callPackage ../../pkgs/open-goal-launcher.nix { };
-    }
-    // lib.optionalAttrs prev.stdenv.hostPlatform.isLinux {
-      renderdoc-with-python = final.callPackage ../../pkgs/renderdoc-with-python.nix { };
-      renderdoc-mcp = final.callPackage ../../pkgs/renderdoc-mcp.nix { };
-    }
-    // lib.optionalAttrs prev.stdenv.hostPlatform.isDarwin {
-      claude-desktop = final.callPackage ../../pkgs/claude-desktop.nix { };
+    // {
+      pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
+        (
+          pythonFinal: pythonPrev:
+          prev.lib.packagesFromDirectoryRecursive {
+            inherit (pythonFinal) callPackage;
+            directory = pythonModules;
+          }
+          // {
+            sse-starlette = pythonPrev.sse-starlette.overrideAttrs (
+              old:
+              prev.lib.optionalAttrs (old.version == "3.2.0") {
+                # Check that the stream started and disconnected without
+                # requiring the fourth event just before the timeout.
+                postPatch = (old.postPatch or "") + ''
+                  substituteInPlace tests/test_sse.py \
+                    --replace-fail "chunk: b'data: 4" "chunk: b'data: 1"
+                '';
+              }
+            );
+          }
+        )
+      ];
     };
 
   perSystem =
     {
       lib,
       pkgs,
-      system,
+      config,
       ...
     }:
+    let
+      names = directory: builtins.attrNames (builtins.readDir directory);
+    in
     {
-      packages = {
-        inherit (pkgs) codex ffdecmcp;
-      }
-      // lib.optionalAttrs (system == "x86_64-linux") {
-        inherit (pkgs)
-          bodyslide
-          hytale-launcher
-          ida-pro
-          ida-pro-mcp
-          loot
-          open-goal-launcher
-          ;
-      }
-      // lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
-        inherit (pkgs) renderdoc-with-python renderdoc-mcp;
-      }
-      // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
-        inherit (pkgs) claude-desktop;
-      };
+      packages = lib.filterAttrs (_: lib.meta.availableOn pkgs.stdenv.hostPlatform) (
+        lib.getAttrs (names byName) pkgs
+        // lib.getAttrs (
+          names pythonModules
+          ++ [
+            "idapro"
+            "ida-domain"
+          ]
+        ) pkgs.python3Packages
+      );
+
+      checks =
+        let
+          sourcePackages = removeAttrs config.packages [
+            "claude-desktop"
+            "hytale-launcher"
+            "ida-pro"
+            "ida-mcp"
+          ];
+        in
+        sourcePackages
+        // lib.concatMapAttrs (
+          name: package:
+          lib.mapAttrs' (test: lib.nameValuePair "${name}-${test}") (package.passthru.tests or { })
+        ) sourcePackages;
     };
 }

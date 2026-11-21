@@ -1,0 +1,34 @@
+# Match the desktop identity and Wayland scale; Nix owns the menu entries.
+--- a/builder/linux/hookshot_builder.py
++++ b/builder/linux/hookshot_builder.py
+@@ -532,7 +532,7 @@
+ 
+ class Builder(tk.Tk):
+     def __init__(self, launch=None, update=None, fetched=False, tag=None, allow_downgrade_from=None):
+-        super().__init__()
++        super().__init__(className="hookshot-builder")
+         self.title("Hookshot Builder")
+         self.apply_scale()
+         self.apply_theme()
+@@ -593,7 +593,8 @@
+     def apply_scale(self):
+         """Fonts sized in points follow tk scaling; a named font sized in pixels (Tk 8.6 on X11: -12) does not, so it is
+         multiplied."""
+-        self.scale = ui_scale(self.winfo_screenheight(), xft_dpi())
++        dpi = self.winfo_fpixels("1i") if self.tk.call("tk", "windowingsystem") == "wayland" else xft_dpi()
++        self.scale = ui_scale(self.winfo_screenheight(), dpi)
+         if self.scale == 1.0:
+             return
+         self.tk.call("tk", "scaling", self.scale * 96 / 72)
+@@ -1730,10 +1731,7 @@
+                 text += " · " + said
+             self.stage_text.set(text)
+             self.bar.configure(value=1.0)
+-            try:
+-                add_to_menu(folder)
+-            except (OSError, ValueError):   # (no menu entry; the game is built)
+-                pass
++            # Nix installs the desktop entries; keep them tied to the current package.
+             ttk.Button(self.buttons, text="Play", style="Go.TButton", image=self.images["play"], compound="left", cursor="hand2",
+                        command=lambda: self.play_and_close(folder)).pack(side="right", padx=self.px(4))
+             ttk.Button(self.buttons, text="Open folder", cursor="hand2",

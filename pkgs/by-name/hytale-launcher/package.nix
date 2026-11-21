@@ -9,7 +9,12 @@
 }:
 let
   # Version and checksum: https://launcher.hytale.com/version/release/launcher.json
-  version = "2026.10.26-7b63bde";
+  version = "2026.11.16-1726018";
+
+  icon = fetchurl {
+    url = "https://hytale.com/images/favicon.png";
+    hash = "sha256-eniMb/wct+vjtzXF2z8Z1XPBmwabjV8RCDyd8J1QLT0=";
+  };
 
   launcher = stdenvNoCC.mkDerivation {
     pname = "hytale-launcher-unwrapped";
@@ -17,12 +22,7 @@ let
 
     src = fetchurl {
       url = "https://launcher.hytale.com/builds/release/linux/amd64/hytale-launcher-${version}.zip";
-      hash = "sha256-SAo4qVszye0PMDq/ScD62DY3ilbxaeRih87tqn5cAbE=";
-    };
-
-    icon = fetchurl {
-      url = "https://hytale.com/images/favicon.png";
-      hash = "sha256-eniMb/wct+vjtzXF2z8Z1XPBmwabjV8RCDyd8J1QLT0=";
+      hash = "sha256-JDQeUKnj7jf/z2iUO7kk3I0K8YBx+j/eVdJ1WprdVP4=";
     };
 
     strictDeps = true;
@@ -58,7 +58,7 @@ let
     installPhase = ''
       runHook preInstall
       install -Dm755 hytale-launcher "$out/libexec/hytale-launcher"
-      install -Dm644 "$icon" \
+      install -Dm644 ${icon} \
         "$out/share/icons/hicolor/16x16/apps/hytale-launcher.png"
       mkdir -p "$out/share/hytale-launcher"
       sha256sum hytale-launcher | cut -d ' ' -f1 \
@@ -73,6 +73,7 @@ buildFHSEnv {
 
   # The native launcher downloads the game and a JRE. They need the
   # standard Linux dynamic linker and libraries as well as the launcher.
+  multiArch = false;
   targetPkgs = p: [
     p.alsa-lib
     p.dbus
@@ -83,7 +84,6 @@ buildFHSEnv {
     p.gtk3
     p.icu
     p.libGL
-    p.libglvnd
     p.libsoup_3
     p.libx11
     p.libxcursor
@@ -93,7 +93,7 @@ buildFHSEnv {
     p.mesa
     p.openal
     p.openssl
-    p.pulseaudio
+    p.libpulseaudio
     p.stdenv.cc.cc.lib
     p.vulkan-loader
     p.wayland
@@ -102,20 +102,7 @@ buildFHSEnv {
   ];
 
   runScript = "${launcher}/libexec/hytale-launcher";
-  profile = ''
-    export XDG_DATA_HOME="''${XDG_DATA_HOME:-$HOME/.local/share}"
-    export HYTALE_LAUNCHER_NO_SELF_UPDATE=1
-
-    # The updater renames staged files into the install tree, so its
-    # temporary directory must be on the same filesystem as the game.
-    export TMPDIR="$XDG_DATA_HOME/Hytale/.tmp"
-    install -d -m700 "$TMPDIR"
-
-    # Upstream checks this distribution marker even for native installs;
-    # without it, it incorrectly reports an outdated Flatpak package.
-    install -Dm644 ${launcher}/share/hytale-launcher/bundled-hash \
-      "$XDG_DATA_HOME/Hytale/.bundled_hash"
-  '';
+  profile = lib.replaceStrings [ "@launcher@" ] [ "${launcher}" ] (builtins.readFile ./profile.sh);
 
   extraInstallCommands = ''
     ln -s ${launcher}/share "$out/share"

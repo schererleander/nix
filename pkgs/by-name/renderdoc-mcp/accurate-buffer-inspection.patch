@@ -1,0 +1,34 @@
+# Keep constant-buffer offsets and sizes, and preserve small floating-point values.
+--- a/src/renderdoc_mcp/tools/shader_tools.py
++++ b/src/renderdoc_mcp/tools/shader_tools.py
+@@ -295,7 +295,7 @@
+ 
+         cbuffer_vars = session.controller.GetCBufferVariableContents(
+             pipe, refl.resourceId, stage_enum, entry,
+-            cbuffer_index, cb_bind.descriptor.resource, 0, 0,
++            cbuffer_index, cb_bind.descriptor.resource, cb_bind.descriptor.byteOffset, cb_bind.descriptor.byteSize,
+         )
+ 
+         variables = [serialize_shader_variable(v) for v in cbuffer_vars]
+--- a/src/renderdoc_mcp/tools/pipeline_tools.py
++++ b/src/renderdoc_mcp/tools/pipeline_tools.py
+@@ -233,7 +233,7 @@
+                 cbs.append({
+                     "index": i,
+                     "name": cb_refl.name,
+-                    "byte_size": cb_refl.byteSize,
++                    "byte_size": cb_refl.byteSize, "byte_offset": cb_bind.descriptor.byteOffset, "bound_byte_size": cb_bind.descriptor.byteSize,
+                     "resource_id": str(cb_bind.descriptor.resource),
+                 })
+             except Exception:
+--- a/src/renderdoc_mcp/tools/data_tools.py
++++ b/src/renderdoc_mcp/tools/data_tools.py
+@@ -114,7 +114,7 @@
+             import struct
+             num_floats = len(data) // 4
+             floats = list(struct.unpack_from(f"{num_floats}f", data))
+-            result["data"] = [round(f, 6) for f in floats]
++            result["data"] = floats
+             result["format"] = "float32"
+         else:
+             # Hex dump - show lines of 16 bytes

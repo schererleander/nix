@@ -1,0 +1,32 @@
+# Keep generated game dependencies alive outside the Nix store.
+--- a/nx2/make_game.py
++++ b/nx2/make_game.py
+@@ -2466,6 +2466,9 @@
+     a.language = build_language(a, out)   # (now: the folder's own language.txt is still the one the player left)
+     warn_slow_disk(out, work)   # (a warning, not a stop: a hard drive still builds, only much slower)
+     check_writable(out)
++    # Pin before replacing anything; failed updates keep the previous runtime too.
++    import nix_runtime
++    nix_runtime.retain_runtime(out)
+     # (AMD FSR 4: the build's switch for nx2/build.py, set or cleared here, before the checks: the Vulkan back end is compiled
+     # with it, and its headers are checked. One set in the shell is not taken for this build's: --fsr, or the folder's mark, decides)
+     fsr = fsr_wanted(a, out)
+@@ -2940,6 +2943,7 @@
+         not_prepared(skipped)
+     else:
+         prepare_shaders([os.path.join(game_dir, BESIDE[0]), "--prepare-shaders", "--compile-shaders", level], out)
++    nix_runtime.prune_runtimes(out)
+     say("done", out)
+ 
+ 
+--- a/builder/linux/hookshot-folder
++++ b/builder/linux/hookshot-folder
+@@ -6,6 +6,8 @@
+ # ($XDG_DATA_HOME/hookshot/builder) when that one is gone. With neither, it starts the game.
+ set -eu
+ HERE=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
++# Re-register the indirect GC root when the game folder has moved.
++"@nixPython@" "@hookshotOut@/share/hookshot/nx2/nix_runtime.py" "$HERE"
+ 
+ installed() {
+     root=${HOOKSHOT_BUILDER_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}}/hookshot/builder

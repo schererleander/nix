@@ -1,0 +1,38 @@
+# Nix integration: use wrapped compilers and ELF library paths, and bind
+# the upstream launchers to this package without repair or compatibility paths.
+--- a/third_party/a64-kit/tools/toolchain.py
++++ b/third_party/a64-kit/tools/toolchain.py
+@@ -22,6 +22,13 @@
+
+
+ def find(tool, host=False):
++    # Nix wrappers carry the headers, libraries and native ELF loader.
++    if os.name != 'nt' and (host or not windows()):
++        nix_tools = {'clang': '@nixClang@', 'clang++': '@nixClangxx@', 'lld': '@nixLld@'}
++        if tool in nix_tools:
++            return nix_tools[tool]
++        if tool.startswith('llvm-'):
++            return os.path.join('@nixLlvmBin@', tool)
+     if mingw(host) and (tool in ("clang", "clang++", "lld") or tool.startswith("llvm-")):
+         path = os.path.join(mingw(host), "bin", ("ld.lld" if tool == "lld" else tool) + (".exe" if os.name == "nt" else ""))
+         if os.path.isfile(path):
+--- a/nx2/build.py
++++ b/nx2/build.py
+@@ -1852,7 +1852,7 @@
+         exe = os.path.join(out, EXE)   # (+ hookshot.map: crash offsets -> f_<guest address>)
+         t = time.time()
+         # (--export-dynamic-symbol: the window's state, which the Vulkan back end's own Win32 calls read by name)
+-        r = run_link([cc] + target() + ["-fuse-ld=lld", "-o", exe] + linker("-Map=" + exe + ".map") +
++        r = run_link([cc] + target() + ["-fuse-ld=lld", '-Wl,--dynamic-linker,@nixInterpreter@', '-Wl,-rpath,@nixRpath@', "-o", exe] + linker("-Map=" + exe + ".map") +
+                      ["-Wl,--gc-sections", "-Wl,--export-dynamic-symbol=hos_posix_*", "@" + rsp] + HOT_ORDER() +
+                      (["-fprofile-instr-generate"] if PGO == "gen" else []) +
+                      (FFMPEG_LX[1] if FFMPEG_LX else []) + HOST_LIBS, exe)
+@@ -1920,7 +1920,7 @@
+         t = time.time()
+         if LINUX:   # (its C++ runtime inside: the game folder runs where the AppImage's sysroot is older than the system)
+             link = [toolchain.need(toolchain.find("clang++"))] + target() + ["-fuse-ld=lld", "-shared", "-o", vdll] + \
+-                linker("-Map=" + vdll + ".map") + ["-Wl,-Bsymbolic", "-Wl,--gc-sections", "-static-libstdc++", "-static-libgcc", "@" + vrsp] + \
++                linker("-Map=" + vdll + ".map") + ["-Wl,-Bsymbolic", "-Wl,--gc-sections", '-Wl,-rpath,@nixRpath@', "@" + vrsp] + \
+                 ([ngx_library(NGX_SDK, True)] if NGX_SDK else []) + ["-ldl", "-lpthread", "-lm"]
+         else:   # (RX_VK_PGO=gen: no profile library, as in the game's link; host/pgo_rt.c writes the counters)
+             link = [cc] + toolchain.native_target() + toolchain.native_link() + \

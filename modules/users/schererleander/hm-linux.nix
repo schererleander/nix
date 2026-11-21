@@ -19,11 +19,9 @@
       home = {
         homeDirectory = "/home/schererleander";
         packages = with pkgs; [
-          bodyslide
           chatgpt
           hytale-launcher
           loot
-          open-goal-launcher
           renderdoc
         ];
       };

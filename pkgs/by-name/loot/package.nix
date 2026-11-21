@@ -1,8 +1,10 @@
 {
   stdenv,
+  stdenvNoCC,
   lib,
   fetchFromGitHub,
-  fetchzip,
+  fetchurl,
+  autoPatchelfHook,
   cmake,
   ninja,
   pkg-config,
@@ -25,21 +27,44 @@
   ogdf,
 }:
 let
-  valveFileVdf = fetchzip {
-    url = "https://github.com/TinyTinni/ValveFileVDF/archive/refs/tags/v1.1.1.tar.gz";
+  valveFileVdf = fetchFromGitHub {
+    owner = "TinyTinni";
+    repo = "ValveFileVDF";
+    tag = "v1.1.1";
     hash = "sha256-s7wyHIcqMDHTSudIgy/bzZixQCL/T+ziFQxZh8w15uE=";
   };
+
+  # Match the icon generator in LOOT's Linux release manifest.
+  svgToIco = stdenvNoCC.mkDerivation (finalAttrs: {
+    pname = "svg-to-ico";
+    version = "1.3.1";
+    src = fetchurl {
+      url = "https://github.com/Ortham/svg_to_ico/releases/download/${finalAttrs.version}/svg_to_ico.tar.xz";
+      hash = "sha256-BIl7Y4TnwxQcg0MzW2a947GE19ZZQJgMOGibPvRFPy8=";
+    };
+
+    sourceRoot = ".";
+    dontConfigure = true;
+    dontBuild = true;
+    nativeBuildInputs = [ autoPatchelfHook ];
+    buildInputs = [ stdenv.cc.cc.lib ];
+
+    installPhase = ''
+      runHook preInstall
+      install -Dm755 svg_to_ico "$out/bin/svg_to_ico"
+      runHook postInstall
+    '';
+  });
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "loot";
-  # Matches stable nixpkgs' libloot 0.25.5 and OGDF 2023.09.
-  version = "0.25.2";
+  version = "0.29.2";
 
   src = fetchFromGitHub {
     owner = "loot";
     repo = "loot";
     tag = finalAttrs.version;
-    hash = "sha256-vlae4WltXPvA8T6hrD9/GeEAb1SZPu9zZpMbnj+xU3U=";
+    hash = "sha256-lZWGNj8Wsi/l4GnJsggl/trovQZf4XJUfVJrT3PYsvY=";
   };
 
   strictDeps = true;
@@ -49,6 +74,7 @@ stdenv.mkDerivation (finalAttrs: {
     pkg-config
     qt6.wrapQtAppsHook
     gettext
+    svgToIco
   ];
   buildInputs = [
     qt6.qtbase
@@ -64,30 +90,12 @@ stdenv.mkDerivation (finalAttrs: {
     spdlog
     minizip-ng
     tomlplusplus
-    # minizip-ng's CMake configuration looks up its dependencies.
     bzip2
     xz
     zstd
     openssl
-    # Automatic layout of the group load-order graph in the groups editor.
     ogdf
   ];
-
-  postPatch = ''
-    # nixpkgs' minizip-ng exports a suffixed CMake package and target.
-    substituteInPlace CMakeLists.txt \
-      --replace-fail 'URL_HASH ''${MINIZIP_NG_HASH}
-            FIND_PACKAGE_ARGS)' 'URL_HASH ''${MINIZIP_NG_HASH}
-            FIND_PACKAGE_ARGS NAMES minizip-ng)' \
-      --replace-fail 'MINIZIP::minizip)' 'MINIZIP::minizip-ng)'
-
-    # Newer Qt no longer includes QJsonObject and QJsonValue transitively.
-    substituteInPlace src/gui/qt/tasks/check_for_update_task.cpp \
-      --replace-fail '#include <QtCore/QJsonDocument>' \
-        '#include <QtCore/QJsonDocument>
-    #include <QtCore/QJsonObject>
-    #include <QtCore/QJsonValue>'
-  '';
 
   cmakeFlags = [
     (lib.cmakeBool "LOOT_BUILD_TESTS" false)
@@ -100,7 +108,6 @@ stdenv.mkDerivation (finalAttrs: {
 
   ninjaFlags = [ "LOOT" ];
 
-  # Upstream has no install target.
   installPhase = ''
     runHook preInstall
 

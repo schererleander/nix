@@ -1,0 +1,76 @@
+--- a/wayland/tkWaylandInit.c
++++ b/wayland/tkWaylandInit.c
+@@ -813,17 +813,22 @@
+     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+ 
+     /*
+-     * Force the root window's Wayland app_id to "tk" so it matches the
+-     * installed tk.desktop basename.  This guarantees the compositor
+-     * associates the window with the desktop entry (and therefore with
+-     * Icon=) even when the binary is invoked as a versioned name such
+-     * as "wish9.1".  A later explicit [tk appname newName] is still
+-     * honored for subsequently created toplevels via TkWaylandSyncAppId.
+-     *
+-     * Stock GLFW cannot change a toplevel's app_id after creation, so
+-     * this is the only point at which the root window's app_id can be set.
+-     */
+-    TkWaylandSetAppId("tk");
++     * Use the application's name before creating the bootstrap window.
++     * Tkinter supplies its className through argv0, allowing the compositor
++     * to match the root window to the application's desktop entry.
++     * Stock GLFW cannot change this identity after creating the window.
++     */
++    {
++        Tcl_DString appName;
++
++        Tcl_DStringInit(&appName);
++        if (interp != NULL) {
++            TkpGetAppName(interp, &appName);
++        }
++        TkWaylandSetAppId(Tcl_DStringLength(&appName) > 0
++                ? Tcl_DStringValue(&appName) : "tk");
++        Tcl_DStringFree(&appName);
++    }
+ 
+     /*
+      * Create the bootstrap window invisible.  Showing it here (even
+@@ -2048,12 +2053,10 @@
+  *	matches app_id against an installed .desktop file's basename
+  *	(and secondarily StartupWMClass) and draws that icon itself.
+  *
+- *	We force the root window's app_id to "tk" (the installed
+- *	tk.desktop basename) so the custom Icon= is used even when
+- *	argv0 is a versioned binary such as "wish9.1".  Later toplevels
+- *	still pick up the current [tk appname] value via
+- *	TkWaylandSyncAppId so an explicit rename continues to work for
+- *	windows created after the rename.
++ *	The root window takes its app_id from the application's name.
++ *	Later toplevels pick up the current [tk appname] value via
++ *	TkWaylandSyncAppId, preserving the default application's identity
++ *	when Tk adds a suffix to distinguish multiple instances.
+  *
+  *----------------------------------------------------------------------
+  */
+@@ -2168,10 +2171,9 @@
+ 	    Tcl_Size length;
+ 
+ 	    /*
+-	     * Keep the app_id "tk" (see TkWaylandInitialize) while the
+-	     * application has its default name, possibly with a suffix such
+-	     * as " #2"; use the name only if it was set with "-name" or
+-	     * "tk appname".
++	     * Preserve the default application's app_id, including when Tk
++	     * adds an instance suffix such as " #2". Explicitly renamed
++	     * applications use their new name.
+ 	     */
+ 	    Tcl_DStringInit(&defaultName);
+ 	    TkpGetAppName(interp, &defaultName);
+@@ -2179,7 +2181,7 @@
+ 	    if (strncmp(name, Tcl_DStringValue(&defaultName), length) == 0
+ 		    && (name[length] == '\0'
+ 		    || strncmp(name + length, " #", 2) == 0)) {
+-		name = "tk";
++		name = Tcl_DStringValue(&defaultName);
+ 	    }
+             TkWaylandSetAppId(name);
+ 	    Tcl_DStringFree(&defaultName);

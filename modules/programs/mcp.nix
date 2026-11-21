@@ -3,17 +3,17 @@
   flake.modules.homeManager.mcp =
     { pkgs, ... }:
     let
-      idaPython = "${pkgs.ida-pro-mcp.pythonEnvironment}/bin/python3";
+      idaPython = "${pkgs.ida-mcp.pythonEnvironment}/bin/python3";
     in
     {
       home = {
         packages = with pkgs; [
           ffdecmcp
-          ida-pro-mcp
+          ida-mcp
           renderdoc-mcp
         ];
 
-        file.".idapro/plugins/ida-mcp".source = pkgs.ida-pro-mcp.idaPlugin;
+        file.".idapro/plugins/ida-mcp".source = pkgs.ida-mcp.idaPlugin;
         sessionVariables.IDAPYTHON_VENV_EXECUTABLE = idaPython;
       };
 
@@ -26,7 +26,7 @@
 
         servers = {
           ida-pro-mcp = {
-            command = pkgs.lib.getExe pkgs.ida-pro-mcp;
+            command = pkgs.lib.getExe pkgs.ida-mcp;
             args = [ "stdio" ];
           };
 

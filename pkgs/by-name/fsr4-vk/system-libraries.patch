@@ -1,0 +1,27 @@
+# Nixpkgs supplies Vulkan headers and Zstandard. The pinned shader-generation
+# tools remain bundled because the upstream asset catalog locks their output.
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -23,7 +23,6 @@
+     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+     COMMENT "Checking C/C++ formatting without changing files"
+     VERBATIM)
+-set(Vulkan_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/third_party/Vulkan-Headers/include")
+ if(NOT EXISTS "${Vulkan_INCLUDE_DIR}/vulkan/vulkan.h")
+     message(FATAL_ERROR "Vulkan-Headers is missing. Run git submodule update --init --recursive.")
+ endif()
+@@ -118,11 +117,9 @@
+     "${CMAKE_SOURCE_DIR}/tools/assets/embed.py"
+     "${CMAKE_SOURCE_DIR}/tools/assets/catalog.py"
+     "${CMAKE_SOURCE_DIR}/tools/assets/storage.py")
+-add_library(fsr4_assets STATIC src/assets/assets.cpp third_party/zstd/zstddeclib.c)
+-# The decoder supports C++, so it needs no separate C compiler.
+-set_source_files_properties(third_party/zstd/zstddeclib.c PROPERTIES LANGUAGE CXX)
+-target_include_directories(fsr4_assets PRIVATE third_party/zstd)
+-target_compile_definitions(fsr4_assets PRIVATE ZSTDLIB_VISIBILITY= ZSTDERRORLIB_VISIBILITY=)
++find_package(zstd CONFIG REQUIRED)
++add_library(fsr4_assets STATIC src/assets/assets.cpp)
++target_link_libraries(fsr4_assets PRIVATE zstd::libzstd_shared)
+ set_target_properties(fsr4_assets PROPERTIES POSITION_INDEPENDENT_CODE ON)
+ target_include_directories(fsr4_assets PUBLIC src "${FSR4_GENERATED}")
+ add_library(fsr4_runtime STATIC
